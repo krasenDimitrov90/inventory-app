@@ -15,14 +15,19 @@ const InventoryPage = () => {
 
     const { isLoading, sendRequest } = useHttp();
 
-    const updateItemsQty = (items, item, action) => {
-        const qty = items[item].qty;
+    const updateItemsQty = (items, item, action, quantity = null) => {
+        const qty = quantity || items[item].qty;
         const newItems = { ...items };
         if (action === 'add') {
             newItems[item].qty = qty + 1;
 
         } else if (action === 'subtract') {
             newItems[item].qty = qty - 1;
+        } else if (action === 'update') {
+            if (qty < 0) {
+                return;
+            }
+            newItems[item].qty = qty;
         }
 
         updateItems(newItems);

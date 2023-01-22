@@ -38,15 +38,26 @@ const ExpiringItemsPage = () => {
 
     }, [items]);
 
-    const updateItemsQty = (items, item, action) => {
-        const qty = items[item].qty;
+    const updateItemsQty = (items, item, action, quantity = null) => {
+
+        const qty = quantity || items[item].qty;
+
         setExpiringItems(() => {
             const newItems = { ...items };
             if (action === 'add') {
                 newItems[item].qty = qty + 1;
 
             } else if (action === 'subtract') {
+                if (qty - 1 < 0) {
+                    return;
+                }
                 newItems[item].qty = qty - 1;
+
+            } else if (action === 'update') {
+                if (qty < 0) {
+                    return;
+                }
+                newItems[item].qty = qty;
             }
             return newItems;
         });

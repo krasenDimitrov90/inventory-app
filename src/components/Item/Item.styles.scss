@@ -52,50 +52,5 @@
         }
     }
 
-    .item-options {
-        display: flex;
-        justify-content: flex-start;
-
-        >* {
-            margin: 5px;
-        }
-
-        input {
-            border: none;
-        }
-
-        .item-options-add-qty-btn {
-            background-color: #00b894;
-            font-family: "Montserrat", sans-serif;
-            border: none;
-            padding: 6px;
-            border-radius: 5px;
-            font-family: "Montserrat", sans-serif;
-        }
-        .item-options-add-qty-btn:hover {
-            cursor: pointer;
-            background-color: #55EFC4;
-        }
-
-        div {
-            display: flex;
-            flex: 1;
-            justify-content: flex-end;
-        }
-
-        div button {
-            border: none;
-            align-self: flex-end;
-            margin: 0 8px;
-            background-color: #EA2027;
-            padding: 6px;
-            border-radius: 5px;
-            font-family: "Montserrat", sans-serif;
-        }
-
-        div button:hover {
-            cursor: pointer;
-            background-color: #c7060d;
-        }
-    }
+    
 }

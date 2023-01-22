@@ -1,25 +1,17 @@
 import React from "react";
+import useInput from "../../hooks/use-input";
+import InputField from "../InputField/InputField";
 
 import './Item.styles.scss';
+import ItemOptions from "./ItemOptions";
 
-const ItemOptions = () => {
 
-    return (
-        <div className="item-options" >
-            <input type="number" className="item-options-qty" />
-            <button className="item-options-add-qty-btn" >Update quantity</button>
-            <div>
-                <button className="item-options-remove-btn" >REMOVE</button>
-            </div>
-        </div>
-    );
-};
 
 const Item = ({ items, item, qty, btnHandler, expiring }) => {
 
     const [itemIsClicked, setItemIsClicked] = React.useState(false);
 
-    const backGrounfColor = expiring ? { "backgroundColor": "#ED4C67" } : { "backgroundColor": " #D980FA" };
+    const backGroundColor = expiring ? { "backgroundColor": "#ED4C67" } : { "backgroundColor": " #D980FA" };
 
     const plusBtnClickHandler = () => {
         btnHandler(items, item, 'add');
@@ -37,27 +29,18 @@ const Item = ({ items, item, qty, btnHandler, expiring }) => {
 
     const onCLickHandler = (e) => {
 
-        console.log(e.target);
-        const wrongClasses = ["item-options", "item-options-add-qty-btn", "item-options-qty", "item-options-remove-btn", "btns-wrapper", "btn-plus", "btn-minus", "fa-solid fa-circle-plus", "fa-solid fa-circle-minus"];
-
-        const eventClassName = e.target.className;
-
-        if (wrongClasses.includes(eventClassName)) {
+        if (e.target.tagName !== 'P') {
             return;
-        }
-
-        if (eventClassName) {
-
         }
 
         setItemIsClicked(oldState => !oldState);
     }
 
     return (
-        <div className="item-wrapper" style={backGrounfColor} onClick={onCLickHandler}>
+        <div className="item-wrapper" style={backGroundColor}>
             <div className="item-wrapper-card">
-                <p>{item}</p>
-                <p>{qty}</p>
+                <p onClick={onCLickHandler} >{item}</p>
+                <p onClick={onCLickHandler} >{qty}</p>
                 <section className="btns-wrapper">
                     <button className="btn-plus" onClick={plusBtnClickHandler} ><i className="fa-solid fa-circle-plus"></i></button>
                     <button className="btn-minus" onClick={minusBtnClickHandler} ><i className="fa-solid fa-circle-minus"></i></button>

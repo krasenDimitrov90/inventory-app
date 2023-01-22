@@ -5,6 +5,7 @@ const ItemsContext = React.createContext({
     items: {},
     updateItems: () => { },
     addNewItem: () => { },
+    updateSingleItem: () => {},
 });
 
 export const ItemsContextProvider = (props) => {
@@ -16,6 +17,10 @@ export const ItemsContextProvider = (props) => {
     const updateItems = (items) => {
 
         setItems(items);
+    };
+
+    const updateSingleItem = () => {
+
     };
 
     const addNewItem = (item) => {
@@ -38,6 +43,7 @@ export const ItemsContextProvider = (props) => {
         items,
         updateItems,
         addNewItem,
+        updateSingleItem,
     };
 
     return (
