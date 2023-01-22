@@ -1,20 +1,15 @@
-// .expiring-items-wrapper {
-//     font-family: 'Montserrat', sans-serif;
-//     align-self: center;
-//     padding: 0 10px;
 
-//     .table-header  {
-//         background-color: transparent;
-//         display: flex;
-//     }
-    
-    
-//     .table-header p:first-child {
-//         flex: 4;
-//         padding-left: 10px;
-//     }
-    
-//     .table-header p:last-child {
-//         flex: 2;
-//     }
-// }
+.expiring-items-title,
+.expiring-items-empty {
+    font-family: "Montserrat", sans-serif;
+    display: flex;
+    justify-content: center;
+    padding: 20px 0;
+
+}
+
+.expiring-items-empty {
+    h2 {
+        text-align:center ;
+    }
+}

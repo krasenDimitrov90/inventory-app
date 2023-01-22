@@ -16,6 +16,9 @@ const InventoryPage = () => {
     const prepareItems = () => {
         console.log('IN PREPERE');
         const dataHandler = (data) => {
+            if (data === null) {
+                data = {};
+            }
             setItems(data);
         };
 
@@ -68,13 +71,21 @@ const InventoryPage = () => {
 
     };
 
+    const NoItemsTemplate = () => {
+        return (
+            <div className="inventory-items-empty">
+                <h2>You don't have any items in the inventory!</h2>
+            </div>
+        );
+    };
+
 
     return (
         <>
             <Outlet context={[prepareItems]} />
             {isLoading && <LoadingSpinner />}
+            <h1 className="inventory-items-title">Inventory</h1>
             <article className="inventory">
-                <h1>Inventory</h1>
                 <div className="add-item">
                     <Link className="add-item-btn" to={'add-item'} >Add Item</Link>
                 </div>
@@ -95,7 +106,7 @@ const InventoryPage = () => {
                         );
                     })}
                 </ItemsTableWrapper>}
-                {!isLoading && Object.entries(items).length === 0 && <p>You don't have any items in the inventory</p>}
+                {!isLoading && Object.entries(items).length === 0 && <NoItemsTemplate />}
             </article>
         </>
     );

@@ -81,9 +81,17 @@ const ExpiringItemsPage = () => {
         sendRequest(requestConfig, dataHandler);
     };
 
+    const NoItemsTemplate = () => {
+        return (
+            <div className="expiring-items-empty">
+                <h2>You have enough items for work!</h2>
+            </div>
+        );
+    };
+
     return (
         <>
-            <h1>Expiring Items</h1>
+            <h1 className="expiring-items-title">Expiring Items</h1>
             {isLoading && <LoadingSpinner />}
             {!isLoading && Object.keys(expiringItems).length > 0 &&
                 <ItemsTableWrapper
@@ -105,7 +113,7 @@ const ExpiringItemsPage = () => {
                     })}
                 </ItemsTableWrapper>
             }
-            {!isLoading && Object.keys(expiringItems).length === 0 && <p>You have enough items for work!</p>}
+            {!isLoading && Object.keys(expiringItems).length === 0 && <NoItemsTemplate />}
         </>
     );
 };

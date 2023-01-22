@@ -6,6 +6,7 @@ import './LoginPage.css';
 import useHttp from "../../hooks/use-http";
 import FormCard from "../../components/FormCard/FormCard";
 import InputField from "../../components/InputField/InputField";
+import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
 
 
 
@@ -78,6 +79,7 @@ const LoginPage = () => {
         <>
 
             <section className="login-form-wrapper">
+                {isLoading && <LoadingSpinner />}
                 <FormCard submitHandler={submitHandler} formTitle={'LOG IN'} btnName={"Login"}>
 
                     <InputField

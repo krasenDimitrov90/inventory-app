@@ -1,17 +1,28 @@
 import React from "react";
-import { NavLink, Link } from "react-router-dom";
+import { NavLink, Link, useNavigate } from "react-router-dom";
 import AuthContext from "../../context/auth-context";
+import {Fade} from 'hamburger-react';
 import './Navigation.scss';
 
 const Navigation = (props) => {
 
+    const navigate = useNavigate();
+
     const authCtx = React.useContext(AuthContext);
 
-    const { isLoggedIn, loggout: loggoutHandler } = authCtx;
+    const { isLoggedIn, loggout } = authCtx;
+    const [isOpen, setOpen] = React.useState(false);
+
+    const loggoutHandler = () => {
+        loggout();
+        navigate('/');
+    };
+
+    const isMobile = window.screen.width < 480;
 
     let activeStyle = {
         'backgroundColor': "green",
-      };
+    };
 
     const guestTemplate = (
         <>
@@ -22,21 +33,32 @@ const Navigation = (props) => {
 
     const userTemplate = (
         <>
-            <li><NavLink  to={'inventory'} >Inventory</NavLink></li>
-            <li><NavLink  to={'expiring-items'} >Expiring Items</NavLink></li>
-            <li><Link  onClick={loggoutHandler} >Loggout</Link></li>
+            <li><NavLink to={'inventory'} >Inventory</NavLink></li>
+            <li><NavLink to={'expiring-items'} >Expiring Items</NavLink></li>
+            <li><Link onClick={loggoutHandler} >Loggout</Link></li>
         </>
     );
 
-    return (
-        <header className="navigation-header">
+    const Nav = () => {
+        return (
             <nav className="navigation">
                 <ul className="navigation-list">
-                    <li className={'home-btn-link'}><NavLink  to={'/'} >Home</NavLink></li>
+                    <li className={'home-btn-link'}><NavLink to={'/'} >Home</NavLink></li>
                     {isLoggedIn && userTemplate}
                     {!isLoggedIn && guestTemplate}
                 </ul>
             </nav>
+        );
+    };
+
+    const onClick = (e) => console.log(e);
+
+    return (
+        <header className="navigation-header">
+            <Fade onToggle={onClick} toggled={isOpen} toggle={setOpen}  />
+            {isOpen && <Nav />}
+            {!isMobile && <Nav />}
+            {/* {menuBtnRef.current.style.display = 'none' && <Nav />} */}
         </header>
     );
 };

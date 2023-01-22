@@ -1,7 +1,23 @@
-.inventory {
+.inventory-items-title {
+    display: flex;
+    justify-content: center;
+    padding: 20px 0;
+    font-family: "Montserrat", sans-serif;
+}
 
-    h1 {
-        margin: 15px;
+.inventory {
+    font-family: "Montserrat", sans-serif;
+
+    .inventory-items-empty {
+        display: flex;
+        justify-content: center;
+        padding: 20px 0;
+    }
+
+    .inventory-items-empty {
+        h2 {
+            text-align: center;
+        }
     }
 
     .add-item {

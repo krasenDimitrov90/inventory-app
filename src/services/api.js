@@ -26,6 +26,9 @@ const request = (method, url, requestConfig = {}) => {
             return res.json();
         })
         .then(data => {
+            if (data === null) {
+                return {};
+            }
             return data;
         })
         .catch(error => {

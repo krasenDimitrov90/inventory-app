@@ -10,6 +10,7 @@ import ExpiringItemsPage from './pages/ExpiringItems/ExpiringItems';
 import HomePage from './pages/HomePage/HomePage';
 import InventoryPage from './pages/Inventory/InventoryPage';
 import LoginPage from './pages/Login/LoginPage';
+import RegisterPage from './pages/Register/RegisterPage';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
             <Routes>
               <Route path='/' element={<HomePage />} />
               <Route path='login' element={<LoginPage />} />
+              <Route path='register' element={<RegisterPage />} />
               <Route path='expiring-items' element={<ExpiringItemsPage />} />
               <Route path='inventory' element={<InventoryPage />} >
                 <Route path='add-item' element={<AddItem />} />
