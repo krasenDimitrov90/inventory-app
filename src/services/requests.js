@@ -12,12 +12,10 @@ export const login = (requestConfig) => api.post(loginURL, requestConfig);
 
 export const register = (requestConfig) => api.post(registerURL, requestConfig);
 
-// export const addBook = (requestConfig) => api.post(`${host}/books.json`, requestConfig);
+export const getAllItems = (requestConfig) => api.get(`${host}/inventar/-NMNu8oA1dPw9ibo9F2P.json`, requestConfig);
 
-// export const getBook = (requestConfig) => api.get(`${host}/books`, requestConfig);
+export const updateItems = (requestConfig) => api.patch(`${host}/inventar/-NMNu8oA1dPw9ibo9F2P.json`, requestConfig);
 
-export const getAllItems = (requestConfig) => api.get(`${host}/inventar/-NM7k7Q5H0QbkBSy-szU.json`, requestConfig);
+export const putNewItem = (requestConfig) => api.patch(`${host}/inventar/-NMNu8oA1dPw9ibo9F2P.json`, requestConfig);
 
-export const updateItems = (requestConfig) => api.patch(`${host}/inventar/-NM7k7Q5H0QbkBSy-szU.json`, requestConfig);
-
-export const putNewItem = (requestConfig) => api.patch(`${host}/inventar/-NM7k7Q5H0QbkBSy-szU.json`, requestConfig);
+export const deleteItem = (requestConfig) => api.del(`${host}/inventar/-NMNu8oA1dPw9ibo9F2P`, requestConfig);

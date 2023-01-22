@@ -93,7 +93,7 @@ const AddItem = () => {
                 
                 <InputField
                     icon={<i className="fa-solid fa-scale-unbalanced-flip"></i>}
-                    type="text"
+                    type="number"
                     id='quantity'
                     name='quantity'
                     placeholder="Enter minimum quantity"

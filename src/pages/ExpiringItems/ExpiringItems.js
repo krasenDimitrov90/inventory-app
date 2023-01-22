@@ -38,12 +38,12 @@ const ExpiringItemsPage = () => {
 
     }, [items]);
 
-    const updateItemsQty = (items, item, action, quantity = null) => {
+    const updateItemsQty = ( item, action, quantity = null) => {
 
-        const qty = quantity || items[item].qty;
+        const qty = quantity || expiringItems[item].qty;
 
         setExpiringItems(() => {
-            const newItems = { ...items };
+            const newItems = { ...expiringItems };
             if (action === 'add') {
                 newItems[item].qty = qty + 1;
 
@@ -87,7 +87,7 @@ const ExpiringItemsPage = () => {
                             <Item
                                 expiring={true}
                                 key={item}
-                                items={expiringItems}
+                                // items={expiringItems}
                                 item={item}
                                 qty={itemProps.qty}
                                 btnHandler={updateItemsQty}

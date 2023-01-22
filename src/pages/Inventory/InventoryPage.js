@@ -15,7 +15,7 @@ const InventoryPage = () => {
 
     const { isLoading, sendRequest } = useHttp();
 
-    const updateItemsQty = (items, item, action, quantity = null) => {
+    const updateItemsQty = ( item, action, quantity = null) => {
         const qty = quantity || items[item].qty;
         const newItems = { ...items };
         if (action === 'add') {
@@ -63,7 +63,7 @@ const InventoryPage = () => {
                             <Item
                                 key={item}
                                 item={item}
-                                items={items}
+                                // items={items}
                                 qty={items[item].qty}
                                 btnHandler={updateItemsQty}
                             />

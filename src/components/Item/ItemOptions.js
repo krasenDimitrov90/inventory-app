@@ -4,7 +4,7 @@ import InputField from "../InputField/InputField";
 
 import './ItemOptions.styles.scss';
 
-const ItemOptions = () => {
+const ItemOptions = ({ updateQtyHandler, removeItemHandler }) => {
 
 
     const {
@@ -29,11 +29,11 @@ const ItemOptions = () => {
                 invalidMessage='Must enter an valid number!'
             />
             <div className="add-qty-btn-card">
-                <button className="item-options-add-qty-btn" onClick={(e) => e.stopPropagation()} >Update quantity</button>
+                <button className="item-options-add-qty-btn" onClick={updateQtyHandler.bind(null, enteredQuantity)} >Update quantity</button>
             </div>
             <div className="remove-btn-card">
                 <div>
-                    <button className="item-options-remove-btn" onClick={(e) => e.stopPropagation()} >REMOVE</button>
+                    <button className="item-options-remove-btn" onClick={removeItemHandler} >REMOVE</button>
                 </div>
             </div>
         </div>
