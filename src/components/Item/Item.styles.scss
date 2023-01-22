@@ -1,0 +1,101 @@
+.item-wrapper {
+
+    border-radius: 7px;
+    box-shadow: -1px 0px 3px 1px grey;
+
+
+    .item-wrapper-card {
+        display: flex;
+        margin: 15px 0;
+        border: none;
+        cursor: pointer;
+
+        p:first-child {
+            flex: 6;
+        }
+
+        p {
+            padding: 10px;
+        }
+
+        p:nth-child(2) {
+            flex: 2;
+            padding-left: 5px;
+        }
+
+        section {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            flex: 1;
+            padding-left: 5px;
+        }
+
+        section button {
+            margin: 0 5px;
+            padding: 0 10px;
+            border: none;
+            background-color: transparent;
+            cursor: pointer;
+        }
+
+        i {
+            font-size: large;
+        }
+
+        .btn-plus i {
+            color: #009432;
+        }
+
+        .btn-minus i {
+            color: #EA2027;
+        }
+    }
+
+    .item-options {
+        display: flex;
+        justify-content: flex-start;
+
+        >* {
+            margin: 5px;
+        }
+
+        input {
+            border: none;
+        }
+
+        .item-options-add-qty-btn {
+            background-color: #00b894;
+            font-family: "Montserrat", sans-serif;
+            border: none;
+            padding: 6px;
+            border-radius: 5px;
+            font-family: "Montserrat", sans-serif;
+        }
+        .item-options-add-qty-btn:hover {
+            cursor: pointer;
+            background-color: #55EFC4;
+        }
+
+        div {
+            display: flex;
+            flex: 1;
+            justify-content: flex-end;
+        }
+
+        div button {
+            border: none;
+            align-self: flex-end;
+            margin: 0 8px;
+            background-color: #EA2027;
+            padding: 6px;
+            border-radius: 5px;
+            font-family: "Montserrat", sans-serif;
+        }
+
+        div button:hover {
+            cursor: pointer;
+            background-color: #c7060d;
+        }
+    }
+}

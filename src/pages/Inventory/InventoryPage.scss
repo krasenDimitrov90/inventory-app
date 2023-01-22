@@ -1,0 +1,21 @@
+.inventory {
+
+    h1 {
+        margin: 15px;
+    }
+
+    .add-item {
+
+        margin: 15px;
+
+        .add-item-btn {
+            text-decoration: none;
+            color: black;
+            background-color: #00b894;
+            padding: 9px 46px;
+            border-radius: 17px;
+            cursor: pointer;
+            font-family: "Montserrat", sans-serif;
+        }
+    }
+}

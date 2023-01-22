@@ -1,0 +1,31 @@
+.form-input-card {
+    border-bottom: 2px solid #A374FE;
+    margin: 10px;
+}
+
+.form-input-field:focus {
+    outline: none;
+}
+
+.form-input-field::placeholder {
+    color: white;
+}
+
+.form-input-field {
+    border: none;
+    background-color: transparent;
+    color: white;
+    width: 200px;
+    margin-bottom: 10px;
+}
+
+.invalid-input {
+    font-family: 'Montserrat', sans-serif;
+    padding: 0 10px;
+    margin: 0;
+}
+
+.form-input-card i {
+    color: white;
+    margin-right: 5px;
+}
