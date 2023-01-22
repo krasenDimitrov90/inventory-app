@@ -7,9 +7,9 @@ import ItemOptions from "./ItemOptions";
 
 
 
-const Item = ({  item, qty, btnHandler, expiring }) => {
+const Item = ({ item, qty, btnHandler, expiring }) => {
 
-    const { sendRequest } = useHttp();
+    const { isLoading, sendRequest } = useHttp();
 
     const itemCtx = React.useContext(ItemsContext);
     const { items, updateItems } = itemCtx;
@@ -28,7 +28,7 @@ const Item = ({  item, qty, btnHandler, expiring }) => {
     }
 
     const plusBtnClickHandler = () => {
-        btnHandler( item, 'add');
+        btnHandler(item, 'add');
     };
 
     const minusBtnClickHandler = () => {
@@ -37,15 +37,15 @@ const Item = ({  item, qty, btnHandler, expiring }) => {
         if (qty === 0) {
             return
         }
-
-        btnHandler( item, 'subtract');
+        btnHandler(item, 'subtract');
     };
 
     const updateItemQtyHandler = (qty) => {
         if (qty < 0) {
             return;
         }
-        btnHandler( item, 'update', qty);
+        setToggle(oldState => !oldState);
+        btnHandler(item, 'update', Number(qty));
     };
 
     const requestDeleteItem = () => {
@@ -56,7 +56,7 @@ const Item = ({  item, qty, btnHandler, expiring }) => {
             data: {},
         };
 
-        const newItems = {...items};
+        const newItems = { ...items };
         delete newItems[item];
 
         const dataHandler = () => {

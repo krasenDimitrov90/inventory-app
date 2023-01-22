@@ -1,18 +1,13 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
 import Item from "../../components/Item/Item";
 import ItemsTableWrapper from "../../components/ItemsTableWrapper/ItemsTableWrapper";
-import ItemsContext from "../../context/items-context";
+import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
 import useHttp from "../../hooks/use-http";
 
 import './ExpiringItems.styles.scss';
 
 const ExpiringItemsPage = () => {
 
-    const navigate = useNavigate();
-
-    const itemCtx = React.useContext(ItemsContext);
-    const {items, updateItems} = itemCtx;
     const [expiringItems, setExpiringItems] = React.useState({});
 
     const {
@@ -20,44 +15,56 @@ const ExpiringItemsPage = () => {
         sendRequest,
     } = useHttp();
 
-    React.useEffect(() => {
-        
-            const filteredItems = Object.keys(items).reduce((acc, item) => {
-                const newItem = {};
-                const quantity = items[item].qty;
-                const minQuantity = items[item]['min-qty'];
-                if (quantity < minQuantity) {
-                    acc[item] = items[item];
-                }
-                return acc;
-            }, {});
+    const filterItems = (items) => {
+        const filteredItems = Object.keys(items).reduce((acc, item) => {
 
-            if (Object.keys(filteredItems).length > 0) {
-                setExpiringItems(filteredItems);
+            const quantity = Number(items[item].qty);
+            const minQuantity = Number(items[item]['min-qty']);
+
+            if (quantity < minQuantity) {
+                acc[item] = items[item];
             }
+            return acc;
+        }, {});
 
-    }, [items]);
+        setExpiringItems(filteredItems);
+    }
 
-    const updateItemsQty = ( item, action, quantity = null) => {
+    const prepareExpiringItems = () => {
 
-        const qty = quantity || expiringItems[item].qty;
+        const dataHandler = (data) => {
+            filterItems(data);
+        };
 
-        setExpiringItems(() => {
-            const newItems = { ...expiringItems };
+        const requestConfig = { action: "getAllItems" };
+        sendRequest(requestConfig, dataHandler);
+    };
+
+    React.useEffect(() => {
+        prepareExpiringItems();
+    }, []);
+
+    const updateItemsQty = (item, action, quantity = null) => {
+
+        let qty = quantity !== null ? quantity : expiringItems[item].qty;
+        qty = Number(qty);
+
+        setExpiringItems((oldItems) => {
+            const newItems = { ...oldItems };
             if (action === 'add') {
-                newItems[item].qty = qty + 1;
+                newItems[item].qty = Number(qty) + 1;
 
             } else if (action === 'subtract') {
                 if (qty - 1 < 0) {
                     return;
                 }
-                newItems[item].qty = qty - 1;
+                newItems[item].qty = Number(qty) - 1;
 
             } else if (action === 'update') {
                 if (qty < 0) {
                     return;
                 }
-                newItems[item].qty = qty;
+                newItems[item].qty = Number(qty);
             }
             return newItems;
         });
@@ -67,7 +74,7 @@ const ExpiringItemsPage = () => {
 
         const dataHandler = () => {
             alert('Successfuly saved!');
-            navigate('/inventory');
+            prepareExpiringItems();
         };
 
         const requestConfig = { action: "updateItems", data };
@@ -77,7 +84,8 @@ const ExpiringItemsPage = () => {
     return (
         <>
             <h1>Expiring Items</h1>
-            {Object.keys(expiringItems).length > 0 &&
+            {isLoading && <LoadingSpinner />}
+            {!isLoading && Object.keys(expiringItems).length > 0 &&
                 <ItemsTableWrapper
                     sendData={sendUpdatedItems.bind(null, expiringItems)}
                 >
@@ -87,7 +95,6 @@ const ExpiringItemsPage = () => {
                             <Item
                                 expiring={true}
                                 key={item}
-                                // items={expiringItems}
                                 item={item}
                                 qty={itemProps.qty}
                                 btnHandler={updateItemsQty}
@@ -96,7 +103,7 @@ const ExpiringItemsPage = () => {
                     })}
                 </ItemsTableWrapper>
             }
-            {Object.keys(expiringItems).length === 0 && <p>You have enough items for work!</p>}
+            {!isLoading && Object.keys(expiringItems).length === 0 && <p>You have enough items for work!</p>}
         </>
     );
 };

@@ -1,5 +1,6 @@
 import React from "react";
 import { Outlet, Link } from "react-router-dom";
+import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
 import Item from "../../components/Item/Item";
 import ItemsTableWrapper from "../../components/ItemsTableWrapper/ItemsTableWrapper";
 import ItemsContext from "../../context/items-context";
@@ -11,26 +12,63 @@ const InventoryPage = () => {
 
     const itemsCtx = React.useContext(ItemsContext);
 
-    const { items, updateItems } = itemsCtx;
+    // const { ctxIsLoading, items: adw, updateItems: wad } = itemsCtx;
+    const [items, setItems] = React.useState({});
 
     const { isLoading, sendRequest } = useHttp();
 
-    const updateItemsQty = ( item, action, quantity = null) => {
-        const qty = quantity || items[item].qty;
-        const newItems = { ...items };
-        if (action === 'add') {
-            newItems[item].qty = qty + 1;
+    const prepareItems = () => {
 
-        } else if (action === 'subtract') {
-            newItems[item].qty = qty - 1;
-        } else if (action === 'update') {
-            if (qty < 0) {
-                return;
+        const dataHandler = (data) => {
+            setItems(data);
+        };
+
+        const requestConfig = { action: "getAllItems" };
+        sendRequest(requestConfig, dataHandler);
+    };
+
+    React.useEffect(() => {
+        console.log('In useefect');
+        prepareItems();
+    }, []);
+
+    const updateItemsQty = (item, action, quantity = null) => {
+        let qty = quantity !== null ? quantity : items[item].qty;
+        qty = Number(qty);
+
+        setItems((oldItems) => {
+            const newItems = { ...oldItems };
+            if (action === 'add') {
+                newItems[item].qty = Number(qty) + 1;
+
+            } else if (action === 'subtract') {
+                if (qty - 1 < 0) {
+                    return;
+                }
+                newItems[item].qty = Number(qty) - 1;
+
+            } else if (action === 'update') {
+                if (qty < 0) {
+                    return;
+                }
+                newItems[item].qty = Number(qty);
             }
-            newItems[item].qty = qty;
-        }
+            return newItems;
+        });
 
-        updateItems(newItems);
+        // const newItems = { ...items };
+        // if (action === 'add') {
+        //     newItems[item].qty = qty + 1;
+
+        // } else if (action === 'subtract') {
+        //     newItems[item].qty = qty - 1;
+
+        // } else if (action === 'update') {
+        //     if (qty < 0) {
+        //         return;
+        //     }
+        //     newItems[item].qty = qty;
+        // }
     };
 
 
@@ -38,7 +76,7 @@ const InventoryPage = () => {
 
         const dataHandler = () => {
             alert('Successfuly saved!')
-            updateItems(items);
+            prepareItems();
         };
 
         const requestConfig = { action: "updateItems", data };
@@ -49,12 +87,14 @@ const InventoryPage = () => {
     return (
         <>
             <Outlet />
+            {isLoading && <LoadingSpinner />}
+            {/* {ctxIsLoading && <LoadingSpinner />} */}
             <article className="inventory">
                 <h1>Inventory</h1>
                 <div className="add-item">
                     <Link className="add-item-btn" to={'add-item'} >Add Item</Link>
                 </div>
-                <ItemsTableWrapper
+                {!isLoading && Object.entries(items).length > 0 && <ItemsTableWrapper
                     sendData={sendData.bind(null, items)}
                 >
 
@@ -63,13 +103,13 @@ const InventoryPage = () => {
                             <Item
                                 key={item}
                                 item={item}
-                                // items={items}
                                 qty={items[item].qty}
                                 btnHandler={updateItemsQty}
                             />
                         );
                     })}
-                </ItemsTableWrapper>
+                </ItemsTableWrapper>}
+                {!isLoading && Object.entries(items).length === 0 && <p>You don't have any items in the inventory</p>}
             </article>
         </>
     );

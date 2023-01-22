@@ -53,7 +53,7 @@ const AddItem = () => {
         const data = {};
         data[enteredItem] = {
             qty: 0,
-            'min-qty': enteredMinQuantity
+            'min-qty': Number(enteredMinQuantity)
         };
 
 
