@@ -96,8 +96,10 @@ const ExpiringItemsPage = () => {
                                 expiring={true}
                                 key={item}
                                 item={item}
+                                items={expiringItems}
                                 qty={itemProps.qty}
                                 btnHandler={updateItemsQty}
+                                updateItems={prepareExpiringItems}
                             />
                         );
                     })}

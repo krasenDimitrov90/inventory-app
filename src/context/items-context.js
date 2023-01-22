@@ -15,21 +15,21 @@ export const ItemsContextProvider = (props) => {
 
     const { isLoading: ctxIsLoading, sendRequest: getItems } = useHttp();
 
-    const updateItems = (items) => {
+    // const updateItems = (items) => {
 
-        setItems(items);
-    };
+    //     setItems(items);
+    // };
 
-    const requestItems = () => {
-        console.log('In context requestItems');
+    // const requestItems = () => {
+    //     console.log('In context requestItems');
 
-        const dataHandler = (data) => {
-            updateItems(data);
-        };
+    //     const dataHandler = (data) => {
+    //         updateItems(data);
+    //     };
 
-        const requestConfig = { action: "getAllItems" };
-        getItems(requestConfig, dataHandler);
-    };
+    //     const requestConfig = { action: "getAllItems" };
+    //     getItems(requestConfig, dataHandler);
+    // };
 
 
     const addNewItem = (item) => {
@@ -39,17 +39,17 @@ export const ItemsContextProvider = (props) => {
         });
     };
 
-    React.useEffect(() => {
-        console.log('In context UseEffect');
-        requestItems();
-    }, []);
+    // React.useEffect(() => {
+    //     console.log('In context UseEffect');
+    //     requestItems();
+    // }, []);
 
     const contextValue = {
-        items,
-        ctxIsLoading,
-        updateItems,
+        // items,
+        // ctxIsLoading,
+        // updateItems,
         addNewItem,
-        requestItems,
+        // requestItems,
     };
 
     return (

@@ -7,12 +7,12 @@ import ItemOptions from "./ItemOptions";
 
 
 
-const Item = ({ item, qty, btnHandler, expiring }) => {
+const Item = ({ items, item, qty, btnHandler, expiring, updateItems }) => {
 
     const { isLoading, sendRequest } = useHttp();
 
-    const itemCtx = React.useContext(ItemsContext);
-    const { items, updateItems } = itemCtx;
+    // const itemCtx = React.useContext(ItemsContext);
+    // const { items, updateItems } = itemCtx;
 
     const [toggle, setToggle] = React.useState(false);
 
@@ -61,7 +61,7 @@ const Item = ({ item, qty, btnHandler, expiring }) => {
 
         const dataHandler = () => {
             alert('Successfuly removed!');
-            updateItems(newItems);
+            updateItems();
         };
 
         sendRequest(requestConfig, dataHandler);

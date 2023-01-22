@@ -1,4 +1,5 @@
 import React from "react";
+import { useOutletContext } from "react-router-dom";
 import FormCard from "../FormCard/FormCard";
 import InputField from "../InputField/InputField";
 import useInput from "../../hooks/use-input";
@@ -12,9 +13,11 @@ const AddItem = () => {
 
     const navigate = useNavigate();
 
+    const [prepareItems] = useOutletContext();
+
     const itemsCtx = React.useContext(ItemsContext);
 
-    const {items, addNewItem} = itemsCtx;
+    const { addNewItem } = itemsCtx;
 
     const formWrapperOnClickHandler = (e) => {
         if (e.target.className !== 'add-item-wrapper') {
@@ -65,7 +68,8 @@ const AddItem = () => {
         const dataHandler = (data) => {
             alert('Successfuly add new item');
             addNewItem(data)
-            navigate('/inventory');
+            prepareItems();
+            navigate(-1);
         };
 
         sendRequest(requestConfig, dataHandler);
@@ -90,7 +94,7 @@ const AddItem = () => {
                     inputIsInvalid={itemInputIsInvalid}
                     invalidMessage='Must enter an valid Item!'
                 />
-                
+
                 <InputField
                     icon={<i className="fa-solid fa-scale-unbalanced-flip"></i>}
                     type="number"
