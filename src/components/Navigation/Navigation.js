@@ -11,14 +11,19 @@ const Navigation = (props) => {
     const authCtx = React.useContext(AuthContext);
 
     const { isLoggedIn, loggout } = authCtx;
-    const [isOpen, setOpen] = React.useState(false);
+    const navRef = React.useRef();
+
+
+
+    const toggleHandler = () => {
+        navRef.current.classList.toggle('active');
+    };
 
     const loggoutHandler = () => {
         loggout();
-        navigate('/');
     };
 
-    const isMobile = window.screen.width < 480;
+    const isMobile = window.screen.width < 400;
 
     let activeStyle = {
         'backgroundColor': "green",
@@ -41,7 +46,7 @@ const Navigation = (props) => {
 
     const Nav = () => {
         return (
-            <nav className="navigation">
+            <nav ref={navRef} className="navigation">
                 <ul className="navigation-list">
                     <li className={'home-btn-link'}><NavLink to={'/'} >Home</NavLink></li>
                     {isLoggedIn && userTemplate}
@@ -51,14 +56,11 @@ const Navigation = (props) => {
         );
     };
 
-    const onClick = (e) => console.log(e);
 
     return (
         <header className="navigation-header">
-            <Fade onToggle={onClick} toggled={isOpen} toggle={setOpen}  />
-            {isOpen && <Nav />}
-            {!isMobile && <Nav />}
-            {/* {menuBtnRef.current.style.display = 'none' && <Nav />} */}
+            <Fade onToggle={toggleHandler}  />
+            <Nav />
         </header>
     );
 };

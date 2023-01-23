@@ -1,13 +1,24 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import Item from "../../components/Item/Item";
 import ItemsTableWrapper from "../../components/ItemsTableWrapper/ItemsTableWrapper";
 import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
+import AuthContext from "../../context/auth-context";
 import useHttp from "../../hooks/use-http";
 
 import './ExpiringItems.styles.scss';
 
 const ExpiringItemsPage = () => {
 
+    const navigate = useNavigate();
+
+    const authCtx = React.useContext(AuthContext);
+    const { isLoggedIn } = authCtx;
+
+    if (!isLoggedIn) {
+        navigate('/login');
+    }
+    
     const [expiringItems, setExpiringItems] = React.useState({});
 
     const {

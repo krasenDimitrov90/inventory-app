@@ -1,13 +1,23 @@
 import React from "react";
-import { Outlet, Link } from "react-router-dom";
+import { Outlet, Link, useNavigate } from "react-router-dom";
 import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
 import Item from "../../components/Item/Item";
 import ItemsTableWrapper from "../../components/ItemsTableWrapper/ItemsTableWrapper";
 import useHttp from "../../hooks/use-http";
 
 import "./InventoryPage.scss";
+import AuthContext from "../../context/auth-context";
 
 const InventoryPage = () => {
+
+    const navigate = useNavigate();
+
+    const authCtx = React.useContext(AuthContext);
+    const { isLoggedIn } = authCtx;
+
+    if (!isLoggedIn) {
+        navigate('/login');
+    }
 
     const [items, setItems] = React.useState({});
 

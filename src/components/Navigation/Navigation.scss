@@ -51,6 +51,14 @@
             color: white;
         }
 
+        .navigation {
+            display: none;
+        }
+
+        .navigation.active {
+            display: flex;
+        }
+
         .navigation-list {
             flex-direction: column;
 

@@ -67,11 +67,16 @@ const Item = ({ items, item, qty, btnHandler, expiring, updateItems }) => {
         sendRequest(requestConfig, dataHandler);
     };
 
+    const clickHandler = (e) => {
+        e.stopPropagation();
+        console.log('ckick');
+    };
+
 
 
     return (
         <div className="item-wrapper" style={backGroundColor}>
-            <div className="item-wrapper-card">
+            <div className="item-wrapper-card" onClick={clickHandler}>
                 <p onClick={itemOnClickHandler} >{item}</p>
                 <p onClick={itemOnClickHandler} >{qty}</p>
                 <section className="btns-wrapper">
