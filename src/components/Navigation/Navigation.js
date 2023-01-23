@@ -1,7 +1,7 @@
 import React from "react";
 import { NavLink, Link, useNavigate } from "react-router-dom";
 import AuthContext from "../../context/auth-context";
-import {Fade} from 'hamburger-react';
+import { Fade } from 'hamburger-react';
 import './Navigation.scss';
 
 const Navigation = (props) => {
@@ -59,7 +59,9 @@ const Navigation = (props) => {
 
     return (
         <header className="navigation-header">
-            <Fade onToggle={toggleHandler}  />
+            <div className="menu-btn" >
+                <Fade onToggle={toggleHandler} />
+            </div>
             <Nav />
         </header>
     );

@@ -4,17 +4,22 @@ import ItemsContext from "../../context/items-context";
 
 import './Item.styles.scss';
 import ItemOptions from "./ItemOptions";
+import ConfirmModal from "../ConfirmModal/ConfirmModal";
 
 
 
 const Item = ({ items, item, qty, btnHandler, expiring, updateItems }) => {
 
+    const [modalIsOpen, setModalIsOpen] = React.useState(false);
+
+    // const showModal = () => setModalIsOpen(true);
+    // const hideModal = () => setModalIsOpen(false);
+    const toggleModal = () => setModalIsOpen(oldstate => !oldstate);
+
     const { isLoading, sendRequest } = useHttp();
 
-    // const itemCtx = React.useContext(ItemsContext);
-    // const { items, updateItems } = itemCtx;
-
     const [toggle, setToggle] = React.useState(false);
+    const [confirmDelete, setConfirmDelete] = React.useState(false);
 
     const backGroundColor = expiring ? { "backgroundColor": "#ED4C67" } : { "backgroundColor": " #D980FA" };
 
@@ -75,20 +80,38 @@ const Item = ({ items, item, qty, btnHandler, expiring, updateItems }) => {
 
 
     return (
-        <div className="item-wrapper" style={backGroundColor}>
-            <div className="item-wrapper-card" onClick={clickHandler}>
-                <p onClick={itemOnClickHandler} >{item}</p>
-                <p onClick={itemOnClickHandler} >{qty}</p>
-                <section className="btns-wrapper">
-                    <button className="btn-plus" onClick={plusBtnClickHandler} ><i className="fa-solid fa-circle-plus"></i></button>
-                    <button className="btn-minus" onClick={minusBtnClickHandler} ><i className="fa-solid fa-circle-minus"></i></button>
-                </section>
+        <>
+            {modalIsOpen && <ConfirmModal>
+                <div className="confirm-action">
+                    <div className="confirm-action-message">
+                        <h3>Are you shure you want to delete {item}</h3>
+                    </div>
+                    <div className="confirm-action-btns">
+                        <div className="confirm-action-btns-card">
+                            <button className="confirm-action-btns-cancel" onClick={toggleModal} >Cancel</button>
+                        </div>
+                        <div className="confirm-action-btns-card">
+                            <button className="confirm-action-btns-yes" onClick={requestDeleteItem} >YES</button>
+                        </div>
+                    </div>
+                </div>
+            </ConfirmModal>}
+            <div className="item-wrapper" style={backGroundColor}>
+                <div className="item-wrapper-card" onClick={clickHandler}>
+                    <p onClick={itemOnClickHandler} >{item}</p>
+                    <p onClick={itemOnClickHandler} >{qty}</p>
+                    <section className="btns-wrapper">
+                        <button className="btn-plus" onClick={plusBtnClickHandler} ><i className="fa-solid fa-circle-plus"></i></button>
+                        <button className="btn-minus" onClick={minusBtnClickHandler} ><i className="fa-solid fa-circle-minus"></i></button>
+                    </section>
+                </div>
+                {toggle && <ItemOptions
+                    item={item}
+                    updateQtyHandler={updateItemQtyHandler}
+                    removeItemHandler={toggleModal}
+                />}
             </div>
-            {toggle && <ItemOptions
-                updateQtyHandler={updateItemQtyHandler}
-                removeItemHandler={requestDeleteItem}
-            />}
-        </div>
+        </>
     );
 }
 

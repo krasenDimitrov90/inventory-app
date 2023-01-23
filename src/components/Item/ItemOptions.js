@@ -5,12 +5,9 @@ import InputField from "../InputField/InputField";
 
 import './ItemOptions.styles.scss';
 
-const ItemOptions = ({ updateQtyHandler, removeItemHandler }) => {
+const ItemOptions = ({ item, updateQtyHandler, removeItemHandler }) => {
 
-    const [modalIsOpen, setModalIsOpen] = React.useState(false);
-
-    const showModal = () => setModalIsOpen(true);
-    const hideModal = () => setModalIsOpen(false);
+    
 
 
     const {
@@ -22,11 +19,7 @@ const ItemOptions = ({ updateQtyHandler, removeItemHandler }) => {
 
     return (
         <>
-            {/* <ConfirmModal>
-                <div>
-                    <h1>MODAL</h1>
-                </div>
-            </ConfirmModal> */}
+            
             <div className="item-options" >
                 <InputField
                     icon={<i className="fa-solid fa-scale-unbalanced-flip"></i>}

@@ -37,16 +37,30 @@
 
 }
 
+@keyframes growDown {
+    0% { 
+        opacity: 0;
+        transform: translateY(-60px);
+      }
+    
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+}
+
 
 @media screen and (max-width: 480px) {
 
     .navigation-header {
 
-        // display: flex;
-        // flex-direction: column;
+        .menu-btn {
+            display: flex;
+            justify-content: flex-end;
+        }
 
         .hamburger-react {
-            margin-left: 15px;
+            right: 5px;
             display: inline-block;
             color: white;
         }
@@ -60,7 +74,9 @@
         }
 
         .navigation-list {
+            flex: 1;
             flex-direction: column;
+            animation: growDown 300ms ease-in-out forwards;
 
             .home-btn-link {
                 flex: 1 !important;
