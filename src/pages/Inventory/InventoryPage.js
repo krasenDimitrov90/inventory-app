@@ -102,7 +102,7 @@ const InventoryPage = () => {
         <>
             <Outlet context={[prepareItems]} />
             {modalIsOpen && requestIsFinished && <Modal>
-                <SuccessPopUp onClick={popUpOnCloseHandler} />
+                <SuccessPopUp onClick={popUpOnCloseHandler} message={'Succesfuly saved'} />
             </Modal>}
             {isLoading && <LoadingSpinner />}
             <h1 className="inventory-items-title">Inventory</h1>
@@ -127,7 +127,7 @@ const InventoryPage = () => {
                         );
                     })}
                 </ItemsTableWrapper>}
-                {!isLoading && items !== null &&  Object.entries(items).length === 0 && <NoItemsTemplate />}
+                {!isLoading && items !== null && Object.entries(items).length === 0 && <NoItemsTemplate />}
             </article>
         </>
     );

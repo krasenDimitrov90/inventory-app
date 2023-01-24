@@ -5,23 +5,27 @@ import ItemsContext from "../../context/items-context";
 import './Item.styles.scss';
 import ItemOptions from "./ItemOptions";
 import Modal from "../Modal/Modal";
+import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
+import SuccessPopUp from "../SuccessPopUp/SuccessPopUp";
 
 
 
 const Item = ({ items, item, qty, btnHandler, expiring, updateItems }) => {
 
     const [modalIsOpen, setModalIsOpen] = React.useState(false);
+    const [requestIsFinished, setRequestIsFinished] = React.useState(false);
+
+    const popUpOnCloseHandler = () => {
+        setRequestIsFinished(false);
+        setModalIsOpen(false);
+        updateItems();
+    };
 
     const removeBtnHandler = () => setModalIsOpen(true);
-
-    // const showModal = () => setModalIsOpen(true);
-    // const hideModal = () => setModalIsOpen(false);
-    // const toggleModal = () => setModalIsOpen(oldstate => !oldstate);
 
     const { isLoading, sendRequest } = useHttp();
 
     const [itemOptionsIsShown, setItemOptionsIsShown] = React.useState(false);
-    const [confirmDelete, setConfirmDelete] = React.useState(false);
 
     const backGroundColor = expiring ? { "backgroundColor": "#ED4C67" } : { "backgroundColor": " #D980FA" };
 
@@ -70,8 +74,8 @@ const Item = ({ items, item, qty, btnHandler, expiring, updateItems }) => {
         delete newItems[item];
 
         const dataHandler = () => {
-            alert('Successfuly removed!');
-            updateItems();
+            setModalIsOpen(true);
+            setRequestIsFinished(true);
         };
 
         sendRequest(requestConfig, dataHandler);
@@ -79,7 +83,11 @@ const Item = ({ items, item, qty, btnHandler, expiring, updateItems }) => {
 
     return (
         <>
-            {modalIsOpen && <Modal onClose={() => setModalIsOpen(false)} >
+            {isLoading && <LoadingSpinner />}
+            {modalIsOpen && requestIsFinished && <Modal onClose={() => setModalIsOpen(false)} >
+                <SuccessPopUp onClick={popUpOnCloseHandler}  message={`Succesfuly removed ${item} from inventory`} />
+            </Modal>}
+            {modalIsOpen && !requestIsFinished && <Modal onClose={() => setModalIsOpen(false)} >
                 <div className="confirm-action">
                     <div className="confirm-action-message">
                         <h3>Are you shure you want to delete {item}</h3>

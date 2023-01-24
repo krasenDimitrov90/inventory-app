@@ -93,7 +93,7 @@ const AddItem = () => {
         <>
             {isLoading && <LoadingSpinner />}
             {modalIsOpen && requestIsFinished && <Modal>
-                <SuccessPopUp onClick={popUpOnCloseHandler} />
+                <SuccessPopUp onClick={popUpOnCloseHandler} message={`Succesfuly added ${enteredItem} to the inventory`} />
             </Modal>}
             <div className="add-item-wrapper" onClick={formWrapperOnClickHandler}>
                 <FormCard
