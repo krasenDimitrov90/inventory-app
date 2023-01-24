@@ -7,6 +7,8 @@ import useHttp from "../../hooks/use-http";
 import FormCard from "../../components/FormCard/FormCard";
 import InputField from "../../components/InputField/InputField";
 import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
+import Modal from "../../components/Modal/Modal";
+import SuccessPopUp from "../../components/SuccessPopUp/SuccessPopUp";
 
 
 
@@ -15,6 +17,15 @@ const emailValidator = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g;
 const LoginPage = () => {
 
     const navigate = useNavigate();
+
+    const [modalIsOpen, setModalIsOpen] = React.useState(false);
+    const [requestIsFinished, setRequestIsFinished] = React.useState(false);
+
+    const popUpOnCloseHandler = () => {
+        setRequestIsFinished(false);
+        setModalIsOpen(false);
+        navigate('/');
+    };
 
     const { isLoading, sendRequest: requestLogin } = useHttp();
 
@@ -40,7 +51,8 @@ const LoginPage = () => {
 
     const loginHandler = (userData) => {
         authCtx.login(userData.idToken, userData.localId, userData.email);
-        navigate('/');
+        setModalIsOpen(true);
+        setRequestIsFinished(true);
     };
 
     const errorHandler = (err) => {
@@ -77,7 +89,9 @@ const LoginPage = () => {
 
     return (
         <>
-
+            {modalIsOpen && requestIsFinished && <Modal>
+                <SuccessPopUp onClick={popUpOnCloseHandler} message={'Succesfuly logged in'} />
+            </Modal> }
             <section className="login-form-wrapper">
                 {isLoading && <LoadingSpinner />}
                 <FormCard submitHandler={submitHandler} formTitle={'LOG IN'} btnName={"Login"}>
