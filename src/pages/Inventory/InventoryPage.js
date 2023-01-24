@@ -7,24 +7,33 @@ import useHttp from "../../hooks/use-http";
 
 import "./InventoryPage.scss";
 import AuthContext from "../../context/auth-context";
+import Modal from "../../components/Modal/Modal";
+import SuccessPopUp from "../../components/SuccessPopUp/SuccessPopUp";
 
 const InventoryPage = () => {
 
     const navigate = useNavigate();
 
+    const [modalIsOpen, setModalIsOpen] = React.useState(false);
+    const [requestIsFinished, setRequestIsFinished] = React.useState(false);
+
     const authCtx = React.useContext(AuthContext);
     const { isLoggedIn } = authCtx;
+
+    const popUpOnCloseHandler = () => {
+        setRequestIsFinished(false);
+        setModalIsOpen(false);
+    };
 
     if (!isLoggedIn) {
         navigate('/login');
     }
 
-    const [items, setItems] = React.useState({});
+    const [items, setItems] = React.useState(null);
 
     const { isLoading, sendRequest } = useHttp();
 
     const prepareItems = () => {
-        console.log('IN PREPERE');
         const dataHandler = (data) => {
             if (data === null) {
                 data = {};
@@ -37,9 +46,8 @@ const InventoryPage = () => {
     };
 
     React.useEffect(() => {
-        console.log('In useefect');
         prepareItems();
-    }, []);
+    }, [navigate]);
 
     const updateItemsQty = (item, action, quantity = null) => {
         let qty = quantity !== null ? quantity : items[item].qty;
@@ -72,8 +80,8 @@ const InventoryPage = () => {
     const sendData = (data) => {
 
         const dataHandler = () => {
-            alert('Successfuly saved!')
-            prepareItems();
+            setModalIsOpen(true);
+            setRequestIsFinished(true);
         };
 
         const requestConfig = { action: "updateItems", data };
@@ -93,13 +101,16 @@ const InventoryPage = () => {
     return (
         <>
             <Outlet context={[prepareItems]} />
+            {modalIsOpen && requestIsFinished && <Modal>
+                <SuccessPopUp onClick={popUpOnCloseHandler} />
+            </Modal>}
             {isLoading && <LoadingSpinner />}
             <h1 className="inventory-items-title">Inventory</h1>
             <article className="inventory">
                 <div className="add-item">
                     <Link className="add-item-btn" to={'add-item'} >Add Item</Link>
                 </div>
-                {!isLoading && Object.entries(items).length > 0 && <ItemsTableWrapper
+                {!isLoading && items !== null && Object.entries(items).length > 0 && <ItemsTableWrapper
                     sendData={sendData.bind(null, items)}
                 >
 
@@ -116,7 +127,7 @@ const InventoryPage = () => {
                         );
                     })}
                 </ItemsTableWrapper>}
-                {!isLoading && Object.entries(items).length === 0 && <NoItemsTemplate />}
+                {!isLoading && items !== null &&  Object.entries(items).length === 0 && <NoItemsTemplate />}
             </article>
         </>
     );

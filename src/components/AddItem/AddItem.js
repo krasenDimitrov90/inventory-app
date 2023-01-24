@@ -8,16 +8,28 @@ import useHttp from "../../hooks/use-http";
 import './AddItem.styles.scss';
 import { useNavigate } from "react-router-dom";
 import ItemsContext from "../../context/items-context";
+import Modal from "../Modal/Modal";
+import SuccessPopUp from "../SuccessPopUp/SuccessPopUp";
+import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 
 const AddItem = () => {
 
     const navigate = useNavigate();
 
-    const [prepareItems] = useOutletContext();
+    const [modalIsOpen, setModalIsOpen] = React.useState(false);
+    const [requestIsFinished, setRequestIsFinished] = React.useState(false);
 
-    const itemsCtx = React.useContext(ItemsContext);
+    const popUpOnCloseHandler = () => {
+        setRequestIsFinished(false);
+        setModalIsOpen(false);
+        navigate('/inventory');
+    };
 
-    const { addNewItem } = itemsCtx;
+    // const [prepareItems] = useOutletContext();
+
+    // const itemsCtx = React.useContext(ItemsContext);
+
+    // const { addNewItem } = itemsCtx;
 
     const formWrapperOnClickHandler = (e) => {
         if (e.target.className !== 'add-item-wrapper') {
@@ -66,50 +78,58 @@ const AddItem = () => {
         };
 
         const dataHandler = (data) => {
-            alert('Successfuly add new item');
-            addNewItem(data)
-            prepareItems();
-            navigate(-1);
+            // alert('Successfuly add new item');
+            // addNewItem(data);
+            setModalIsOpen(true);
+            setRequestIsFinished(true);
+            // prepareItems();
+            // navigate(-1);
         };
 
         sendRequest(requestConfig, dataHandler);
     };
 
     return (
-        <div className="add-item-wrapper" onClick={formWrapperOnClickHandler}>
-            <FormCard
-                submitHandler={submitHandler}
-                formTitle='ADD ITEM'
-                btnName='ADD'
-            >
-                <InputField
-                    icon={<i className="fa-sharp fa-solid fa-cube"></i>}
-                    type="text"
-                    id='item'
-                    name='item'
-                    placeholder="Enter item"
-                    value={enteredItem}
-                    onChange={itemInputChangeHandler}
-                    onBlur={itemInputOnBlurHandler}
-                    inputIsInvalid={itemInputIsInvalid}
-                    invalidMessage='Must enter an valid Item!'
-                />
+        <>
+            {isLoading && <LoadingSpinner />}
+            {modalIsOpen && requestIsFinished && <Modal>
+                <SuccessPopUp onClick={popUpOnCloseHandler} />
+            </Modal>}
+            <div className="add-item-wrapper" onClick={formWrapperOnClickHandler}>
+                <FormCard
+                    submitHandler={submitHandler}
+                    formTitle='ADD ITEM'
+                    btnName='ADD'
+                >
+                    <InputField
+                        icon={<i className="fa-sharp fa-solid fa-cube"></i>}
+                        type="text"
+                        id='item'
+                        name='item'
+                        placeholder="Enter item"
+                        value={enteredItem}
+                        onChange={itemInputChangeHandler}
+                        onBlur={itemInputOnBlurHandler}
+                        inputIsInvalid={itemInputIsInvalid}
+                        invalidMessage='Must enter an valid Item!'
+                    />
 
-                <InputField
-                    icon={<i className="fa-solid fa-scale-unbalanced-flip"></i>}
-                    type="number"
-                    id='quantity'
-                    name='quantity'
-                    placeholder="Enter minimum quantity"
-                    value={enteredMinQuantity}
-                    onChange={minQuantityInputChangeHandler}
-                    onBlur={minQuantityInputOnBlurHandler}
-                    inputIsInvalid={minQuantityInputIsInvalid}
-                    invalidMessage='Must enter an valid number!'
-                />
+                    <InputField
+                        icon={<i className="fa-solid fa-scale-unbalanced-flip"></i>}
+                        type="number"
+                        id='quantity'
+                        name='quantity'
+                        placeholder="Enter minimum quantity"
+                        value={enteredMinQuantity}
+                        onChange={minQuantityInputChangeHandler}
+                        onBlur={minQuantityInputOnBlurHandler}
+                        inputIsInvalid={minQuantityInputIsInvalid}
+                        invalidMessage='Must enter an valid number!'
+                    />
 
-            </FormCard>
-        </div>
+                </FormCard>
+            </div>
+        </>
     );
 };
 

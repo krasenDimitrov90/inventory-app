@@ -1,11 +1,11 @@
 import React from "react";
 import useInput from "../../hooks/use-input";
-import ConfirmModal from "../ConfirmModal/ConfirmModal";
+import Modal from "../Modal/Modal";
 import InputField from "../InputField/InputField";
 
 import './ItemOptions.styles.scss';
 
-const ItemOptions = ({ item, updateQtyHandler, removeItemHandler }) => {
+const ItemOptions = ({ item, updateQtyHandler, removeBtnHandler }) => {
 
     
 
@@ -38,7 +38,7 @@ const ItemOptions = ({ item, updateQtyHandler, removeItemHandler }) => {
                 </div>
                 <div className="remove-btn-card">
                     <div>
-                        <button className="item-options-remove-btn" onClick={removeItemHandler} >REMOVE</button>
+                        <button className="item-options-remove-btn" onClick={removeBtnHandler} >REMOVE</button>
                     </div>
                 </div>
             </div>

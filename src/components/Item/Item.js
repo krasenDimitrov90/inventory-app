@@ -4,7 +4,7 @@ import ItemsContext from "../../context/items-context";
 
 import './Item.styles.scss';
 import ItemOptions from "./ItemOptions";
-import ConfirmModal from "../ConfirmModal/ConfirmModal";
+import Modal from "../Modal/Modal";
 
 
 
@@ -12,16 +12,20 @@ const Item = ({ items, item, qty, btnHandler, expiring, updateItems }) => {
 
     const [modalIsOpen, setModalIsOpen] = React.useState(false);
 
+    const removeBtnHandler = () => setModalIsOpen(true);
+
     // const showModal = () => setModalIsOpen(true);
     // const hideModal = () => setModalIsOpen(false);
-    const toggleModal = () => setModalIsOpen(oldstate => !oldstate);
+    // const toggleModal = () => setModalIsOpen(oldstate => !oldstate);
 
     const { isLoading, sendRequest } = useHttp();
 
-    const [toggle, setToggle] = React.useState(false);
+    const [itemOptionsIsShown, setItemOptionsIsShown] = React.useState(false);
     const [confirmDelete, setConfirmDelete] = React.useState(false);
 
     const backGroundColor = expiring ? { "backgroundColor": "#ED4C67" } : { "backgroundColor": " #D980FA" };
+
+    const qtyElementRef = React.useRef();
 
     const itemOnClickHandler = (e) => {
 
@@ -29,10 +33,11 @@ const Item = ({ items, item, qty, btnHandler, expiring, updateItems }) => {
             return;
         }
 
-        setToggle(oldState => !oldState);
+        setItemOptionsIsShown(oldState => !oldState);
     }
 
     const plusBtnClickHandler = () => {
+        qtyElementRef.current.classList.toggle('bump');
         btnHandler(item, 'add');
     };
 
@@ -49,7 +54,7 @@ const Item = ({ items, item, qty, btnHandler, expiring, updateItems }) => {
         if (qty < 0) {
             return;
         }
-        setToggle(oldState => !oldState);
+        setItemOptionsIsShown(oldState => !oldState);
         btnHandler(item, 'update', Number(qty));
     };
 
@@ -72,43 +77,36 @@ const Item = ({ items, item, qty, btnHandler, expiring, updateItems }) => {
         sendRequest(requestConfig, dataHandler);
     };
 
-    const clickHandler = (e) => {
-        e.stopPropagation();
-        console.log('ckick');
-    };
-
-
-
     return (
         <>
-            {modalIsOpen && <ConfirmModal>
+            {modalIsOpen && <Modal onClose={() => setModalIsOpen(false)} >
                 <div className="confirm-action">
                     <div className="confirm-action-message">
                         <h3>Are you shure you want to delete {item}</h3>
                     </div>
                     <div className="confirm-action-btns">
                         <div className="confirm-action-btns-card">
-                            <button className="confirm-action-btns-cancel" onClick={toggleModal} >Cancel</button>
+                            <button className="confirm-action-btns-cancel" onClick={() => setModalIsOpen(false)} >Cancel</button>
                         </div>
                         <div className="confirm-action-btns-card">
                             <button className="confirm-action-btns-yes" onClick={requestDeleteItem} >YES</button>
                         </div>
                     </div>
                 </div>
-            </ConfirmModal>}
+            </Modal>}
             <div className="item-wrapper" style={backGroundColor}>
-                <div className="item-wrapper-card" onClick={clickHandler}>
-                    <p onClick={itemOnClickHandler} >{item}</p>
-                    <p onClick={itemOnClickHandler} >{qty}</p>
+                <div className="item-wrapper-card" onClick={itemOnClickHandler} >
+                    <p >{item}</p>
+                    <p className='item-qty bump' ref={qtyElementRef} >{qty}</p>
                     <section className="btns-wrapper">
                         <button className="btn-plus" onClick={plusBtnClickHandler} ><i className="fa-solid fa-circle-plus"></i></button>
                         <button className="btn-minus" onClick={minusBtnClickHandler} ><i className="fa-solid fa-circle-minus"></i></button>
                     </section>
                 </div>
-                {toggle && <ItemOptions
+                {itemOptionsIsShown && <ItemOptions
                     item={item}
                     updateQtyHandler={updateItemQtyHandler}
-                    removeItemHandler={toggleModal}
+                    removeBtnHandler={removeBtnHandler}
                 />}
             </div>
         </>

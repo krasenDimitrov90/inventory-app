@@ -1,5 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import Modal from "../../components/Modal/Modal";
 import Item from "../../components/Item/Item";
 import ItemsTableWrapper from "../../components/ItemsTableWrapper/ItemsTableWrapper";
 import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
@@ -7,19 +8,28 @@ import AuthContext from "../../context/auth-context";
 import useHttp from "../../hooks/use-http";
 
 import './ExpiringItems.styles.scss';
+import SuccessPopUp from "../../components/SuccessPopUp/SuccessPopUp";
 
 const ExpiringItemsPage = () => {
 
     const navigate = useNavigate();
 
+    const [modalIsOpen, setModalIsOpen] = React.useState(false);
+    const [requestIsFinished, setRequestIsFinished] = React.useState(false);
+
     const authCtx = React.useContext(AuthContext);
     const { isLoggedIn } = authCtx;
+
+    const popUpOnCloseHandler = () => {
+        setRequestIsFinished(false);
+        setModalIsOpen(false);
+    };
 
     if (!isLoggedIn) {
         navigate('/login');
     }
     
-    const [expiringItems, setExpiringItems] = React.useState({});
+    const [expiringItems, setExpiringItems] = React.useState(null);
 
     const {
         isLoading,
@@ -84,8 +94,8 @@ const ExpiringItemsPage = () => {
     const sendUpdatedItems = (data) => {
 
         const dataHandler = () => {
-            alert('Successfuly saved!');
-            prepareExpiringItems();
+            setModalIsOpen(true);
+            setRequestIsFinished(true);
         };
 
         const requestConfig = { action: "updateItems", data };
@@ -102,9 +112,12 @@ const ExpiringItemsPage = () => {
 
     return (
         <>
+            {modalIsOpen && requestIsFinished && <Modal>
+                <SuccessPopUp onClick={popUpOnCloseHandler} />
+            </Modal>}
             <h1 className="expiring-items-title">Expiring Items</h1>
             {isLoading && <LoadingSpinner />}
-            {!isLoading && Object.keys(expiringItems).length > 0 &&
+            {!isLoading && expiringItems !== null && Object.keys(expiringItems).length > 0 &&
                 <ItemsTableWrapper
                     sendData={sendUpdatedItems.bind(null, expiringItems)}
                 >
@@ -124,7 +137,7 @@ const ExpiringItemsPage = () => {
                     })}
                 </ItemsTableWrapper>
             }
-            {!isLoading && Object.keys(expiringItems).length === 0 && <NoItemsTemplate />}
+            {!isLoading && expiringItems !== null && Object.keys(expiringItems).length === 0 && <NoItemsTemplate />}
         </>
     );
 };

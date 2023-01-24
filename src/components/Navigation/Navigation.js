@@ -8,15 +8,29 @@ const Navigation = (props) => {
 
     const navigate = useNavigate();
 
+    const [isOpen, setOpen] = React.useState(false);
+
     const authCtx = React.useContext(AuthContext);
 
     const { isLoggedIn, loggout } = authCtx;
     const navRef = React.useRef();
 
+    React.useEffect(() => {
+        setOpen(false);
+    },[navigate])
 
 
-    const toggleHandler = () => {
-        navRef.current.classList.toggle('active');
+
+    const toggleHandler = (toggled) => {
+        // if (toggled) {
+        //     navRef.current.classList.add('active')
+        //     console.log('add');
+        // } else {
+        //     navRef.current.classList.remove('active')
+        //     console.log('remove');
+        // }
+
+        // navRef.current.classList.toggle('active');
     };
 
     const loggoutHandler = () => {
@@ -56,12 +70,25 @@ const Navigation = (props) => {
         );
     };
 
+    const SmallScreenNav = () => {
+        return (
+            <nav className="navigation-small-screen">
+                <ul className="navigation-list">
+                    <li className={'home-btn-link'}><NavLink to={'/'} >Home</NavLink></li>
+                    {isLoggedIn && userTemplate}
+                    {!isLoggedIn && guestTemplate}
+                </ul>
+            </nav>
+        );
+    };
+
 
     return (
         <header className="navigation-header">
             <div className="menu-btn" >
-                <Fade onToggle={toggleHandler} />
+                <Fade onToggle={toggleHandler} toggled={isOpen} toggle={setOpen} />
             </div>
+            {isOpen && <SmallScreenNav />}
             <Nav />
         </header>
     );

@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 
-import './ConfirmModal.styles.scss';
+import './Modal.styles.scss';
 
 const Backdrop = (props) => {
     return <div className={'backdrop'} onClick={props.onClose}/>;
@@ -15,9 +15,9 @@ const Backdrop = (props) => {
     );
   };
   
-  const portalElement = document.getElementById('confirm-modal');
+  const portalElement = document.getElementById('modal');
   
-  const ConfirmModal = (props) => {
+  const Modal = (props) => {
     return (
       <>
         {ReactDOM.createPortal(<Backdrop onClose={props.onClose} />, portalElement)}
@@ -29,4 +29,4 @@ const Backdrop = (props) => {
     );
   };
 
-export default ConfirmModal;
+export default Modal;

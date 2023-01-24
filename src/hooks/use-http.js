@@ -14,8 +14,8 @@ const useHttp = () => {
         setIsloading(true);
         return request[action](requestConfig)
             .then(data => {
-                setIsloading(false);
                 dataHandler(data);
+                setIsloading(false);
             })
             .catch(err => {
                 err.then(error => {

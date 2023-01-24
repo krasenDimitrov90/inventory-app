@@ -5,7 +5,7 @@
     width: 320px;
     background-color: #6c5ce7;
     border-radius: 7px;
-    align-self: center;
+    /* align-self: center; */
     z-index: 10;
 }
 
