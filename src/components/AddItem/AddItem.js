@@ -16,6 +16,8 @@ const AddItem = () => {
 
     const navigate = useNavigate();
 
+    // const [prepareItems] = useOutletContext();
+
     const [modalIsOpen, setModalIsOpen] = React.useState(false);
     const [requestIsFinished, setRequestIsFinished] = React.useState(false);
 
@@ -25,8 +27,7 @@ const AddItem = () => {
         navigate('/inventory');
     };
 
-    // const [prepareItems] = useOutletContext();
-
+    
     // const itemsCtx = React.useContext(ItemsContext);
 
     // const { addNewItem } = itemsCtx;
@@ -35,7 +36,6 @@ const AddItem = () => {
         if (e.target.className !== 'add-item-wrapper') {
             return;
         }
-
         navigate(-1);
     }
 
@@ -78,12 +78,8 @@ const AddItem = () => {
         };
 
         const dataHandler = (data) => {
-            // alert('Successfuly add new item');
-            // addNewItem(data);
             setModalIsOpen(true);
             setRequestIsFinished(true);
-            // prepareItems();
-            // navigate(-1);
         };
 
         sendRequest(requestConfig, dataHandler);
@@ -95,6 +91,7 @@ const AddItem = () => {
             {modalIsOpen && requestIsFinished && <Modal>
                 <SuccessPopUp onClick={popUpOnCloseHandler} message={`Succesfuly added ${enteredItem} to the inventory`} />
             </Modal>}
+            
             <div className="add-item-wrapper" onClick={formWrapperOnClickHandler}>
                 <FormCard
                     submitHandler={submitHandler}

@@ -23,6 +23,7 @@ const InventoryPage = () => {
     const popUpOnCloseHandler = () => {
         setRequestIsFinished(false);
         setModalIsOpen(false);
+        prepareItems();
     };
 
     if (!isLoggedIn) {

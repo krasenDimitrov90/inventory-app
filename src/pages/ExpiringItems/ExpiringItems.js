@@ -23,12 +23,13 @@ const ExpiringItemsPage = () => {
     const popUpOnCloseHandler = () => {
         setRequestIsFinished(false);
         setModalIsOpen(false);
+        prepareExpiringItems();
     };
 
     if (!isLoggedIn) {
         navigate('/login');
     }
-    
+
     const [expiringItems, setExpiringItems] = React.useState(null);
 
     const {
@@ -112,11 +113,12 @@ const ExpiringItemsPage = () => {
 
     return (
         <>
-            {modalIsOpen && requestIsFinished && <Modal>
-                <SuccessPopUp onClick={popUpOnCloseHandler} />
-            </Modal>}
-            <h1 className="expiring-items-title">Expiring Items</h1>
             {isLoading && <LoadingSpinner />}
+            {modalIsOpen && requestIsFinished && <Modal>
+                <SuccessPopUp onClick={popUpOnCloseHandler} message={'Seccessfuly saved'} />
+            </Modal>}
+
+            <h1 className="expiring-items-title">Expiring Items</h1>
             {!isLoading && expiringItems !== null && Object.keys(expiringItems).length > 0 &&
                 <ItemsTableWrapper
                     sendData={sendUpdatedItems.bind(null, expiringItems)}
