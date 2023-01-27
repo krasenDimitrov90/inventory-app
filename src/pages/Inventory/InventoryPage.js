@@ -9,30 +9,16 @@ import "./InventoryPage.scss";
 import AuthContext from "../../context/auth-context";
 import Modal from "../../components/Modal/Modal";
 import SuccessPopUp from "../../components/SuccessPopUp/SuccessPopUp";
+import useSuccesPopUp from "../../hooks/use-successPopUp";
 
 const InventoryPage = () => {
 
     const navigate = useNavigate();
-
-    const [modalIsOpen, setModalIsOpen] = React.useState(false);
-    const [requestIsFinished, setRequestIsFinished] = React.useState(false);
-
     const authCtx = React.useContext(AuthContext);
     const { isLoggedIn } = authCtx;
-
-    const popUpOnCloseHandler = () => {
-        setRequestIsFinished(false);
-        setModalIsOpen(false);
-        prepareItems();
-    };
-
-    if (!isLoggedIn) {
-        navigate('/login');
-    }
-
     const [items, setItems] = React.useState(null);
-
     const { isLoading, sendRequest } = useHttp();
+
 
     const prepareItems = () => {
         const dataHandler = (data) => {
@@ -46,9 +32,20 @@ const InventoryPage = () => {
         sendRequest(requestConfig, dataHandler);
     };
 
+    const {
+        modalIsOpen,
+        setModalIsOpen,
+        requestIsFinished,
+        setRequestIsFinished } = useSuccesPopUp(prepareItems);
+
     React.useEffect(() => {
         prepareItems();
     }, [navigate]);
+
+    if (!isLoggedIn) {
+        navigate('/login');
+    }
+
 
     const updateItemsQty = (item, action, quantity = null) => {
         let qty = quantity !== null ? quantity : items[item].qty;
@@ -102,7 +99,7 @@ const InventoryPage = () => {
         <>
             <Outlet context={[prepareItems]} />
             {modalIsOpen && requestIsFinished && <Modal>
-                <SuccessPopUp onClick={popUpOnCloseHandler} message={'Succesfuly saved'} />
+                <SuccessPopUp message={'Succesfuly saved'} />
             </Modal>}
             {isLoading && <LoadingSpinner />}
             <h1 className="inventory-items-title">Inventory</h1>

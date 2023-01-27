@@ -9,19 +9,20 @@ import { useNavigate } from "react-router-dom";
 import Modal from "../Modal/Modal";
 import SuccessPopUp from "../SuccessPopUp/SuccessPopUp";
 import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
+import useSuccesPopUp from "../../hooks/use-successPopUp";
 
 const AddItem = () => {
 
     const navigate = useNavigate();
+    const { isLoading, sendRequest } = useHttp();
 
-    const [modalIsOpen, setModalIsOpen] = React.useState(false);
-    const [requestIsFinished, setRequestIsFinished] = React.useState(false);
+    const navigateToInventory = () => navigate('/inventory');
 
-    const popUpOnCloseHandler = () => {
-        setRequestIsFinished(false);
-        setModalIsOpen(false);
-        navigate('/inventory');
-    };
+    const {
+        modalIsOpen,
+        setModalIsOpen,
+        requestIsFinished,
+        setRequestIsFinished } = useSuccesPopUp(navigateToInventory);
 
     const formWrapperOnClickHandler = (e) => {
         if (e.target.className !== 'add-item-wrapper') {
@@ -29,11 +30,6 @@ const AddItem = () => {
         }
         navigate(-1);
     }
-
-    const {
-        isLoading,
-        sendRequest,
-    } = useHttp();
 
     const {
         value: enteredItem,
@@ -80,7 +76,7 @@ const AddItem = () => {
         <>
             {isLoading && <LoadingSpinner />}
             {modalIsOpen && requestIsFinished && <Modal>
-                <SuccessPopUp onClick={popUpOnCloseHandler} message={`Succesfuly added ${enteredItem} to the inventory`} />
+                <SuccessPopUp message={`Succesfuly added ${enteredItem} to the inventory`} />
             </Modal>}
 
             <div className="add-item-wrapper" onClick={formWrapperOnClickHandler}>

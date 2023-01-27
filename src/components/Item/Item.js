@@ -6,19 +6,17 @@ import ItemOptions from "./ItemOptions";
 import Modal from "../Modal/Modal";
 import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 import SuccessPopUp from "../SuccessPopUp/SuccessPopUp";
+import useSuccesPopUp from "../../hooks/use-successPopUp";
 
 
 
 const Item = ({ items, item, qty, btnHandler, expiring, updateItems }) => {
 
-    const [modalIsOpen, setModalIsOpen] = React.useState(false);
-    const [requestIsFinished, setRequestIsFinished] = React.useState(false);
-
-    const popUpOnCloseHandler = () => {
-        setRequestIsFinished(false);
-        setModalIsOpen(false);
-        updateItems();
-    };
+    const {
+        modalIsOpen,
+        setModalIsOpen,
+        requestIsFinished,
+        setRequestIsFinished } = useSuccesPopUp(updateItems);
 
     const removeBtnHandler = () => setModalIsOpen(true);
 
@@ -84,7 +82,7 @@ const Item = ({ items, item, qty, btnHandler, expiring, updateItems }) => {
         <>
             {isLoading && <LoadingSpinner />}
             {modalIsOpen && requestIsFinished && <Modal onClose={() => setModalIsOpen(false)} >
-                <SuccessPopUp onClick={popUpOnCloseHandler}  message={`Succesfuly removed ${item} from inventory`} />
+                <SuccessPopUp message={`Succesfuly removed ${item} from inventory`} />
             </Modal>}
             {modalIsOpen && !requestIsFinished && <Modal onClose={() => setModalIsOpen(false)} >
                 <div className="confirm-action">

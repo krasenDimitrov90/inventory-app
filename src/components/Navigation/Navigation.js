@@ -20,19 +20,6 @@ const Navigation = (props) => {
     }, [navigate])
 
 
-
-    const toggleHandler = (toggled) => {
-        // if (toggled) {
-        //     navRef.current.classList.add('active')
-        //     console.log('add');
-        // } else {
-        //     navRef.current.classList.remove('active')
-        //     console.log('remove');
-        // }
-
-        // navRef.current.classList.toggle('active');
-    };
-
     const loggoutHandler = () => {
         loggout();
     };
@@ -84,7 +71,7 @@ const Navigation = (props) => {
         <>
             <header className="navigation-header">
                 <div className="menu-btn" >
-                    <Fade onToggle={toggleHandler} toggled={isOpen} toggle={setOpen} />
+                    <Fade toggled={isOpen} toggle={setOpen} />
                 </div>
                 <Nav />
             </header>

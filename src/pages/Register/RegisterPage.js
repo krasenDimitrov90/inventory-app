@@ -8,6 +8,7 @@ import FormCard from "../../components/FormCard/FormCard";
 import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
 import SuccessPopUp from "../../components/SuccessPopUp/SuccessPopUp";
 import Modal from "../../components/Modal/Modal";
+import useSuccesPopUp from "../../hooks/use-successPopUp";
 
 
 const emailValidator = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g;
@@ -15,19 +16,16 @@ const emailValidator = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g;
 const RegisterPage = () => {
 
     const navigate = useNavigate();
-
-    const [modalIsOpen, setModalIsOpen] = React.useState(false);
-    const [requestIsFinished, setRequestIsFinished] = React.useState(false);
-
-    const popUpOnCloseHandler = () => {
-        setRequestIsFinished(false);
-        setModalIsOpen(false);
-        navigate('/login');
-
-    };
-
-
     const { isLoading, sendRequest: requestRegister } = useHttp();
+
+    const navigateToLogin = () => navigate('/login');
+
+
+    const {
+        modalIsOpen,
+        setModalIsOpen,
+        requestIsFinished,
+        setRequestIsFinished } = useSuccesPopUp(navigateToLogin);
 
     const {
         value: enteredEmail,
@@ -102,7 +100,7 @@ const RegisterPage = () => {
     return (
         <>
             {modalIsOpen && requestIsFinished && <Modal>
-                <SuccessPopUp onClick={popUpOnCloseHandler} message={'Succesfuly registered'} />
+                <SuccessPopUp message={'Succesfuly registered'} />
             </Modal>}
             <section className="register-form-wrapper">
                 {isLoading && <LoadingSpinner />}

@@ -9,33 +9,40 @@ import useHttp from "../../hooks/use-http";
 
 import './ExpiringItems.styles.scss';
 import SuccessPopUp from "../../components/SuccessPopUp/SuccessPopUp";
+import useSuccesPopUp from "../../hooks/use-successPopUp";
 
 const ExpiringItemsPage = () => {
 
     const navigate = useNavigate();
-
-    const [modalIsOpen, setModalIsOpen] = React.useState(false);
-    const [requestIsFinished, setRequestIsFinished] = React.useState(false);
-
+    const [expiringItems, setExpiringItems] = React.useState(null);
     const authCtx = React.useContext(AuthContext);
     const { isLoggedIn } = authCtx;
+    const { isLoading, sendRequest, } = useHttp();
 
-    const popUpOnCloseHandler = () => {
-        setRequestIsFinished(false);
-        setModalIsOpen(false);
+    React.useEffect(() => {
         prepareExpiringItems();
+    }, [navigate]);
+
+    const prepareExpiringItems = () => {
+
+        const dataHandler = (data) => {
+            filterItems(data);
+        };
+
+        const requestConfig = { action: "getAllItems" };
+        sendRequest(requestConfig, dataHandler);
     };
+
+    const {
+        modalIsOpen,
+        setModalIsOpen,
+        requestIsFinished,
+        setRequestIsFinished } = useSuccesPopUp(prepareExpiringItems);
+
 
     if (!isLoggedIn) {
         navigate('/login');
     }
-
-    const [expiringItems, setExpiringItems] = React.useState(null);
-
-    const {
-        isLoading,
-        sendRequest,
-    } = useHttp();
 
     const filterItems = (items) => {
         const filteredItems = Object.keys(items).reduce((acc, item) => {
@@ -51,20 +58,6 @@ const ExpiringItemsPage = () => {
 
         setExpiringItems(filteredItems);
     }
-
-    const prepareExpiringItems = () => {
-
-        const dataHandler = (data) => {
-            filterItems(data);
-        };
-
-        const requestConfig = { action: "getAllItems" };
-        sendRequest(requestConfig, dataHandler);
-    };
-
-    React.useEffect(() => {
-        prepareExpiringItems();
-    }, [navigate]);
 
     const updateItemsQty = (item, action, quantity = null) => {
 
@@ -115,7 +108,7 @@ const ExpiringItemsPage = () => {
         <>
             {isLoading && <LoadingSpinner />}
             {modalIsOpen && requestIsFinished && <Modal>
-                <SuccessPopUp onClick={popUpOnCloseHandler} message={'Seccessfuly saved'} />
+                <SuccessPopUp message={'Seccessfuly saved'} />
             </Modal>}
 
             <h1 className="expiring-items-title">Expiring Items</h1>
