@@ -7,6 +7,8 @@
     border-radius: 7px;
     /* align-self: center; */
     z-index: 10;
+
+    animation: formCardGrowUp 400ms ease-in-out forwards;
 }
 
 .form-card-title {
@@ -38,7 +40,19 @@
 }
 
 .form-btn:disabled {
-    cursor:auto;
+    cursor: auto;
     pointer-events: none;
 }
 
+
+@keyframes formCardGrowUp {
+    0% {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

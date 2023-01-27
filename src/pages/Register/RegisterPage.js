@@ -57,10 +57,10 @@ const RegisterPage = () => {
     } = useInput((value) => enteredPassword === value);
 
 
-    let formIsInvalid = true;
+    let formIsInvalid = false;
 
     if (!enteredEmailIsValid || !enteredPasswordIsValid || !repeatPasswordIsValid || enteredPassword !== repeatPassword) {
-        formIsInvalid = false;
+        formIsInvalid = true;
     }
 
     const registerHandler = (userData) => {
