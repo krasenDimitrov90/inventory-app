@@ -64,7 +64,7 @@ const ExpiringItemsPage = () => {
 
     React.useEffect(() => {
         prepareExpiringItems();
-    }, []);
+    }, [navigate]);
 
     const updateItemsQty = (item, action, quantity = null) => {
 

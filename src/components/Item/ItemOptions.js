@@ -1,6 +1,5 @@
 import React from "react";
 import useInput from "../../hooks/use-input";
-import Modal from "../Modal/Modal";
 import InputField from "../InputField/InputField";
 
 import './ItemOptions.styles.scss';

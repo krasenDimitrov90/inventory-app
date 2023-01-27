@@ -53,7 +53,6 @@ const InventoryPage = () => {
     const updateItemsQty = (item, action, quantity = null) => {
         let qty = quantity !== null ? quantity : items[item].qty;
         qty = Number(qty);
-        console.log(qty);
 
         setItems((oldItems) => {
             const newItems = { ...oldItems };

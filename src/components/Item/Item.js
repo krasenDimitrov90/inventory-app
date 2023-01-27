@@ -1,6 +1,5 @@
 import React from "react";
 import useHttp from "../../hooks/use-http";
-import ItemsContext from "../../context/items-context";
 
 import './Item.styles.scss';
 import ItemOptions from "./ItemOptions";

@@ -37,3 +37,8 @@
     background-color: #00b894;
 }
 
+.form-btn:disabled {
+    cursor:auto;
+    pointer-events: none;
+}
+

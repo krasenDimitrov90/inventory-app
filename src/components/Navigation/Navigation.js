@@ -17,7 +17,7 @@ const Navigation = (props) => {
 
     React.useEffect(() => {
         setOpen(false);
-    },[navigate])
+    }, [navigate])
 
 
 
@@ -37,11 +37,6 @@ const Navigation = (props) => {
         loggout();
     };
 
-    const isMobile = window.screen.width < 400;
-
-    let activeStyle = {
-        'backgroundColor': "green",
-    };
 
     const guestTemplate = (
         <>
@@ -72,25 +67,29 @@ const Navigation = (props) => {
 
     const SmallScreenNav = () => {
         return (
-            <nav className="navigation-small-screen">
-                <ul className="navigation-list">
-                    <li className={'home-btn-link'}><NavLink to={'/'} >Home</NavLink></li>
-                    {isLoggedIn && userTemplate}
-                    {!isLoggedIn && guestTemplate}
-                </ul>
-            </nav>
+            <header className="small-screen-navigation-header">
+                <nav className="navigation-small-screen">
+                    <ul className="navigation-list">
+                        <li className={'home-btn-link'}><NavLink to={'/'} >Home</NavLink></li>
+                        {isLoggedIn && userTemplate}
+                        {!isLoggedIn && guestTemplate}
+                    </ul>
+                </nav>
+            </header>
         );
     };
 
 
     return (
-        <header className="navigation-header">
-            <div className="menu-btn" >
-                <Fade onToggle={toggleHandler} toggled={isOpen} toggle={setOpen} />
-            </div>
+        <>
+            <header className="navigation-header">
+                <div className="menu-btn" >
+                    <Fade onToggle={toggleHandler} toggled={isOpen} toggle={setOpen} />
+                </div>
+                <Nav />
+            </header>
             {isOpen && <SmallScreenNav />}
-            <Nav />
-        </header>
+        </>
     );
 };
 

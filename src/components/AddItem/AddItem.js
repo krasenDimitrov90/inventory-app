@@ -1,5 +1,4 @@
 import React from "react";
-import { useOutletContext } from "react-router-dom";
 import FormCard from "../FormCard/FormCard";
 import InputField from "../InputField/InputField";
 import useInput from "../../hooks/use-input";
@@ -7,7 +6,6 @@ import useHttp from "../../hooks/use-http";
 
 import './AddItem.styles.scss';
 import { useNavigate } from "react-router-dom";
-import ItemsContext from "../../context/items-context";
 import Modal from "../Modal/Modal";
 import SuccessPopUp from "../SuccessPopUp/SuccessPopUp";
 import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
@@ -15,8 +13,6 @@ import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 const AddItem = () => {
 
     const navigate = useNavigate();
-
-    // const [prepareItems] = useOutletContext();
 
     const [modalIsOpen, setModalIsOpen] = React.useState(false);
     const [requestIsFinished, setRequestIsFinished] = React.useState(false);
@@ -26,11 +22,6 @@ const AddItem = () => {
         setModalIsOpen(false);
         navigate('/inventory');
     };
-
-    
-    // const itemsCtx = React.useContext(ItemsContext);
-
-    // const { addNewItem } = itemsCtx;
 
     const formWrapperOnClickHandler = (e) => {
         if (e.target.className !== 'add-item-wrapper') {
@@ -91,7 +82,7 @@ const AddItem = () => {
             {modalIsOpen && requestIsFinished && <Modal>
                 <SuccessPopUp onClick={popUpOnCloseHandler} message={`Succesfuly added ${enteredItem} to the inventory`} />
             </Modal>}
-            
+
             <div className="add-item-wrapper" onClick={formWrapperOnClickHandler}>
                 <FormCard
                     submitHandler={submitHandler}

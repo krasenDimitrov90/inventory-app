@@ -5,7 +5,6 @@ import './App.css';
 import AddItem from './components/AddItem/AddItem';
 import Layout from './components/Layout/Layout';
 import { AuthContextProvider } from './context/auth-context';
-import { ItemsContextProvider } from './context/items-context';
 import ExpiringItemsPage from './pages/ExpiringItems/ExpiringItems';
 import HomePage from './pages/HomePage/HomePage';
 import InventoryPage from './pages/Inventory/InventoryPage';
@@ -15,7 +14,6 @@ import RegisterPage from './pages/Register/RegisterPage';
 function App() {
   return (
     <AuthContextProvider>
-      <ItemsContextProvider>
         <BrowserRouter>
           <Layout>
             <Routes>
@@ -29,7 +27,6 @@ function App() {
             </Routes>
           </Layout>
         </BrowserRouter>
-      </ItemsContextProvider>
     </AuthContextProvider>
 
   );

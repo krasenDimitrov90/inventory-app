@@ -5,7 +5,6 @@ import useHttp from "../../hooks/use-http";
 import useInput from "../../hooks/use-input";
 import InputField from "../../components/InputField/InputField";
 import FormCard from "../../components/FormCard/FormCard";
-import AuthContext from "../../context/auth-context";
 import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
 import SuccessPopUp from "../../components/SuccessPopUp/SuccessPopUp";
 import Modal from "../../components/Modal/Modal";
@@ -27,7 +26,6 @@ const RegisterPage = () => {
 
     };
 
-    const authCtx = React.useContext(AuthContext);
 
     const { isLoading, sendRequest: requestRegister } = useHttp();
 
@@ -59,10 +57,10 @@ const RegisterPage = () => {
     } = useInput((value) => enteredPassword === value);
 
 
-    let formIsValid = true;
+    let formIsInvalid = true;
 
     if (!enteredEmailIsValid || !enteredPasswordIsValid || !repeatPasswordIsValid || enteredPassword !== repeatPassword) {
-        formIsValid = false;
+        formIsInvalid = false;
     }
 
     const registerHandler = (userData) => {
@@ -98,6 +96,7 @@ const RegisterPage = () => {
 
         resetEmailInput();
         resetPasswordInput();
+        resetRepeatPasswordInput();
     };
 
     return (
@@ -105,9 +104,9 @@ const RegisterPage = () => {
             {modalIsOpen && requestIsFinished && <Modal>
                 <SuccessPopUp onClick={popUpOnCloseHandler} message={'Succesfuly registered'} />
             </Modal>}
-            <section className="login-form-wrapper">
+            <section className="register-form-wrapper">
                 {isLoading && <LoadingSpinner />}
-                <FormCard submitHandler={onSubmitHandler} formTitle={'REGISTER'} btnName={"Register"}>
+                <FormCard submitHandler={onSubmitHandler} formTitle={'REGISTER'} btnName={"Register"} formIsInvalid={formIsInvalid}>
 
                     <InputField
                         icon={<i className="fa-solid fa-user"></i>}
@@ -122,13 +121,11 @@ const RegisterPage = () => {
                         invalidMessage='Invalid Email!'
                     />
 
-                    {/* {emailInputIsInvalid && <p>Incorrect email!</p>} */}
-
                     <InputField
                         icon={<i className="fa-solid fa-lock"></i>}
-                        type="text"
-                        id='email'
-                        name='email'
+                        type="password"
+                        id='password'
+                        name='password'
                         placeholder="Password"
                         value={enteredPassword}
                         onBlur={passwordInputOnBlurHandler}
@@ -136,13 +133,12 @@ const RegisterPage = () => {
                         inputIsInvalid={passwordInputIsInvalid}
                         invalidMessage='Password must have at least 6 characters!'
                     />
-                    {/* {passwordInputIsInvalid && <p>Password must have at least 6 characters!</p>} */}
 
                     <InputField
                         icon={<i className="fa-solid fa-lock"></i>}
-                        type="text"
-                        id='email'
-                        name='email'
+                        type="password"
+                        id='repeat-password'
+                        name='repeat-password'
                         placeholder="Repeat password"
                         value={repeatPassword}
                         onBlur={repeatPasswordInputBlurHandler}
@@ -150,7 +146,6 @@ const RegisterPage = () => {
                         inputIsInvalid={repeatPasswordInputHasError}
                         invalidMessage={`Passwords does\'t match!`}
                     />
-                    {/* {repeatPasswordInputHasError && <p>Passwords does't match!</p>} */}
                 </FormCard>
             </section>
         </>

@@ -1,5 +1,4 @@
 import React from "react";
-import InputField from "../InputField/InputField";
 
 import './FormCard.styles.css';
 
@@ -8,6 +7,7 @@ const FormCard = ({
     formTitle,
     children,
     btnName,
+    formIsInvalid,
 }) => {
 
     return (
@@ -15,7 +15,7 @@ const FormCard = ({
             <h1 className="form-card-title" >{formTitle}</h1>
             {children}
             <div className="form-btn-wrapper">
-                <button className="form-btn">{btnName}</button>
+                <button className="form-btn" disabled={formIsInvalid} >{btnName}</button>
             </div>
         </form>
     );
