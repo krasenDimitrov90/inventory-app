@@ -49,6 +49,13 @@ const LoginPage = () => {
         resetValue: resetPasswordInput,
     } = useInput(value => value.trim().length >= 6);
 
+
+    let formIsInvalid = false;
+
+    if (!enteredEmailIsValid || !enteredPasswordIsValid) {
+        formIsInvalid = true;
+    }
+
     const loginHandler = (userData) => {
         authCtx.login(userData.idToken, userData.localId, userData.email);
         setModalIsOpen(true);
@@ -94,7 +101,7 @@ const LoginPage = () => {
             </Modal> }
             <section className="login-form-wrapper">
                 {isLoading && <LoadingSpinner />}
-                <FormCard submitHandler={submitHandler} formTitle={'LOG IN'} btnName={"Login"}>
+                <FormCard submitHandler={submitHandler} formTitle={'LOG IN'} btnName={"Login"} formIsInvalid={formIsInvalid}>
 
                     <InputField
                         icon={<i className="fa-solid fa-user"></i>}
