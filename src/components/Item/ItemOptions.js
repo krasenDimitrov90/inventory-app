@@ -6,7 +6,7 @@ import './ItemOptions.styles.scss';
 
 const ItemOptions = ({ item, updateQtyHandler, removeBtnHandler }) => {
 
-    
+
 
 
     const {
@@ -18,7 +18,7 @@ const ItemOptions = ({ item, updateQtyHandler, removeBtnHandler }) => {
 
     return (
         <>
-            
+
             <div className="item-options" >
                 <InputField
                     icon={<i className="fa-solid fa-scale-unbalanced-flip"></i>}
@@ -32,14 +32,18 @@ const ItemOptions = ({ item, updateQtyHandler, removeBtnHandler }) => {
                     inputIsInvalid={quantityInputIsInvalid}
                     invalidMessage='Must enter an valid number!'
                 />
-                <div className="add-qty-btn-card">
-                    <button className="item-options-add-qty-btn" onClick={updateQtyHandler.bind(null, enteredQuantity)} >Update quantity</button>
-                </div>
-                <div className="remove-btn-card">
-                    <div>
-                        <button className="item-options-remove-btn" onClick={removeBtnHandler} >REMOVE</button>
+                <div className="quantity-btns-wrapper">
+
+                    <div className="add-qty-btn-card">
+                        <button className="item-options-add-qty-btn" onClick={updateQtyHandler.bind(null, enteredQuantity)} >Update quantity</button>
+                    </div>
+                    <div className="remove-btn-card">
+                        <div>
+                            <button className="item-options-remove-btn" onClick={removeBtnHandler} >REMOVE</button>
+                        </div>
                     </div>
                 </div>
+
             </div>
         </>
     );

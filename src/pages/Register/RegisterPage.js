@@ -20,7 +20,6 @@ const RegisterPage = () => {
 
     const navigateToLogin = () => navigate('/login');
 
-
     const {
         modalIsOpen,
         setModalIsOpen,
