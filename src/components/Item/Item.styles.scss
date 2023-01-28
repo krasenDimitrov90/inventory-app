@@ -39,6 +39,10 @@
     }
 }
 
+.item-wrapper:hover {
+    // background-color: transparent !important;
+    opacity: 0.7 !important;
+}
 
 
 .item-wrapper {
@@ -116,9 +120,6 @@
     }
 }
 
-// .item-qty-bump {
-//     animation: bump 200ms ease-out;
-// }
 
 @keyframes bump {
     0% {

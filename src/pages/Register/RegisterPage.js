@@ -17,6 +17,7 @@ const RegisterPage = () => {
 
     const navigate = useNavigate();
     const { isLoading, sendRequest: requestRegister } = useHttp();
+    const { sendRequest: requestPutNewUser } = useHttp();
 
     const navigateToLogin = () => navigate('/login');
 
@@ -61,6 +62,20 @@ const RegisterPage = () => {
     }
 
     const registerHandler = (userData) => {
+        const { localId, email } = userData;
+        const data = {
+            [localId]: {
+                "email": email,
+                "inventar": ""
+            }
+        };
+
+        const requestConfig = {
+            action: 'putNewUser',
+            data: data,
+        };
+
+        requestPutNewUser(requestConfig, () => console.log('Success'));
         setRequestIsFinished(true);
         setModalIsOpen(true);
     };
@@ -69,12 +84,10 @@ const RegisterPage = () => {
         e.preventDefault();
 
         if (!enteredEmailIsValid) {
-            console.log('Invalid email');
             return;
         }
 
         if (enteredPassword !== repeatPassword) {
-            console.log('Passwords does\'t match!');
             return;
         }
 
