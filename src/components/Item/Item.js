@@ -26,7 +26,20 @@ const Item = ({ items, item, qty, btnHandler, expiring, updateItems }) => {
 
     const backGroundColor = expiring ? { "backgroundColor": "#ED4C67" } : { "backgroundColor": " #D980FA" };
 
-    const qtyElementRef = React.useRef();
+    const [qtyElementIsHighlighted, setQtyElementIsHighlighted] = React.useState(false);
+    const qtyElementClasses = `item-qty ${qtyElementIsHighlighted ? 'bump' : ''}`;
+
+    React.useEffect(() => {
+        setQtyElementIsHighlighted(true);
+    
+        const timer = setTimeout(() => {
+            setQtyElementIsHighlighted(false);
+        }, 150);
+    
+        return () => {
+          clearTimeout(timer);
+        };
+      }, [qty]);
 
     const itemOnClickHandler = (e) => {
 
@@ -38,7 +51,6 @@ const Item = ({ items, item, qty, btnHandler, expiring, updateItems }) => {
     }
 
     const plusBtnClickHandler = () => {
-        qtyElementRef.current.classList.toggle('bump');
         btnHandler(item, 'add');
     };
 
@@ -102,7 +114,7 @@ const Item = ({ items, item, qty, btnHandler, expiring, updateItems }) => {
             <div className="item-wrapper" style={backGroundColor}>
                 <div className="item-wrapper-card" onClick={itemOnClickHandler} >
                     <p >{item}</p>
-                    <p className='item-qty bump' ref={qtyElementRef} >{qty}</p>
+                    <p className={qtyElementClasses} >{qty}</p>
                     <section className="btns-wrapper">
                         <button className="btn-plus" onClick={plusBtnClickHandler} ><i className="fa-solid fa-circle-plus"></i></button>
                         <button className="btn-minus" onClick={minusBtnClickHandler} ><i className="fa-solid fa-circle-minus"></i></button>
