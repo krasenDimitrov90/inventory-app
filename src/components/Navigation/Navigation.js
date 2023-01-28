@@ -35,8 +35,8 @@ const Navigation = (props) => {
     const userTemplate = (
         <>
             <li><NavLink to={'repositories'} >Repositories</NavLink></li>
-            <li><NavLink to={'inventory'} >Inventory</NavLink></li>
-            <li><NavLink to={'expiring-items'} >Expiring Items</NavLink></li>
+            {/* <li><NavLink to={'inventory'} >Inventory</NavLink></li>
+            <li><NavLink to={'expiring-items'} >Expiring Items</NavLink></li> */}
             <li><Link onClick={loggoutHandler} >Loggout</Link></li>
         </>
     );

@@ -1,5 +1,5 @@
 import React from "react";
-import { Outlet, Link, useNavigate } from "react-router-dom";
+import { Outlet, Link, useNavigate, useParams } from "react-router-dom";
 import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
 import Item from "../../components/Item/Item";
 import ItemsTableWrapper from "../../components/ItemsTableWrapper/ItemsTableWrapper";
@@ -12,13 +12,15 @@ import SuccessPopUp from "../../components/SuccessPopUp/SuccessPopUp";
 import useSuccesPopUp from "../../hooks/use-successPopUp";
 
 const dymmyRepos = {
-    "Work place": "asdasdadadadd",
-    "home": "asdasdadadadd",
-    "school": "asdasdadadadd",
-    "Outside": "asdasdadadadd",
+    "Work place": "-NMNu8oA1dPw9ibo9F2P",
+    "home": "-NMNu8oA1dPw9ibo9F2P",
+    "school": "-NMNu8oA1dPw9ibo9F2P",
+    "Outside": "-NMNu8oA1dPw9ibo9F2P",
 };
 
 const RepositoriesPage = () => {
+
+    const params = useParams();
 
     const navigate = useNavigate();
     const authCtx = React.useContext(AuthContext);
@@ -27,7 +29,7 @@ const RepositoriesPage = () => {
     const { isLoading, sendRequest } = useHttp();
 
 
-    const prepareItems = () => {
+    const prepareRepos = () => {
         const dataHandler = (data) => {
             if (data === null || data === '') {
                 data = {};
@@ -39,7 +41,7 @@ const RepositoriesPage = () => {
 
         const { userId } = getUserCredentials();
 
-        const requestConfig = { action: "getAllRepos", path: `/${userId}/inventar` };
+        const requestConfig = { action: "getAllRepos", path: `${userId}/repos` };
         sendRequest(requestConfig, dataHandler);
     };
 
@@ -47,10 +49,10 @@ const RepositoriesPage = () => {
         modalIsOpen,
         setModalIsOpen,
         requestIsFinished,
-        setRequestIsFinished } = useSuccesPopUp(prepareItems);
+        setRequestIsFinished } = useSuccesPopUp(prepareRepos);
 
     React.useEffect(() => {
-        prepareItems();
+        prepareRepos();
     }, [navigate]);
 
     if (!isLoggedIn) {
@@ -58,31 +60,7 @@ const RepositoriesPage = () => {
     }
 
 
-    const updateItemsQty = (item, action, quantity = null) => {
-        let qty = quantity !== null ? quantity : repos[item].qty;
-        qty = Number(qty);
-
-        setRepos((oldItems) => {
-            const newItems = { ...oldItems };
-            if (action === 'add') {
-                newItems[item].qty = Number(qty) + 1;
-
-            } else if (action === 'subtract') {
-                if (qty - 1 < 0) {
-                    return;
-                }
-                newItems[item].qty = Number(qty) - 1;
-
-            } else if (action === 'update') {
-                if (qty < 0) {
-                    return;
-                }
-                newItems[item].qty = Number(qty);
-            }
-            return newItems;
-        });
-
-    };
+    
 
 
     const sendData = (data) => {
@@ -105,12 +83,12 @@ const RepositoriesPage = () => {
         );
     };
 
-    const RepoTemplate = ({ name }) => {
+    const RepoTemplate = ({ name, repoId }) => {
 
         return (
             <div className="repo-card">
                 <div className="repo-name" >
-                    <h3>{name}</h3>
+                    <Link to={`/inventory/${repoId}`} >{name}</Link>
                 </div>
                 <section className="repo-btns" >
                     <div className="repo-btn-share" >
@@ -127,7 +105,7 @@ const RepositoriesPage = () => {
 
     return (
         <>
-            <Outlet context={[prepareItems]} />
+            <Outlet context={[prepareRepos]} />
             {modalIsOpen && requestIsFinished && <Modal>
                 <SuccessPopUp message={'Succesfuly saved'} />
             </Modal>}
@@ -135,20 +113,21 @@ const RepositoriesPage = () => {
             <h1 className="inventory-items-title">Repositories</h1>
             <article className="inventory">
                 <div className="add-item">
-                    <Link className="add-item-btn" to={'add-item'} >Add Repo</Link>
+                    <Link className="add-item-btn" to={'add-repo'} >Add Repo</Link>
                 </div>
-                {!isLoading && dymmyRepos !== null && Object.entries(dymmyRepos).length > 0 &&
+                {!isLoading && repos !== null && Object.entries(repos).length > 0 &&
 
                     <section className="repositories-wrapper">
-                        {Object.entries(dymmyRepos).map(([name, id]) => {
+                        {Object.entries(repos).map(([name, id]) => {
                             return (
                                 <RepoTemplate
                                     name={name}
+                                    repoId={id}
                                 />
                             );
                         })}
                     </section>}
-                {!isLoading && dymmyRepos !== null && Object.entries(dymmyRepos).length === 0 && <NoItemsTemplate />}
+                {!isLoading && repos !== null && Object.entries(repos).length === 0 && <NoItemsTemplate />}
             </article>
         </>
     );

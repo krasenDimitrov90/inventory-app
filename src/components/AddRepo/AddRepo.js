@@ -4,20 +4,25 @@ import InputField from "../InputField/InputField";
 import useInput from "../../hooks/use-input";
 import useHttp from "../../hooks/use-http";
 
-import './AddItem.styles.scss';
+import './AddRepo.styles.scss';
 import { useNavigate, useOutlet, useOutletContext } from "react-router-dom";
 import Modal from "../Modal/Modal";
 import SuccessPopUp from "../SuccessPopUp/SuccessPopUp";
 import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 import useSuccesPopUp from "../../hooks/use-successPopUp";
+import AuthContext from "../../context/auth-context";
 
-const AddItem = () => {
+const AddRepo = () => {
 
     const [repoId] = useOutletContext();
     const navigate = useNavigate();
     const { isLoading, sendRequest } = useHttp();
+    const { sendRequest: requestUpdateUserRepos } = useHttp();
+    const { getUserCredentials } = React.useContext(AuthContext);
 
-    const navigateToInventory = () => navigate(`/inventory/${repoId}`);
+    const { userId } = getUserCredentials();
+
+    const navigateToInventory = () => navigate(`/repositories`);
 
     const {
         modalIsOpen,
@@ -33,40 +38,39 @@ const AddItem = () => {
     }
 
     const {
-        value: enteredItem,
-        hasError: itemInputIsInvalid,
-        onChangeHandler: itemInputChangeHandler,
-        onBlurHandler: itemInputOnBlurHandler,
+        value: enteredRepo,
+        hasError: repoInputIsInvalid,
+        onChangeHandler: repoInputChangeHandler,
+        onBlurHandler: repoInputOnBlurHandler,
     } = useInput(value => value.trim().length > 0);
-
-    const {
-        value: enteredMinQuantity,
-        hasError: minQuantityInputIsInvalid,
-        onChangeHandler: minQuantityInputChangeHandler,
-        onBlurHandler: minQuantityInputOnBlurHandler,
-    } = useInput(value => !isNaN(value) && value !== '');
 
     const submitHandler = (e) => {
         e.preventDefault();
 
-        if (itemInputIsInvalid || minQuantityInputIsInvalid || !enteredItem || !enteredMinQuantity) {
+        if (repoInputIsInvalid || !enteredRepo) {
             return;
         }
 
         const data = {};
-        data[enteredItem] = {
-            qty: 0,
-            'min-qty': Number(enteredMinQuantity)
-        };
-
 
         const requestConfig = {
-            action: 'putNewItem',
-            path: repoId,
+            action: 'postNewRepo',
             data: data,
         };
 
         const dataHandler = (data) => {
+            console.log(data);
+            const newData = {
+                [enteredRepo]: data.name,
+            };
+            console.log(newData);
+            const requestConfig = {
+                action: 'updateUserRepos',
+                path: `${userId}/repos`,
+                data: newData,
+            };
+            requestUpdateUserRepos(requestConfig, () => console.log('Success'));
+
             setModalIsOpen(true);
             setRequestIsFinished(true);
         };
@@ -78,39 +82,26 @@ const AddItem = () => {
         <>
             {isLoading && <LoadingSpinner />}
             {modalIsOpen && requestIsFinished && <Modal>
-                <SuccessPopUp message={`Succesfuly added ${enteredItem} to the inventory`} />
+                <SuccessPopUp message={`Succesfuly added ${enteredRepo} to the repos`} />
             </Modal>}
 
             <div className="add-item-wrapper" onClick={formWrapperOnClickHandler}>
                 <FormCard
                     submitHandler={submitHandler}
-                    formTitle='ADD ITEM'
+                    formTitle='ADD REPO'
                     btnName='ADD'
                 >
                     <InputField
                         icon={<i className="fa-sharp fa-solid fa-cube"></i>}
                         type="text"
-                        id='item'
-                        name='item'
-                        placeholder="Enter item"
-                        value={enteredItem}
-                        onChange={itemInputChangeHandler}
-                        onBlur={itemInputOnBlurHandler}
-                        inputIsInvalid={itemInputIsInvalid}
+                        id='new-repo'
+                        name='new-repo'
+                        placeholder="Enter new repo"
+                        value={enteredRepo}
+                        onChange={repoInputChangeHandler}
+                        onBlur={repoInputOnBlurHandler}
+                        inputIsInvalid={repoInputIsInvalid}
                         invalidMessage='Must enter an valid Item!'
-                    />
-
-                    <InputField
-                        icon={<i className="fa-solid fa-scale-unbalanced-flip"></i>}
-                        type="number"
-                        id='quantity'
-                        name='quantity'
-                        placeholder="Enter minimum quantity"
-                        value={enteredMinQuantity}
-                        onChange={minQuantityInputChangeHandler}
-                        onBlur={minQuantityInputOnBlurHandler}
-                        inputIsInvalid={minQuantityInputIsInvalid}
-                        invalidMessage='Must enter an valid number!'
                     />
 
                 </FormCard>
@@ -119,4 +110,4 @@ const AddItem = () => {
     );
 };
 
-export default AddItem;
+export default AddRepo;

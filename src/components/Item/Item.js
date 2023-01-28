@@ -7,10 +7,14 @@ import Modal from "../Modal/Modal";
 import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 import SuccessPopUp from "../SuccessPopUp/SuccessPopUp";
 import useSuccesPopUp from "../../hooks/use-successPopUp";
+import { useParams } from "react-router-dom";
 
 
 
 const Item = ({ items, item, qty, btnHandler, expiring, updateItems }) => {
+
+    const prams = useParams();
+    const { repoId } = prams;
 
     const {
         modalIsOpen,
@@ -31,15 +35,15 @@ const Item = ({ items, item, qty, btnHandler, expiring, updateItems }) => {
 
     React.useEffect(() => {
         setQtyElementIsHighlighted(true);
-    
+
         const timer = setTimeout(() => {
             setQtyElementIsHighlighted(false);
         }, 150);
-    
+
         return () => {
-          clearTimeout(timer);
+            clearTimeout(timer);
         };
-      }, [qty]);
+    }, [qty]);
 
     const itemOnClickHandler = (e) => {
 
@@ -75,6 +79,7 @@ const Item = ({ items, item, qty, btnHandler, expiring, updateItems }) => {
 
         const requestConfig = {
             action: 'deleteItem',
+            path: repoId,
             id: item,
             data: {},
         };

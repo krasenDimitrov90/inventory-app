@@ -49,6 +49,9 @@
     border-radius: 7px;
     background-color: #00b894;
 
+    .repo-card:hover {
+        background-color: #00c9a1;
+    }
     .repo-card {
         font-family: "Montserrat", sans-serif;
 
@@ -63,6 +66,8 @@
             margin-right: 10px;
             cursor: pointer;
         }
+
+        
 
         .repo-btns {
             display: flex;

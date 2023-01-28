@@ -1,0 +1,49 @@
+.inventory-items-title {
+    display: flex;
+    justify-content: center;
+    padding: 20px 0;
+    font-family: "Montserrat", sans-serif;
+}
+
+.inventory {
+    font-family: "Montserrat", sans-serif;
+
+    .inventory-links {
+        display: flex;
+        justify-content: space-between;
+
+        .add-item {
+
+            margin: 15px;
+    
+            .inventory-links-btns {
+                text-decoration: none;
+                color: black;
+                background-color: #00b894;
+                padding: 9px 46px;
+                border-radius: 17px;
+                border: none;
+                cursor: pointer;
+                font-family: "Montserrat", sans-serif;
+            }
+    
+            .inventory-links-btns:hover {
+                background-color: #55efc4;
+            }
+        }
+    }
+
+    .inventory-items-empty {
+        display: flex;
+        justify-content: center;
+        padding: 20px 0;
+    }
+
+    .inventory-items-empty {
+        h2 {
+            text-align: center;
+        }
+    }
+
+    
+}

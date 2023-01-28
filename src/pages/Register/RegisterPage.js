@@ -66,7 +66,7 @@ const RegisterPage = () => {
         const data = {
             [localId]: {
                 "email": email,
-                "inventar": ""
+                "repos": ""
             }
         };
 

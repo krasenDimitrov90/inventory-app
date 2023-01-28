@@ -14,14 +14,16 @@ export const register = (requestConfig) => api.post(registerURL, requestConfig);
 
 export const putNewUser = (requestConfig) => api.patch(`${host}/users.json`, requestConfig);
 
+export const updateUserRepos = (requestConfig) => api.patch(`${host}/users`, requestConfig)
+
 export const getAllRepos = (requestConfig) => api.get(`${host}/users`, requestConfig);
 
-export const putNewInventory = (requestConfig) => api.patch(`${host}/inventar.json`, requestConfig);
+export const getRepo = (requestConfig) => api.get(`${host}/inventar`, requestConfig);
 
-export const getAllItems = (requestConfig) => api.get(`${host}/inventar/-NMNu8oA1dPw9ibo9F2P.json`, requestConfig);
+export const postNewRepo = (requestConfig) => api.post(`${host}/inventar.json`, requestConfig);
 
-export const updateItems = (requestConfig) => api.patch(`${host}/inventar/-NMNu8oA1dPw9ibo9F2P.json`, requestConfig);
+export const updateItems = (requestConfig) => api.patch(`${host}/inventar`, requestConfig);
 
-export const putNewItem = (requestConfig) => api.patch(`${host}/inventar/-NMNu8oA1dPw9ibo9F2P.json`, requestConfig);
+export const putNewItem = (requestConfig) => api.patch(`${host}/inventar`, requestConfig);
 
-export const deleteItem = (requestConfig) => api.del(`${host}/inventar/-NMNu8oA1dPw9ibo9F2P`, requestConfig);
+export const deleteItem = (requestConfig) => api.del(`${host}/inventar/`, requestConfig);

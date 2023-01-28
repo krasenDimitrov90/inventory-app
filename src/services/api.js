@@ -11,16 +11,22 @@ const request = (method, url, requestConfig = {}) => {
     }
 
     if (path) {
-        url = `${url}/${path}.json`;
+        url = `${url}/${path}`;
+
+        if (id) {
+            url = `${url}/${id}.json`;
+        } else {
+            url = `${url}.json`;
+        }
     }
 
-    if (id) {
-        url = `${url}/${id}.json`;
-    }
+    
 
     if (token) {
         url += `?auth=${token}`;
     }
+
+    console.log(url);
 
     return fetch(url, options)
         .then(res => {
