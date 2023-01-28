@@ -1,13 +1,17 @@
 
 const request = (method, url, requestConfig = {}) => {
 
-    const {data, id, token } = requestConfig;
+    const {data, id, token, path } = requestConfig;
     const options = {};
 
     if (method !== 'GET') {
         options.method = method;
         options.headers = {"Content-Type": "application/json"};
         options.body = JSON.stringify(data);
+    }
+
+    if (path) {
+        url = `${url}/${path}.json`;
     }
 
     if (id) {

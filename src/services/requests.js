@@ -14,6 +14,10 @@ export const register = (requestConfig) => api.post(registerURL, requestConfig);
 
 export const putNewUser = (requestConfig) => api.patch(`${host}/users.json`, requestConfig);
 
+export const getAllRepos = (requestConfig) => api.get(`${host}/users`, requestConfig);
+
+export const putNewInventory = (requestConfig) => api.patch(`${host}/inventar.json`, requestConfig);
+
 export const getAllItems = (requestConfig) => api.get(`${host}/inventar/-NMNu8oA1dPw9ibo9F2P.json`, requestConfig);
 
 export const updateItems = (requestConfig) => api.patch(`${host}/inventar/-NMNu8oA1dPw9ibo9F2P.json`, requestConfig);

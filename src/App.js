@@ -8,6 +8,7 @@ import { AuthContextProvider } from './context/auth-context';
 import ExpiringItemsPage from './pages/ExpiringItems/ExpiringItems';
 import HomePage from './pages/HomePage/HomePage';
 import InventoryPage from './pages/Inventory/InventoryPage';
+import RepositoriesPage from './pages/Inventory/Repositories';
 import LoginPage from './pages/Login/LoginPage';
 import RegisterPage from './pages/Register/RegisterPage';
 
@@ -19,6 +20,9 @@ function App() {
             <Routes>
               <Route path='/' element={<HomePage />} />
               <Route path='login' element={<LoginPage />} />
+              <Route path='repositories' element={<RepositoriesPage />} >
+              
+              </Route>
               <Route path='register' element={<RegisterPage />} />
               <Route path='expiring-items' element={<ExpiringItemsPage />} />
               <Route path='inventory' element={<InventoryPage />} >
