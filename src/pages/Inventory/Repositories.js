@@ -29,7 +29,7 @@ const RepositoriesPage = () => {
         };
 
 
-        const requestConfig = { action: "getAllRepos", path: `${userId}/repos` };
+        const requestConfig = { action: "getAllUserRepos", path: `${userId}/repos` };
         sendRequest(requestConfig, dataHandler);
     };
 

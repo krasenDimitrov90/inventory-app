@@ -20,7 +20,9 @@ export const deleteUserRepo = (requestConfig) => api.del(`${host}/users`, reques
 
 export const importNewRepo = (requestConfig) => api.patch(`${host}/users`, requestConfig);
 
-export const getAllRepos = (requestConfig) => api.get(`${host}/users`, requestConfig);
+export const getAllUserRepos = (requestConfig) => api.get(`${host}/users`, requestConfig);
+
+export const getAllRepos = (requestConfig) => api.get(`${host}/inventar.json`, requestConfig);
 
 export const getRepo = (requestConfig) => api.get(`${host}/inventar`, requestConfig);
 

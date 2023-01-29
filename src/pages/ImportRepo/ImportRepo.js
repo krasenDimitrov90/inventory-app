@@ -19,8 +19,27 @@ const ImportRepo = () => {
     const authCtx = React.useContext(AuthContext);
     const { getUserCredentials } = authCtx;
     const { userId } = getUserCredentials();
+    const [currentReposInDataBase, setCurrentReposInDataBase] = React.useState([]);
+
 
     const { isLoading, sendRequest } = useHttp();
+
+    React.useEffect(() => {
+
+        const dataHandler = (data) => {
+            const repos = Object.keys(data);
+
+            if (repos.length > 0) {
+                setCurrentReposInDataBase(repos);
+            }
+        };
+
+        const requestConfig = { action: 'getAllRepos' };
+
+        sendRequest(requestConfig, dataHandler);
+    }, []);
+
+    console.log(currentReposInDataBase);
 
     const {
         modalIsOpen,
@@ -34,7 +53,7 @@ const ImportRepo = () => {
         valueIsValid: repoLinkIsValid,
         onChangeHandler: repoLinkOnChangeHandler,
         onBlurHandler: repoLinkOnBlurHandler,
-    } = useInput(value => value.trim().length > 0);
+    } = useInput(value => value.trim().length > 0 && currentReposInDataBase.includes(value));
 
     const {
         value: repoNameValue,
@@ -42,9 +61,11 @@ const ImportRepo = () => {
         valueIsValid: repoNameIsValid,
         onChangeHandler: repoNameOnChangeHandler,
         onBlurHandler: repoNameOnBlurHandler,
-    } = useInput(value => value.trim().length > 0);
+    } = useInput(value => value.trim().length > 0 );
 
     let formIsInvalid = false;
+
+    console.log(`repoLinkIsValid is ${repoLinkIsValid}`);
 
     if (!repoLinkIsValid || !repoNameIsValid) {
         formIsInvalid = true;
@@ -55,7 +76,14 @@ const ImportRepo = () => {
     const onSubmitHandler = (e) => {
         e.preventDefault();
 
-        const data = { [repoNameValue]: repoLinkValue }
+        if (!currentReposInDataBase.includes(repoLinkValue)) {
+            console.log('There is no such repo!');
+            return;
+        }
+
+        console.log('sucssess');
+        // const data = { [repoNameValue]: repoLinkValue }
+        const data = { [repoLinkValue]: repoNameValue }
 
         const requestConfig = {
             action: 'importNewRepo',
@@ -90,7 +118,7 @@ const ImportRepo = () => {
                             onChange={repoLinkOnChangeHandler}
                             onBlur={repoLinkOnBlurHandler}
                             inputIsInvalid={repoLinkHasError}
-                            invalidMessage='Must entered a link!'
+                            invalidMessage={`There's no such repo!`}
                         />
 
                         <InputField
