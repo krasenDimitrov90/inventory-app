@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import Modal from "../../components/Modal/Modal";
 import Item from "../../components/Item/Item";
 import ItemsTableWrapper from "../../components/ItemsTableWrapper/ItemsTableWrapper";
@@ -20,6 +20,8 @@ const ExpiringItemsPageCopy = () => {
     const authCtx = React.useContext(AuthContext);
     const { isLoggedIn } = authCtx;
     const { isLoading, sendRequest, } = useHttp();
+    const location = useLocation();
+    const { repoName } = location.state;
 
     React.useEffect(() => {
         prepareExpiringItems();
@@ -113,7 +115,7 @@ const ExpiringItemsPageCopy = () => {
                 <SuccessPopUp message={'Seccessfuly saved'} />
             </Modal>}
 
-            <h1 className="expiring-items-title">Expiring Items</h1>
+            <h1 className="expiring-items-title">{repoName} - items that expiring soon</h1>
             {!isLoading && expiringItems !== null && Object.keys(expiringItems).length > 0 &&
                 <ItemsTableWrapper
                     sendData={sendUpdatedItems.bind(null, expiringItems)}

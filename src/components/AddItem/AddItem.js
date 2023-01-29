@@ -16,6 +16,7 @@ const AddItem = () => {
     const [repoId] = useOutletContext();
     const navigate = useNavigate();
     const { isLoading, sendRequest } = useHttp();
+    console.log(repoId);
 
     const navigateToInventory = () => navigate(`/inventory/${repoId}`);
 

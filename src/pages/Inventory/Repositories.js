@@ -10,6 +10,7 @@ import AuthContext from "../../context/auth-context";
 import Modal from "../../components/Modal/Modal";
 import SuccessPopUp from "../../components/SuccessPopUp/SuccessPopUp";
 import useSuccesPopUp from "../../hooks/use-successPopUp";
+import Repo from "./Repo";
 
 const dymmyRepos = {
     "Work place": "-NMNu8oA1dPw9ibo9F2P",
@@ -25,8 +26,10 @@ const RepositoriesPage = () => {
     const navigate = useNavigate();
     const authCtx = React.useContext(AuthContext);
     const { isLoggedIn, getUserCredentials } = authCtx;
+    const { userId } = getUserCredentials();
     const [repos, setRepos] = React.useState(null);
     const { isLoading, sendRequest } = useHttp();
+    const [removeRepoModalIsOpen, setRemoveRepoModalIsOpen] = React.useState(false);
 
 
     const prepareRepos = () => {
@@ -35,19 +38,17 @@ const RepositoriesPage = () => {
                 data = {};
             }
 
-            console.log(data);
             setRepos(data);
         };
 
-        const { userId } = getUserCredentials();
 
         const requestConfig = { action: "getAllRepos", path: `${userId}/repos` };
         sendRequest(requestConfig, dataHandler);
     };
 
     const {
-        modalIsOpen,
-        setModalIsOpen,
+        successModalIsOpen,
+        setSuccessModalIsOpen,
         requestIsFinished,
         setRequestIsFinished } = useSuccesPopUp(prepareRepos);
 
@@ -60,22 +61,31 @@ const RepositoriesPage = () => {
     }
 
 
-    
 
+    // const requestDeleteRrepo = (repoName, repoId) => {
 
-    const sendData = (data) => {
+    //     const dataHandler = () => {
+    //         const requestConfig = {
+    //             action: "deleteUserRepo",
+    //             path: `${userId}/repos/${repoName}`,
+    //             data: {},
+    //         };
+    //         sendRequest(requestConfig, () => console.log('Success'));
 
-        const dataHandler = () => {
-            setModalIsOpen(true);
-            setRequestIsFinished(true);
-        };
+    //         setSuccessModalIsOpen(true);
+    //         setRequestIsFinished(true);
+    //     };
 
-        const requestConfig = { action: "updateItems", data };
-        sendRequest(requestConfig, dataHandler);
+    //     const requestConfig = {
+    //         action: "deleteRepo",
+    //         path: repoId,
+    //         data: {},
+    //     };
+    //     sendRequest(requestConfig, dataHandler);
 
-    };
+    // };
 
-    const NoItemsTemplate = () => {
+    const NoReposTemplate = () => {
         return (
             <div className="inventory-items-empty">
                 <h2>You don't have any repository!</h2>
@@ -83,32 +93,52 @@ const RepositoriesPage = () => {
         );
     };
 
-    const RepoTemplate = ({ name, repoId }) => {
+    // const RepoTemplate = ({ repoName, repoId }) => {
 
-        return (
-            <div className="repo-card">
-                <div className="repo-name" >
-                    <Link to={`/inventory/${repoId}`} >{name}</Link>
-                </div>
-                <section className="repo-btns" >
-                    <div className="repo-btn-share" >
-                        <button>Share Repo</button>
-                    </div>
-                    <div className="repo-btn-delete" >
-                        <button>DELETE</button>
-                    </div>
-                </section>
-            </div>
-        );
-    };
+    //     return (
+    //         <>
+    //             {!removeRepoModalIsOpen && requestIsFinished && <Modal >
+    //                 <SuccessPopUp message={`Succesfuly removed ${repoName} from inventory`} />
+    //             </Modal>}
+    //             {removeRepoModalIsOpen && !requestIsFinished && <Modal onClose={() => setRemoveRepoModalIsOpen(false)} >
+    //                 <div className="confirm-action">
+    //                     <div className="confirm-action-message">
+    //                         <h3>Are you shure you want to delete {`${repoName}, ${repoId}`}</h3>
+    //                     </div>
+    //                     <div className="confirm-action-btns">
+    //                         <div className="confirm-action-btns-card">
+    //                             <button className="confirm-action-btns-cancel" onClick={() => setRemoveRepoModalIsOpen(false)} >Cancel</button>
+    //                         </div>
+    //                         <div className="confirm-action-btns-card">
+    //                             <button className="confirm-action-btns-yes" onClick={requestDeleteRrepo.bind(null,repoName, repoId)} >YES</button>
+    //                         </div>
+    //                     </div>
+    //                 </div>
+    //             </Modal>}
+    //             <div className="repo-card">
+    //                 <div className="repo-name" >
+    //                     <Link to={`/inventory/${repoId}`} state={{ repoName: repoName }}>{repoName}</Link>
+    //                 </div>
+    //                 <section className="repo-btns" >
+    //                     <div className="repo-btn-share" >
+    //                         <button>Share Repo</button>
+    //                     </div>
+    //                     <div className="repo-btn-delete" >
+    //                         <button onClick={() => setRemoveRepoModalIsOpen(true)} >DELETE</button>
+    //                     </div>
+    //                 </section>
+    //             </div>
+    //         </>
+    //     );
+    // };
 
 
     return (
         <>
             <Outlet context={[prepareRepos]} />
-            {modalIsOpen && requestIsFinished && <Modal>
+            {/* {successModalIsOpen && requestIsFinished && <Modal>
                 <SuccessPopUp message={'Succesfuly saved'} />
-            </Modal>}
+            </Modal>} */}
             {isLoading && <LoadingSpinner />}
             <h1 className="inventory-items-title">Repositories</h1>
             <article className="inventory">
@@ -120,14 +150,17 @@ const RepositoriesPage = () => {
                     <section className="repositories-wrapper">
                         {Object.entries(repos).map(([name, id]) => {
                             return (
-                                <RepoTemplate
-                                    name={name}
+                                <Repo
+                                    key={id}
+                                    repoName={name}
                                     repoId={id}
+                                    userId={userId}
+                                    onRemoveRepo={() => prepareRepos()}
                                 />
                             );
                         })}
                     </section>}
-                {!isLoading && repos !== null && Object.entries(repos).length === 0 && <NoItemsTemplate />}
+                {!isLoading && repos !== null && Object.entries(repos).length === 0 && <NoReposTemplate />}
             </article>
         </>
     );

@@ -1,5 +1,5 @@
 import React from "react";
-import { Outlet, Link, useNavigate, useParams } from "react-router-dom";
+import { Outlet, Link, useNavigate, useParams, useLocation } from "react-router-dom";
 import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
 import Item from "../../components/Item/Item";
 import ItemsTableWrapper from "../../components/ItemsTableWrapper/ItemsTableWrapper";
@@ -16,7 +16,8 @@ const InventoryPageCopy = () => {
 
     const params = useParams();
     const { repoId } = params;
-    console.log(params.repoId);
+    const location = useLocation();
+    const { repoName } = location.state || '';
 
     const navigate = useNavigate();
     const authCtx = React.useContext(AuthContext);
@@ -32,7 +33,6 @@ const InventoryPageCopy = () => {
             if (data === null) {
                 data = {};
             }
-            console.log(data);
             setItems(data);
         };
 
@@ -114,14 +114,14 @@ const InventoryPageCopy = () => {
                 <SuccessPopUp message={'Succesfuly saved'} />
             </Modal>}
             {isLoading && <LoadingSpinner />}
-            <h1 className="inventory-items-title">Inventory</h1>
+            <h1 className="inventory-items-title">{repoName}</h1>
             <article className="inventory">
                 <section className="inventory-links" >
                     <div className="add-item">
-                        <Link className="inventory-links-btns add-item-btn" to={'add-item'} >Add Item</Link>
+                        <Link className="inventory-links-btns add-item-btn" to={'add-item'}  >Add Item</Link>
                     </div>
                     <div className="add-item">
-                        <Link className="inventory-links-btns expiring-items-btn" to={`/expiring-items/${params.repoId}`} >Expiring Items</Link>
+                        <Link className="inventory-links-btns expiring-items-btn" to={`/expiring-items/${params.repoId}`} state={{repoName: repoName}} >Expiring Items</Link>
                     </div>
                 </section>
 

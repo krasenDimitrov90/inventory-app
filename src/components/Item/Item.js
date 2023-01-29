@@ -84,8 +84,6 @@ const Item = ({ items, item, qty, btnHandler, expiring, updateItems }) => {
             data: {},
         };
 
-        const newItems = { ...items };
-        delete newItems[item];
 
         const dataHandler = () => {
             setModalIsOpen(true);

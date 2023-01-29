@@ -6,9 +6,6 @@ import './ItemOptions.styles.scss';
 
 const ItemOptions = ({ item, updateQtyHandler, removeBtnHandler }) => {
 
-
-
-
     const {
         value: enteredQuantity,
         hasError: quantityInputIsInvalid,
