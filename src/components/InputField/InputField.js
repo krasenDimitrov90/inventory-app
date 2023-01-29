@@ -15,8 +15,8 @@ const InputField = (props) => {
                         id={props.id}
                         name={props.name}
                         value={props.value}
-                        onBlur={props.onBlur}
                         onChange={props.onChange}
+                        onBlur={props.onBlur}
                     />
                 </div>
                 {props.inputIsInvalid && <p className="invalid-input">{props.invalidMessage}</p>}

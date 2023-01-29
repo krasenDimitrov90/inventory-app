@@ -9,6 +9,7 @@ import useSuccesPopUp from "../../hooks/use-successPopUp";
 const Repo = ({ repoName, repoId, userId, onRemoveRepo }) => {
 
     const { isLoading, sendRequest } = useHttp();
+    const [shareModalIsOpen, setShareModalIsOpen] = React.useState(false);
 
 
     const {
@@ -41,8 +42,18 @@ const Repo = ({ repoName, repoId, userId, onRemoveRepo }) => {
 
     };
 
+    const ShareRepo = () => {
+
+        return (
+            <div>{repoId}</div>
+        );
+    };
+
     return (
         <>
+            {shareModalIsOpen && <Modal onClose={() => setShareModalIsOpen(false)}>
+                <ShareRepo />
+            </Modal>}
             {modalIsOpen && requestIsFinished && <Modal >
                 <SuccessPopUp message={`Succesfuly removed ${repoName} from inventory`} />
             </Modal>}
@@ -67,7 +78,7 @@ const Repo = ({ repoName, repoId, userId, onRemoveRepo }) => {
                 </div>
                 <section className="repo-btns" >
                     <div className="repo-btn-share" >
-                        <button>Share Repo</button>
+                        <button onClick={() => setShareModalIsOpen(true)} >Share Repo</button>
                     </div>
                     <div className="repo-btn-delete" >
                         <button onClick={() => setModalIsOpen(true)} >DELETE</button>

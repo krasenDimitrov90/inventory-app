@@ -31,7 +31,7 @@ const AddRepo = () => {
         setRequestIsFinished } = useSuccesPopUp(navigateToInventory);
 
     const formWrapperOnClickHandler = (e) => {
-        if (e.target.className !== 'add-item-wrapper') {
+        if (e.target.className !== 'add-repo-wrapper') {
             return;
         }
         navigate(-1);
@@ -85,7 +85,7 @@ const AddRepo = () => {
                 <SuccessPopUp message={`Succesfuly added ${enteredRepo} to the repos`} />
             </Modal>}
 
-            <div className="add-item-wrapper" onClick={formWrapperOnClickHandler}>
+            <div className="add-repo-wrapper" onClick={formWrapperOnClickHandler}>
                 <FormCard
                     submitHandler={submitHandler}
                     formTitle='ADD REPO'

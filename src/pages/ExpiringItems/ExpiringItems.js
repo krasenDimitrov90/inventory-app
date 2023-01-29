@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import Modal from "../../components/Modal/Modal";
 import Item from "../../components/Item/Item";
 import ItemsTableWrapper from "../../components/ItemsTableWrapper/ItemsTableWrapper";
@@ -13,11 +13,15 @@ import useSuccesPopUp from "../../hooks/use-successPopUp";
 
 const ExpiringItemsPage = () => {
 
+    const params = useParams();
+
     const navigate = useNavigate();
     const [expiringItems, setExpiringItems] = React.useState(null);
     const authCtx = React.useContext(AuthContext);
     const { isLoggedIn } = authCtx;
     const { isLoading, sendRequest, } = useHttp();
+    const location = useLocation();
+    const { repoName } = location.state;
 
     React.useEffect(() => {
         prepareExpiringItems();
@@ -29,7 +33,7 @@ const ExpiringItemsPage = () => {
             filterItems(data);
         };
 
-        const requestConfig = { action: "getAllItems" };
+        const requestConfig = { action: "getRepo", path: params.repoId };
         sendRequest(requestConfig, dataHandler);
     };
 
@@ -92,7 +96,7 @@ const ExpiringItemsPage = () => {
             setRequestIsFinished(true);
         };
 
-        const requestConfig = { action: "updateItems", data };
+        const requestConfig = { action: "updateItems", path: params.repoId, data };
         sendRequest(requestConfig, dataHandler);
     };
 
@@ -111,7 +115,7 @@ const ExpiringItemsPage = () => {
                 <SuccessPopUp message={'Seccessfuly saved'} />
             </Modal>}
 
-            <h1 className="expiring-items-title">Expiring Items</h1>
+            <h1 className="expiring-items-title">{repoName} - items that expiring soon</h1>
             {!isLoading && expiringItems !== null && Object.keys(expiringItems).length > 0 &&
                 <ItemsTableWrapper
                     sendData={sendUpdatedItems.bind(null, expiringItems)}

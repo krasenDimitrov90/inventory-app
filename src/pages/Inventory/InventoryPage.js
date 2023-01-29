@@ -1,5 +1,5 @@
 import React from "react";
-import { Outlet, Link, useNavigate } from "react-router-dom";
+import { Outlet, Link, useNavigate, useParams, useLocation } from "react-router-dom";
 import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
 import Item from "../../components/Item/Item";
 import ItemsTableWrapper from "../../components/ItemsTableWrapper/ItemsTableWrapper";
@@ -10,15 +10,23 @@ import AuthContext from "../../context/auth-context";
 import Modal from "../../components/Modal/Modal";
 import SuccessPopUp from "../../components/SuccessPopUp/SuccessPopUp";
 import useSuccesPopUp from "../../hooks/use-successPopUp";
+import AddItem from "../../components/AddItem/AddItem";
 
 const InventoryPage = () => {
+
+    const params = useParams();
+    const { repoId } = params;
+    const location = useLocation();
+    const { repoName } = location.state || '';
 
     const navigate = useNavigate();
     const authCtx = React.useContext(AuthContext);
     const { isLoggedIn } = authCtx;
     const [items, setItems] = React.useState(null);
     const { isLoading, sendRequest } = useHttp();
+    const [addItemModalIsOpen, setAddItemModalIsOpen] = React.useState(false);
 
+    const addItemOnCloseHandler = () => setAddItemModalIsOpen(false);
 
     const prepareItems = () => {
         const dataHandler = (data) => {
@@ -28,7 +36,7 @@ const InventoryPage = () => {
             setItems(data);
         };
 
-        const requestConfig = { action: "getAllItems" };
+        const requestConfig = { action: "getRepo", path: params.repoId };
         sendRequest(requestConfig, dataHandler);
     };
 
@@ -81,7 +89,7 @@ const InventoryPage = () => {
             setRequestIsFinished(true);
         };
 
-        const requestConfig = { action: "updateItems", data };
+        const requestConfig = { action: "updateItems", path: params.repoId, data };
         sendRequest(requestConfig, dataHandler);
 
     };
@@ -97,16 +105,26 @@ const InventoryPage = () => {
 
     return (
         <>
-            <Outlet context={[prepareItems]} />
+            <Outlet context={[repoId]} />
+            {addItemModalIsOpen && <AddItem
+                onCloseHandler={addItemOnCloseHandler}
+                repoId={params.repoId}
+            />}
             {modalIsOpen && requestIsFinished && <Modal>
                 <SuccessPopUp message={'Succesfuly saved'} />
             </Modal>}
             {isLoading && <LoadingSpinner />}
-            <h1 className="inventory-items-title">Inventory</h1>
+            <h1 className="inventory-items-title">{repoName}</h1>
             <article className="inventory">
-                <div className="add-item">
-                    <Link className="add-item-btn" to={'add-item'} >Add Item</Link>
-                </div>
+                <section className="inventory-links" >
+                    <div className="add-item">
+                        <Link className="inventory-links-btns add-item-btn" to={'add-item'}  >Add Item</Link>
+                    </div>
+                    <div className="add-item">
+                        <Link className="inventory-links-btns expiring-items-btn" to={`/expiring-items/${params.repoId}`} state={{repoName: repoName}} >Expiring Items</Link>
+                    </div>
+                </section>
+
                 {!isLoading && items !== null && Object.entries(items).length > 0 && <ItemsTableWrapper
                     sendData={sendData.bind(null, items)}
                 >

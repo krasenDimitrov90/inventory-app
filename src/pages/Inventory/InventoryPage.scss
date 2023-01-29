@@ -8,6 +8,31 @@
 .inventory {
     font-family: "Montserrat", sans-serif;
 
+    .inventory-links {
+        display: flex;
+        justify-content: space-between;
+
+        .add-item {
+
+            margin: 15px;
+
+            .inventory-links-btns {
+                text-decoration: none;
+                color: black;
+                background-color: #00b894;
+                padding: 9px 46px;
+                border-radius: 17px;
+                border: none;
+                cursor: pointer;
+                font-family: "Montserrat", sans-serif;
+            }
+
+            .inventory-links-btns:hover {
+                background-color: #55efc4;
+            }
+        }
+    }
+
     .inventory-items-empty {
         display: flex;
         justify-content: center;
@@ -20,22 +45,22 @@
         }
     }
 
-    .add-item {
 
-        margin: 15px;
+}
 
-        .add-item-btn {
-            text-decoration: none;
-            color: black;
-            background-color: #00b894;
-            padding: 9px 46px;
-            border-radius: 17px;
-            cursor: pointer;
-            font-family: "Montserrat", sans-serif;
-        }
+@media screen and (max-width: 480px) {
 
-        .add-item-btn:hover {
-            background-color: #55efc4;
+    .inventory {
+
+        .inventory-links {
+
+            .add-item {
+
+                .inventory-links-btns {
+                    padding: 9px 20px;
+                }
+            }
         }
     }
+
 }
