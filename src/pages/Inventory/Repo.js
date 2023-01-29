@@ -22,24 +22,17 @@ const Repo = ({ repoName, repoId, userId, onRemoveRepo }) => {
     const requestDeleteRrepo = (repoName, repoId) => {
 
         const dataHandler = () => {
-            const requestConfig = {
-                action: "deleteUserRepo",
-                path: `${userId}/repos/${repoName}`,
-                data: {},
-            };
-            sendRequest(requestConfig, () => console.log('Success'));
-
             setModalIsOpen(true);
             setRequestIsFinished(true);
         };
 
         const requestConfig = {
-            action: "deleteRepo",
-            path: repoId,
+            action: "deleteUserRepo",
+            path: `${userId}/repos/${repoName}`,
             data: {},
         };
-        sendRequest(requestConfig, dataHandler);
 
+        sendRequest(requestConfig, dataHandler);
     };
 
     const ShareRepo = () => {
