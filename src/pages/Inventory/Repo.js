@@ -8,7 +8,7 @@ import useSuccesPopUp from "../../hooks/use-successPopUp";
 
 const Repo = ({ repoName, repoId, userId, onRemoveRepo }) => {
 
-    const { isLoading, sendRequest } = useHttp();
+    const { sendRequest } = useHttp();
     const [shareModalIsOpen, setShareModalIsOpen] = React.useState(false);
 
 

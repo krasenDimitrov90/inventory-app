@@ -5,7 +5,7 @@ import useInput from "../../hooks/use-input";
 import useHttp from "../../hooks/use-http";
 
 import './AddRepo.styles.scss';
-import { useNavigate, useOutlet, useOutletContext } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Modal from "../Modal/Modal";
 import SuccessPopUp from "../SuccessPopUp/SuccessPopUp";
 import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
@@ -14,7 +14,6 @@ import AuthContext from "../../context/auth-context";
 
 const AddRepo = () => {
 
-    const [repoId] = useOutletContext();
     const navigate = useNavigate();
     const { isLoading, sendRequest } = useHttp();
     const { sendRequest: requestUpdateUserRepos } = useHttp();

@@ -8,6 +8,15 @@
 
     background-color: #0652DD;
 
+    .navigation-user-name {
+        align-items: flex-start;
+        flex: 1;
+        display: flex;
+        align-items: center;
+        padding-left: 15px;
+        color: white;
+    }
+
     .hamburger-react {
         display: none;
     }

@@ -65,24 +65,18 @@ const ImportRepo = () => {
 
     let formIsInvalid = false;
 
-    console.log(`repoLinkIsValid is ${repoLinkIsValid}`);
-
     if (!repoLinkIsValid || !repoNameIsValid) {
         formIsInvalid = true;
     }
 
-    console.log(formIsInvalid);
 
     const onSubmitHandler = (e) => {
         e.preventDefault();
 
         if (!currentReposInDataBase.includes(repoLinkValue)) {
-            console.log('There is no such repo!');
             return;
         }
 
-        console.log('sucssess');
-        // const data = { [repoNameValue]: repoLinkValue }
         const data = { [repoLinkValue]: repoNameValue }
 
         const requestConfig = {

@@ -5,7 +5,7 @@ import useInput from "../../hooks/use-input";
 import useHttp from "../../hooks/use-http";
 
 import './AddItem.styles.scss';
-import { useNavigate, useOutlet, useOutletContext } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
 import Modal from "../Modal/Modal";
 import SuccessPopUp from "../SuccessPopUp/SuccessPopUp";
 import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";

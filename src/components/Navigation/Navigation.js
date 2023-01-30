@@ -12,8 +12,10 @@ const Navigation = (props) => {
 
     const authCtx = React.useContext(AuthContext);
 
-    const { isLoggedIn, loggout } = authCtx;
+    const { isLoggedIn, loggout, getUserCredentials } = authCtx;
     const navRef = React.useRef();
+
+    const { userEmail } = getUserCredentials();
 
     React.useEffect(() => {
         setOpen(false);
@@ -34,10 +36,9 @@ const Navigation = (props) => {
 
     const userTemplate = (
         <>
+
             <li><NavLink to={'repositories'} >Repositories</NavLink></li>
             <li><NavLink to={'import-repo'} >Import Repo</NavLink></li>
-            {/* <li><NavLink to={'inventory'} >Inventory</NavLink></li>
-            <li><NavLink to={'expiring-items'} >Expiring Items</NavLink></li> */}
             <li><Link onClick={loggoutHandler} >Loggout</Link></li>
         </>
     );
@@ -45,6 +46,7 @@ const Navigation = (props) => {
     const Nav = () => {
         return (
             <nav ref={navRef} className="navigation">
+
                 <ul className="navigation-list">
                     <li className={'home-btn-link'}><NavLink to={'/'} >Home</NavLink></li>
                     {isLoggedIn && userTemplate}
@@ -72,6 +74,13 @@ const Navigation = (props) => {
     return (
         <>
             <header className="navigation-header">
+                {isLoggedIn &&
+                    <div className="navigation-user-name">
+                        <p>Welcome {userEmail}</p>
+                    </div>
+                }
+
+
                 <div className="menu-btn" >
                     <Fade toggled={isOpen} toggle={setOpen} />
                 </div>
