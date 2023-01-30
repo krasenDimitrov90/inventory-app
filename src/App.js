@@ -14,6 +14,7 @@ import InventoryPage from './pages/Inventory/InventoryPage';
 import RepositoriesPage from './pages/Inventory/Repositories';
 import LoginPage from './pages/Login/LoginPage';
 import RegisterPage from './pages/Register/RegisterPage';
+import ErrorPopUp from './components/ErrorPopUp/ErrorPopUp';
 
 function App() {
   return (
@@ -21,6 +22,9 @@ function App() {
       <BrowserRouter>
         <Layout>
           <Routes>
+
+            <Route path='/error' element={<ErrorPopUp />} />
+
             <Route path='/' element={<HomePage />} />
             <Route path='login' element={<LoginPage />} />
             <Route path='register' element={<RegisterPage />} />

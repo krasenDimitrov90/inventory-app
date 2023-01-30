@@ -63,7 +63,7 @@ const RepositoriesPage = () => {
                 {!isLoading && repos !== null && Object.entries(repos).length > 0 &&
 
                     <section className="repositories-wrapper">
-                        {Object.entries(repos).map(([name, id]) => {
+                        {Object.entries(repos).map(([id, name]) => {
                             return (
                                 <Repo
                                     key={id}

@@ -41,6 +41,9 @@
 }
 
 .repositories-wrapper {
+
+    animation: growDown 300ms ease-in-out forwards;
+
     display: flex;
     flex-direction: column;
     margin: 15px;
@@ -107,5 +110,17 @@
                 }
             }
         }
+    }
+}
+
+@keyframes growDown {
+    0% {
+        opacity: 0;
+        transform: translateY(-60px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
     }
 }

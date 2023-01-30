@@ -61,7 +61,8 @@ const AddRepo = () => {
         const dataHandler = (data) => {
             console.log(data);
             const newData = {
-                [enteredRepo]: data.name,
+                // [enteredRepo]: data.name,
+                [data.name]: enteredRepo,
             };
             console.log(newData);
             const requestConfig = {
