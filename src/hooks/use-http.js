@@ -20,7 +20,6 @@ const useHttp = () => {
             })
             .catch(err => {
                 err.then(error => {
-                    console.log(error);
                     const errorMessage = error.error.message || error.error;
                     setIsloading(false);
                     errorHandler();

@@ -9,6 +9,7 @@ import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
 import SuccessPopUp from "../../components/SuccessPopUp/SuccessPopUp";
 import Modal from "../../components/Modal/Modal";
 import useSuccesPopUp from "../../hooks/use-successPopUp";
+import ErrorPopUp from "../../components/ErrorPopUp/ErrorPopUp";
 
 
 const emailValidator = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g;
@@ -16,16 +17,25 @@ const emailValidator = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g;
 const RegisterPage = () => {
 
     const navigate = useNavigate();
-    const { isLoading, sendRequest: requestRegister } = useHttp();
+    const [formIsInvalid, setFormIsInvalid] = React.useState(false);
+    const { isLoading, sendRequest: requestRegister, error: requestError } = useHttp();
     const { sendRequest: requestPutNewUser } = useHttp();
 
-    const navigateToLogin = () => navigate('/login');
+
+    const afterRequestFinished = () => {
+        if (requestError) {
+            setFormIsInvalid(true);
+            navigate('/register');
+        } else {
+            navigate('/login');
+        }
+    };
 
     const {
         modalIsOpen,
         setModalIsOpen,
         requestIsFinished,
-        setRequestIsFinished } = useSuccesPopUp(navigateToLogin);
+        setRequestIsFinished } = useSuccesPopUp(afterRequestFinished);
 
     const {
         value: enteredEmail,
@@ -55,11 +65,15 @@ const RegisterPage = () => {
     } = useInput((value) => enteredPassword === value);
 
 
-    let formIsInvalid = false;
 
-    if (!enteredEmailIsValid || !enteredPasswordIsValid || !repeatPasswordIsValid || enteredPassword !== repeatPassword) {
-        formIsInvalid = true;
-    }
+    React.useEffect(() => {
+        if (!enteredEmailIsValid || !enteredPasswordIsValid || !repeatPasswordIsValid || enteredPassword !== repeatPassword) {
+            setFormIsInvalid(true);
+        } else {
+            setFormIsInvalid(false);
+        }
+    }, [enteredEmailIsValid, enteredPasswordIsValid, repeatPasswordIsValid, enteredPassword, repeatPassword]);
+
 
     const registerHandler = (userData) => {
         const { localId, email } = userData;
@@ -78,6 +92,11 @@ const RegisterPage = () => {
         requestPutNewUser(requestConfig, () => console.log('Success'));
         setRequestIsFinished(true);
         setModalIsOpen(true);
+    };
+
+    const errorHandler = () => {
+        setModalIsOpen(true);
+        setRequestIsFinished(true);
     };
 
     const onSubmitHandler = (e) => {
@@ -102,7 +121,7 @@ const RegisterPage = () => {
             data: data,
         };
 
-        requestRegister(requestConfig, registerHandler);
+        requestRegister(requestConfig, registerHandler, errorHandler);
 
         resetEmailInput();
         resetPasswordInput();
@@ -111,9 +130,11 @@ const RegisterPage = () => {
 
     return (
         <>
-            {modalIsOpen && requestIsFinished && <Modal>
-                <SuccessPopUp message={'Succesfuly registered'} />
-            </Modal>}
+            {modalIsOpen && requestIsFinished &&
+                <Modal>
+                    {requestError !== null && <ErrorPopUp message={requestError} />}
+                    {requestError === null && <SuccessPopUp message={'Succesfuly registered'} />}
+                </Modal>}
             <section className="register-form-wrapper">
                 {isLoading && <LoadingSpinner />}
                 <FormCard submitHandler={onSubmitHandler} formTitle={'REGISTER'} btnName={"Register"} formIsInvalid={formIsInvalid}>
@@ -154,7 +175,7 @@ const RegisterPage = () => {
                         onBlur={repeatPasswordInputBlurHandler}
                         onChange={repeatPasswordInputOnChangeHandler}
                         inputIsInvalid={repeatPasswordInputHasError}
-                        invalidMessage={`Passwords does\'t match!`}
+                        invalidMessage={`Passwords does't match!`}
                     />
                 </FormCard>
             </section>

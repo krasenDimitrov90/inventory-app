@@ -23,9 +23,8 @@ const LoginPage = () => {
     const { isLoading, sendRequest: requestLogin, error: requestError } = useHttp();
     const authCtx = React.useContext(AuthContext);
 
-    // const navigateToHome = () => navigate('/');
 
-    const afterRequestHandeled = () => {
+    const afterRequestFinished = () => {
         if (requestError) {
             setFormIsInvalid(true);
             navigate('/login');
@@ -38,7 +37,7 @@ const LoginPage = () => {
         modalIsOpen,
         setModalIsOpen,
         requestIsFinished,
-        setRequestIsFinished } = useSuccesPopUp(afterRequestHandeled);
+        setRequestIsFinished } = useSuccesPopUp(afterRequestFinished);
 
     const {
         value: enteredEmail,
@@ -59,8 +58,6 @@ const LoginPage = () => {
     } = useInput(value => value.trim().length >= 6);
 
 
-    // let formIsInvalid = false;
-
     React.useEffect(() => {
         if (!enteredEmailIsValid || !enteredPasswordIsValid) {
             setFormIsInvalid(true);
@@ -69,9 +66,6 @@ const LoginPage = () => {
         }
     },[enteredEmailIsValid, enteredPasswordIsValid]);
 
-    // if (!enteredEmailIsValid || !enteredPasswordIsValid) {
-    //     formIsInvalid = true;
-    // }
 
     const loginHandler = (userData) => {
         authCtx.login(userData.idToken, userData.localId, userData.email);
