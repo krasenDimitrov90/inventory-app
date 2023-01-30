@@ -19,7 +19,7 @@ const Repo = ({ repoName, repoId, userId, onRemoveRepo }) => {
         setRequestIsFinished } = useSuccesPopUp(onRemoveRepo);
 
 
-    const requestDeleteRrepo = (repoName, repoId) => {
+    const requestDeleteRrepo = (repoId) => {
 
         const dataHandler = () => {
             setModalIsOpen(true);
@@ -28,7 +28,7 @@ const Repo = ({ repoName, repoId, userId, onRemoveRepo }) => {
 
         const requestConfig = {
             action: "deleteUserRepo",
-            path: `${userId}/repos/${repoName}`,
+            path: `${userId}/repos/${repoId}`,
             data: {},
         };
 
@@ -60,7 +60,7 @@ const Repo = ({ repoName, repoId, userId, onRemoveRepo }) => {
                             <button className="confirm-action-btns-cancel" onClick={() => setModalIsOpen(false)} >Cancel</button>
                         </div>
                         <div className="confirm-action-btns-card">
-                            <button className="confirm-action-btns-yes" onClick={requestDeleteRrepo.bind(null,repoName, repoId)} >YES</button>
+                            <button className="confirm-action-btns-yes" onClick={requestDeleteRrepo.bind(null, repoId)} >YES</button>
                         </div>
                     </div>
                 </div>

@@ -3,10 +3,10 @@ import Modal from "../Modal/Modal";
 
 import './ErrorPopUp.styles.scss';
 
-const ErrorPopUp = () => {
+const ErrorPopUp = ({message}) => {
 
     return (
-        <Modal>
+        <>
             <div className="error-popup-wrapper">
                 <div className="error-popup">
                     <span className="error-popup-bars bar1"></span>
@@ -15,10 +15,10 @@ const ErrorPopUp = () => {
             </div>
             <div className="error-popup-message-container">
                 <div className="error-popup-message">
-                    <h3>Wrong email or password</h3>
+                    <h3>{message}</h3>
                 </div>
             </div>
-        </Modal>
+        </>
     );
 };
 

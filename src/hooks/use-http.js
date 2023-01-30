@@ -11,6 +11,7 @@ const useHttp = () => {
 
         const action = requestConfig.action;
         
+        setError(null);
         setIsloading(true);
         return request[action](requestConfig)
             .then(data => {
@@ -19,9 +20,11 @@ const useHttp = () => {
             })
             .catch(err => {
                 err.then(error => {
+                    console.log(error);
                     const errorMessage = error.error.message || error.error;
                     setIsloading(false);
-                    alert(errorMessage);
+                    errorHandler();
+                    setError(errorMessage);
                 })
             });
     },[])

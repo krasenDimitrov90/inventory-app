@@ -33,7 +33,7 @@ const RegisterPage = () => {
         hasError: emailInputIsInvalid,
         onChangeHandler: emailInputChangeHandler,
         onBlurHandler: emailInputOnBlurHandler,
-        resetValue: resetEmailInput,
+        resetInput: resetEmailInput,
     } = useInput(value => value.match(emailValidator));
 
     const {
@@ -42,7 +42,7 @@ const RegisterPage = () => {
         hasError: passwordInputIsInvalid,
         onChangeHandler: passwordInputOnChangeHandler,
         onBlurHandler: passwordInputOnBlurHandler,
-        resetValue: resetPasswordInput,
+        resetInput: resetPasswordInput,
     } = useInput(value => value.length > 5);
 
     const {
@@ -51,7 +51,7 @@ const RegisterPage = () => {
         hasError: repeatPasswordInputHasError,
         onChangeHandler: repeatPasswordInputOnChangeHandler,
         onBlurHandler: repeatPasswordInputBlurHandler,
-        resetValue: resetRepeatPasswordInput,
+        resetInput: resetRepeatPasswordInput,
     } = useInput((value) => enteredPassword === value);
 
 

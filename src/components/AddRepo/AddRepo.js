@@ -51,11 +51,10 @@ const AddRepo = () => {
             return;
         }
 
-        const data = {};
 
         const requestConfig = {
             action: 'postNewRepo',
-            data: data,
+            data: {},
         };
 
         const dataHandler = (data) => {

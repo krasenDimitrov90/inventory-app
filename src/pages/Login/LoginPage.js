@@ -10,6 +10,7 @@ import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
 import Modal from "../../components/Modal/Modal";
 import SuccessPopUp from "../../components/SuccessPopUp/SuccessPopUp";
 import useSuccesPopUp from "../../hooks/use-successPopUp";
+import ErrorPopUp from "../../components/ErrorPopUp/ErrorPopUp";
 
 
 
@@ -18,16 +19,26 @@ const emailValidator = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g;
 const LoginPage = () => {
 
     const navigate = useNavigate();
-    const { isLoading, sendRequest: requestLogin } = useHttp();
+    const [formIsInvalid, setFormIsInvalid] = React.useState(false);
+    const { isLoading, sendRequest: requestLogin, error: requestError } = useHttp();
     const authCtx = React.useContext(AuthContext);
 
-    const navigateToHome = () => navigate('/');
+    // const navigateToHome = () => navigate('/');
+
+    const afterRequestHandeled = () => {
+        if (requestError) {
+            setFormIsInvalid(true);
+            navigate('/login');
+        } else {
+            navigate('/');
+        }
+    };
 
     const {
         modalIsOpen,
         setModalIsOpen,
         requestIsFinished,
-        setRequestIsFinished } = useSuccesPopUp(navigateToHome);
+        setRequestIsFinished } = useSuccesPopUp(afterRequestHandeled);
 
     const {
         value: enteredEmail,
@@ -35,7 +46,7 @@ const LoginPage = () => {
         hasError: emailInputIsInvalid,
         onChangeHandler: emailInputChangeHandler,
         onBlurHandler: emailInputOnBlurHandler,
-        resetValue: resetEmailInput,
+        resetInput: resetEmailInput,
     } = useInput(value => value.match(emailValidator));
 
     const {
@@ -44,15 +55,23 @@ const LoginPage = () => {
         hasError: passwordInputIsInvalid,
         onChangeHandler: passwordInputOnChangeHandler,
         onBlurHandler: passwordInputOnBlurHandler,
-        resetValue: resetPasswordInput,
+        resetInput: resetPasswordInput,
     } = useInput(value => value.trim().length >= 6);
 
 
-    let formIsInvalid = false;
+    // let formIsInvalid = false;
 
-    if (!enteredEmailIsValid || !enteredPasswordIsValid) {
-        formIsInvalid = true;
-    }
+    React.useEffect(() => {
+        if (!enteredEmailIsValid || !enteredPasswordIsValid) {
+            setFormIsInvalid(true);
+        } else {
+            setFormIsInvalid(false);
+        }
+    },[enteredEmailIsValid, enteredPasswordIsValid]);
+
+    // if (!enteredEmailIsValid || !enteredPasswordIsValid) {
+    //     formIsInvalid = true;
+    // }
 
     const loginHandler = (userData) => {
         authCtx.login(userData.idToken, userData.localId, userData.email);
@@ -61,7 +80,8 @@ const LoginPage = () => {
     };
 
     const errorHandler = (err) => {
-        alert(err);
+        setModalIsOpen(true);
+        setRequestIsFinished(true);
     };
 
     const submitHandler = (e) => {
@@ -91,12 +111,13 @@ const LoginPage = () => {
         resetPasswordInput();
     };
 
-
     return (
         <>
-            {modalIsOpen && requestIsFinished && <Modal>
-                <SuccessPopUp message={'Succesfuly logged in'} />
-            </Modal>}
+            {modalIsOpen && requestIsFinished &&
+                <Modal>
+                    {requestError !== null && <ErrorPopUp message={requestError} />}
+                    {requestError === null && <SuccessPopUp message={'Succesfuly logged in'} />}
+                </Modal>}
             <section className="login-form-wrapper">
                 {isLoading && <LoadingSpinner />}
                 <FormCard submitHandler={submitHandler} formTitle={'LOG IN'} btnName={"Login"} formIsInvalid={formIsInvalid}>
