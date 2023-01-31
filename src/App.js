@@ -15,6 +15,7 @@ import RepositoriesPage from './pages/Inventory/Repositories';
 import LoginPage from './pages/Login/LoginPage';
 import RegisterPage from './pages/Register/RegisterPage';
 import ErrorPopUp from './components/ErrorPopUp/ErrorPopUp';
+import QrGenerator from './components/QrGenerator/QrGenerator';
 
 function App() {
   return (
@@ -23,7 +24,7 @@ function App() {
         <Layout>
           <Routes>
 
-            <Route path='/error' element={<ErrorPopUp />} />
+            <Route path='/qr' element={<QrGenerator />} />
 
             <Route path='/' element={<HomePage />} />
             <Route path='login' element={<LoginPage />} />

@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import Modal from "../../components/Modal/Modal";
+import QrGenerator from "../../components/QrGenerator/QrGenerator";
 import SuccessPopUp from "../../components/SuccessPopUp/SuccessPopUp";
 import useHttp from "../../hooks/use-http";
 import useSuccesPopUp from "../../hooks/use-successPopUp";
@@ -38,13 +39,13 @@ const Repo = ({ repoName, repoId, userId, onRemoveRepo }) => {
     const ShareRepo = () => {
 
         return (
-            <div>{repoId}</div>
+            <QrGenerator value={repoId} link={repoId} />
         );
     };
 
     return (
         <>
-            {shareModalIsOpen && <Modal onClose={() => setShareModalIsOpen(false)}>
+            {shareModalIsOpen && <Modal classes={'qr-modal'} onClose={() => setShareModalIsOpen(false)}>
                 <ShareRepo />
             </Modal>}
             {modalIsOpen && requestIsFinished && <Modal >

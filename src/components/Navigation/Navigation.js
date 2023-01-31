@@ -79,8 +79,6 @@ const Navigation = (props) => {
                         <p>Welcome {userEmail}</p>
                     </div>
                 }
-
-
                 <div className="menu-btn" >
                     <Fade toggled={isOpen} toggle={setOpen} />
                 </div>

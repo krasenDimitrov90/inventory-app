@@ -1,0 +1,17 @@
+.qr-code-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 280px;
+    background-color: #535c68;
+    border-radius: 14px;
+
+    .qr-title-scan,
+    .qr-title-copy,
+    .qr-link {
+        text-align: center;
+        margin: 10px 0;
+        font-family: "Montserrat", sans-serif;
+    }
+}
