@@ -38,8 +38,6 @@ const QrGenerator = ({ value, link }) => {
         setMessage('Copied');
     };
 
-    console.log(buttonHasHovered);
-
     return (
         <div className="qr-code-wrapper">
             <h3 className='qr-title-scan'>Scan</h3>

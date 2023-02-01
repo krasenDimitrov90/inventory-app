@@ -6,7 +6,7 @@ import ItemOptions from "./ItemOptions";
 import Modal from "../Modal/Modal";
 import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 import SuccessPopUp from "../SuccessPopUp/SuccessPopUp";
-import useSuccesPopUp from "../../hooks/use-successPopUp";
+import usePopUp from "../../hooks/use-popUp";
 import { useParams } from "react-router-dom";
 import ConfirmPopUp from "../ConfirmPopUp/ConfirmPopUp";
 
@@ -21,7 +21,7 @@ const Item = ({ items, item, qty, btnHandler, expiring, updateItems }) => {
         modalIsOpen,
         setModalIsOpen,
         requestIsFinished,
-        setRequestIsFinished } = useSuccesPopUp(updateItems);
+        setRequestIsFinished } = usePopUp(updateItems);
 
     const removeBtnHandler = () => setModalIsOpen(true);
 

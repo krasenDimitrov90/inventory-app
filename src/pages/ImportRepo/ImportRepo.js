@@ -8,7 +8,7 @@ import SuccessPopUp from "../../components/SuccessPopUp/SuccessPopUp";
 import AuthContext from "../../context/auth-context";
 import useHttp from "../../hooks/use-http";
 import useInput from "../../hooks/use-input";
-import useSuccesPopUp from "../../hooks/use-successPopUp";
+import usePopUp from "../../hooks/use-popUp";
 
 import './ImportRepo.styles.scss';
 
@@ -37,15 +37,14 @@ const ImportRepo = () => {
         const requestConfig = { action: 'getAllRepos' };
 
         sendRequest(requestConfig, dataHandler);
-    }, []);
+    }, [sendRequest]);
 
-    console.log(currentReposInDataBase);
 
     const {
         modalIsOpen,
         setModalIsOpen,
         requestIsFinished,
-        setRequestIsFinished } = useSuccesPopUp(() => navigate('/repositories'));
+        setRequestIsFinished } = usePopUp(() => navigate('/repositories'));
 
     const {
         value: repoLinkValue,

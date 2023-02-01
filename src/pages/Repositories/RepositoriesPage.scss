@@ -1,14 +1,14 @@
-.inventory-items-title {
+.repositories-items-title {
     display: flex;
     justify-content: center;
     padding: 20px 0;
     font-family: "Montserrat", sans-serif;
 }
 
-.inventory {
+.repositories {
     font-family: "Montserrat", sans-serif;
 
-    .inventory-items-empty {
+    .repositorie-items-empty {
         display: flex;
         justify-content: center;
         padding: 20px 0;
@@ -20,11 +20,11 @@
         }
     }
 
-    .add-item {
+    .add-repositorie {
 
         margin: 15px;
 
-        .add-item-btn {
+        .add-repositorie-btn {
             text-decoration: none;
             color: black;
             background-color: #00b894;
@@ -34,7 +34,7 @@
             font-family: "Montserrat", sans-serif;
         }
 
-        .add-item-btn:hover {
+        .add-repositorie-btn:hover {
             background-color: #55efc4;
         }
     }

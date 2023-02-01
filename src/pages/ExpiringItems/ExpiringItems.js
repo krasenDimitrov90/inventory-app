@@ -9,7 +9,7 @@ import useHttp from "../../hooks/use-http";
 
 import './ExpiringItems.styles.scss';
 import SuccessPopUp from "../../components/SuccessPopUp/SuccessPopUp";
-import useSuccesPopUp from "../../hooks/use-successPopUp";
+import usePopUp from "../../hooks/use-popUp";
 
 const ExpiringItemsPage = () => {
 
@@ -17,38 +17,18 @@ const ExpiringItemsPage = () => {
 
     const navigate = useNavigate();
     const [expiringItems, setExpiringItems] = React.useState(null);
+    const [itemsCount, setItemsCount] = React.useState(0);
     const authCtx = React.useContext(AuthContext);
     const { isLoggedIn } = authCtx;
     const { isLoading, sendRequest, } = useHttp();
     const location = useLocation();
     const { repoName } = location.state;
 
-    React.useEffect(() => {
-        prepareExpiringItems();
-    }, [navigate]);
-
-    const prepareExpiringItems = () => {
-
-        const dataHandler = (data) => {
-            filterItems(data);
-        };
-
-        const requestConfig = { action: "getRepo", path: params.repoId };
-        sendRequest(requestConfig, dataHandler);
-    };
-
-    const {
-        modalIsOpen,
-        setModalIsOpen,
-        requestIsFinished,
-        setRequestIsFinished } = useSuccesPopUp(prepareExpiringItems);
-
-
     if (!isLoggedIn) {
         navigate('/login');
     }
 
-    const filterItems = (items) => {
+    const filterItems = React.useCallback((items) => {
         const filteredItems = Object.keys(items).reduce((acc, item) => {
 
             if (item !== 'ownerId') {
@@ -62,8 +42,33 @@ const ExpiringItemsPage = () => {
             return acc;
         }, {});
 
+        setItemsCount(Object.keys(items).length);
         setExpiringItems(filteredItems);
-    }
+    },[]);
+
+
+    const prepareExpiringItems = React.useCallback(() => {
+
+        const dataHandler = (data) => {
+            filterItems(data);
+        };
+
+        const requestConfig = { action: "getRepo", path: params.repoId };
+        sendRequest(requestConfig, dataHandler);
+    },[filterItems, sendRequest, params.repoId]);
+
+    React.useEffect(() => {
+        prepareExpiringItems();
+    }, [navigate, prepareExpiringItems]);
+
+    const {
+        modalIsOpen,
+        setModalIsOpen,
+        requestIsFinished,
+        setRequestIsFinished } = usePopUp(prepareExpiringItems);
+
+
+    
 
     const updateItemsQty = (item, action, quantity = null) => {
 
@@ -103,9 +108,13 @@ const ExpiringItemsPage = () => {
     };
 
     const NoItemsTemplate = () => {
+        console.log(itemsCount);
+        const message = itemsCount > 0 
+            ? 'You have enough items in this repositorie!'
+            : `You don't have any items in this repositorie!`
         return (
             <div className="expiring-items-empty">
-                <h2>You have enough items in this inventory!</h2>
+                <h2>{message}</h2>
             </div>
         );
     };
@@ -117,7 +126,7 @@ const ExpiringItemsPage = () => {
                 <SuccessPopUp message={'Seccessfuly saved'} />
             </Modal>}
 
-            <h1 className="expiring-items-title">{repoName} - items that expiring soon</h1>
+            <h1 className="expiring-items-title"><span>{repoName}</span> - items that expiring soon</h1>
             {!modalIsOpen && !isLoading && expiringItems !== null && Object.keys(expiringItems).length > 0 &&
                 <ItemsTableWrapper
                     sendData={sendUpdatedItems.bind(null, expiringItems)}

@@ -1,10 +1,14 @@
 .expiring-items-title,
 .expiring-items-empty {
     font-family: "Montserrat", sans-serif;
-    display: flex;
-    justify-content: center;
+    // display: flex;
+    // justify-content: center;
     padding: 20px 0;
     text-align: center;
+
+    span {
+        color: #3c40c6;
+    }
 
 }
 

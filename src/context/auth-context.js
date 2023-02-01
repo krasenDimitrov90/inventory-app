@@ -17,7 +17,7 @@ export const AuthContextProvider = (props) => {
         if (token) {
             setIsLoggedIn(true);
         }
-    }, []);
+    }, [token]);
 
     const getUserCredentials = () => {
         const userToken = localStorage.getItem('token');

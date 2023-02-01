@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 import Modal from "../Modal/Modal";
 import SuccessPopUp from "../SuccessPopUp/SuccessPopUp";
 import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
-import useSuccesPopUp from "../../hooks/use-successPopUp";
+import usePopUp from "../../hooks/use-popUp";
 import AuthContext from "../../context/auth-context";
 
 const AddRepo = () => {
@@ -27,7 +27,7 @@ const AddRepo = () => {
         modalIsOpen,
         setModalIsOpen,
         requestIsFinished,
-        setRequestIsFinished } = useSuccesPopUp(navigateToInventory);
+        setRequestIsFinished } = usePopUp(navigateToInventory);
 
     const formWrapperOnClickHandler = (e) => {
         if (e.target.className !== 'add-repo-wrapper') {

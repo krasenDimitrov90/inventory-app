@@ -1,6 +1,6 @@
 import React from "react";
 
-const useSuccesPopUp = (onCloseHandler) => {
+const usePopUp = (onCloseHandler) => {
 
     const [modalIsOpen, setModalIsOpen] = React.useState(false);
     const [requestIsFinished, setRequestIsFinished] = React.useState(false);
@@ -17,7 +17,7 @@ const useSuccesPopUp = (onCloseHandler) => {
 
             return () => clearTimeout(timeOut);
         }
-    }, [modalIsOpen, requestIsFinished]);
+    }, [modalIsOpen, requestIsFinished, onCloseHandler]);
 
     return {
         modalIsOpen,
@@ -27,4 +27,4 @@ const useSuccesPopUp = (onCloseHandler) => {
     };
 };
 
-export default useSuccesPopUp;
+export default usePopUp;

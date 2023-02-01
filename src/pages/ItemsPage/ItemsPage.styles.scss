@@ -1,8 +1,13 @@
 .inventory-items-title {
-    display: flex;
-    justify-content: center;
+    // display: flex;
+    // justify-content: center;
     padding: 20px 0;
     font-family: "Montserrat", sans-serif;
+    text-align: center;
+
+    span {
+        color: #3c40c6;
+    }
 }
 
 .inventory {

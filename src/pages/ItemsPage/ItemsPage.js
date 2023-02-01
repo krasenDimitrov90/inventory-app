@@ -5,14 +5,14 @@ import Item from "../../components/Item/Item";
 import ItemsTableWrapper from "../../components/ItemsTableWrapper/ItemsTableWrapper";
 import useHttp from "../../hooks/use-http";
 
-import "./InventoryPage.scss";
+import "./ItemsPage.styles.scss";
 import AuthContext from "../../context/auth-context";
 import Modal from "../../components/Modal/Modal";
 import SuccessPopUp from "../../components/SuccessPopUp/SuccessPopUp";
-import useSuccesPopUp from "../../hooks/use-successPopUp";
+import usePopUp from "../../hooks/use-popUp";
 import AddItem from "../../components/AddItem/AddItem";
 
-const InventoryPage = () => {
+const ItemsPage = () => {
 
     const params = useParams();
     const { repoId } = params;
@@ -28,7 +28,7 @@ const InventoryPage = () => {
 
     const addItemOnCloseHandler = () => setAddItemModalIsOpen(false);
 
-    const prepareItems = () => {
+    const prepareItems = React.useCallback(() => {
         const dataHandler = (data) => {
 
             let filteredData = {};
@@ -49,17 +49,17 @@ const InventoryPage = () => {
 
         const requestConfig = { action: "getRepo", path: params.repoId };
         sendRequest(requestConfig, dataHandler);
-    };
+    }, [sendRequest, params.repoId]);
 
     const {
         modalIsOpen,
         setModalIsOpen,
         requestIsFinished,
-        setRequestIsFinished } = useSuccesPopUp(prepareItems);
+        setRequestIsFinished } = usePopUp(prepareItems);
 
     React.useEffect(() => {
         prepareItems();
-    }, [navigate]);
+    }, [navigate, prepareItems]);
 
     if (!isLoggedIn) {
         navigate('/login');
@@ -108,7 +108,7 @@ const InventoryPage = () => {
     const NoItemsTemplate = () => {
         return (
             <div className="inventory-items-empty">
-                <h2>You don't have any items in the inventory!</h2>
+                <h2>You don't have any items in this repositorie!</h2>
             </div>
         );
     };
@@ -125,7 +125,7 @@ const InventoryPage = () => {
                 <SuccessPopUp message={'Succesfuly saved'} />
             </Modal>}
             {isLoading && <LoadingSpinner />}
-            <h1 className="inventory-items-title">{repoName}</h1>
+            <h1 className="inventory-items-title">Items in   <span>{repoName}</span></h1>
             <article className="inventory">
                 <section className="inventory-links" >
                     <div className="add-item">
@@ -136,27 +136,28 @@ const InventoryPage = () => {
                     </div>
                 </section>
 
-                {!modalIsOpen && !isLoading && items !== null && Object.entries(items).length > 0 && <ItemsTableWrapper
-                    sendData={sendData.bind(null, items)}
-                >
+                {!modalIsOpen && !isLoading && items !== null && Object.entries(items).length > 0 &&
+                    <ItemsTableWrapper
+                        sendData={sendData.bind(null, items)}
+                    >
 
-                    {Object.entries(items).map(([item, properties]) => {
-                        return (
-                            <Item
-                                key={item}
-                                item={item}
-                                items={items}
-                                qty={items[item].qty}
-                                btnHandler={updateItemsQty}
-                                updateItems={prepareItems}
-                            />
-                        );
-                    })}
-                </ItemsTableWrapper>}
+                        {Object.entries(items).map(([item, properties]) => {
+                            return (
+                                <Item
+                                    key={item}
+                                    item={item}
+                                    items={items}
+                                    qty={items[item].qty}
+                                    btnHandler={updateItemsQty}
+                                    updateItems={prepareItems}
+                                />
+                            );
+                        })}
+                    </ItemsTableWrapper>}
                 {!isLoading && items !== null && Object.entries(items).length === 0 && <NoItemsTemplate />}
             </article>
         </>
     );
 };
 
-export default InventoryPage;
+export default ItemsPage;

@@ -19,7 +19,7 @@ const RepositoriesPage = () => {
     const { isLoading, sendRequest } = useHttp();
 
 
-    const prepareRepos = () => {
+    const prepareRepos = React.useCallback(() => {
         const dataHandler = (data) => {
             if (data === null || data === '') {
                 data = {};
@@ -31,11 +31,11 @@ const RepositoriesPage = () => {
 
         const requestConfig = { action: "getAllUserRepos", path: `${userId}/repos` };
         sendRequest(requestConfig, dataHandler);
-    };
+    },[sendRequest, userId]);
 
     React.useEffect(() => {
         prepareRepos();
-    }, [navigate]);
+    }, [navigate, prepareRepos]);
 
     if (!isLoggedIn) {
         navigate('/login');
@@ -44,7 +44,7 @@ const RepositoriesPage = () => {
 
     const NoReposTemplate = () => {
         return (
-            <div className="inventory-items-empty">
+            <div className="repositorie-items-empty">
                 <h2>You don't have any repository!</h2>
             </div>
         );
@@ -55,10 +55,10 @@ const RepositoriesPage = () => {
         <>
             <Outlet context={[prepareRepos]} />
             {isLoading && <LoadingSpinner />}
-            <h1 className="inventory-items-title">Repositories</h1>
-            <article className="inventory">
-                <div className="add-item">
-                    <Link className="add-item-btn" to={'add-repo'} >Add Repo</Link>
+            <h1 className="repositories-items-title">Repositories</h1>
+            <article className="repositories">
+                <div className="add-repositorie">
+                    <Link className="add-repositorie-btn" to={'add-repo'} >Add Repo</Link>
                 </div>
                 {!isLoading && repos !== null && Object.entries(repos).length > 0 &&
 

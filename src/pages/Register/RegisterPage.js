@@ -8,7 +8,7 @@ import FormCard from "../../components/FormCard/FormCard";
 import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
 import SuccessPopUp from "../../components/SuccessPopUp/SuccessPopUp";
 import Modal from "../../components/Modal/Modal";
-import useSuccesPopUp from "../../hooks/use-successPopUp";
+import usePopUp from "../../hooks/use-popUp";
 import ErrorPopUp from "../../components/ErrorPopUp/ErrorPopUp";
 
 
@@ -35,7 +35,7 @@ const RegisterPage = () => {
         modalIsOpen,
         setModalIsOpen,
         requestIsFinished,
-        setRequestIsFinished } = useSuccesPopUp(afterRequestFinished);
+        setRequestIsFinished } = usePopUp(afterRequestFinished);
 
     const {
         value: enteredEmail,

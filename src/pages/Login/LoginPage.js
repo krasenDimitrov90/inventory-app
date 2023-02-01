@@ -1,15 +1,15 @@
 import React from "react";
 import AuthContext from "../../context/auth-context";
-import useInput from "../../hooks/use-input";
 import { useNavigate } from "react-router-dom";
 import './LoginPage.css';
+import useInput from "../../hooks/use-input";
 import useHttp from "../../hooks/use-http";
+import usePopUp from "../../hooks/use-popUp";
 import FormCard from "../../components/FormCard/FormCard";
 import InputField from "../../components/InputField/InputField";
 import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
 import Modal from "../../components/Modal/Modal";
 import SuccessPopUp from "../../components/SuccessPopUp/SuccessPopUp";
-import useSuccesPopUp from "../../hooks/use-successPopUp";
 import ErrorPopUp from "../../components/ErrorPopUp/ErrorPopUp";
 
 
@@ -37,7 +37,7 @@ const LoginPage = () => {
         modalIsOpen,
         setModalIsOpen,
         requestIsFinished,
-        setRequestIsFinished } = useSuccesPopUp(afterRequestFinished);
+        setRequestIsFinished } = usePopUp(afterRequestFinished);
 
     const {
         value: enteredEmail,

@@ -4,7 +4,7 @@ import Modal from "../Modal/Modal";
 import QrGenerator from "../QrGenerator/QrGenerator";
 import SuccessPopUp from "../SuccessPopUp/SuccessPopUp";
 import useHttp from "../../hooks/use-http";
-import useSuccesPopUp from "../../hooks/use-successPopUp";
+import usePopUp from "../../hooks/use-popUp";
 import ConfirmPopUp from "../ConfirmPopUp/ConfirmPopUp";
 
 
@@ -18,7 +18,7 @@ const Repo = ({ repoName, repoId, userId, onRemoveRepo }) => {
         modalIsOpen,
         setModalIsOpen,
         requestIsFinished,
-        setRequestIsFinished } = useSuccesPopUp(onRemoveRepo);
+        setRequestIsFinished } = usePopUp(onRemoveRepo);
 
 
     const requestDeleteRrepo = (repoId) => {
@@ -46,19 +46,22 @@ const Repo = ({ repoName, repoId, userId, onRemoveRepo }) => {
 
     return (
         <>
-            {shareModalIsOpen && <Modal classes={'qr-modal'} onClose={() => setShareModalIsOpen(false)}>
-                <ShareRepo />
-            </Modal>}
-            {modalIsOpen && requestIsFinished && <Modal >
-                <SuccessPopUp message={`Succesfuly removed ${repoName} from inventory`} />
-            </Modal>}
-            {modalIsOpen && !requestIsFinished && <Modal onClose={() => setModalIsOpen(false)} >
-                <ConfirmPopUp
-                    name={repoName}
-                    onCancelHandler={() => setModalIsOpen(false)}
-                    onCinfirmHandler={requestDeleteRrepo.bind(null, repoId)}
-                />
-            </Modal>}
+            {shareModalIsOpen &&
+                <Modal classes={'qr-modal'} onClose={() => setShareModalIsOpen(false)}>
+                    <ShareRepo />
+                </Modal>}
+            {modalIsOpen && requestIsFinished &&
+                <Modal >
+                    <SuccessPopUp message={`Succesfuly removed ${repoName} from inventory`} />
+                </Modal>}
+            {modalIsOpen && !requestIsFinished &&
+                <Modal onClose={() => setModalIsOpen(false)} >
+                    <ConfirmPopUp
+                        name={repoName}
+                        onCancelHandler={() => setModalIsOpen(false)}
+                        onCinfirmHandler={requestDeleteRrepo.bind(null, repoId)}
+                    />
+                </Modal>}
             <div className="repo-card">
                 <div className="repo-name" >
                     <Link to={`/inventory/${repoId}`} state={{ repoName: repoName }}>{repoName}</Link>
