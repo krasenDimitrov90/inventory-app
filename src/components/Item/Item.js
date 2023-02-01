@@ -8,6 +8,7 @@ import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 import SuccessPopUp from "../SuccessPopUp/SuccessPopUp";
 import useSuccesPopUp from "../../hooks/use-successPopUp";
 import { useParams } from "react-router-dom";
+import ConfirmPopUp from "../ConfirmPopUp/ConfirmPopUp";
 
 
 
@@ -100,19 +101,11 @@ const Item = ({ items, item, qty, btnHandler, expiring, updateItems }) => {
                 <SuccessPopUp message={`Succesfuly removed ${item} from inventory`} />
             </Modal>}
             {modalIsOpen && !requestIsFinished && <Modal onClose={() => setModalIsOpen(false)} >
-                <div className="confirm-action">
-                    <div className="confirm-action-message">
-                        <h3>Are you shure you want to delete {item}</h3>
-                    </div>
-                    <div className="confirm-action-btns">
-                        <div className="confirm-action-btns-card">
-                            <button className="confirm-action-btns-cancel" onClick={() => setModalIsOpen(false)} >Cancel</button>
-                        </div>
-                        <div className="confirm-action-btns-card">
-                            <button className="confirm-action-btns-yes" onClick={requestDeleteItem} >YES</button>
-                        </div>
-                    </div>
-                </div>
+                <ConfirmPopUp 
+                    name={item}
+                    onCancelHandler={() => setModalIsOpen(false)}
+                    onCinfirmHandler={requestDeleteItem}
+                />
             </Modal>}
             <div className="item-wrapper" style={backGroundColor}>
                 <div className="item-wrapper-card" onClick={itemOnClickHandler} >

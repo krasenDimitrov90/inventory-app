@@ -3,9 +3,9 @@ import { Outlet, Link, useNavigate } from "react-router-dom";
 import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
 import useHttp from "../../hooks/use-http";
 
-import "./Repositories.scss";
+import "./RepositoriesPage.scss";
 import AuthContext from "../../context/auth-context";
-import Repo from "./Repo";
+import Repo from "../../components/Repo/Repo";
 
 
 const RepositoriesPage = () => {

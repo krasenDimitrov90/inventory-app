@@ -1,10 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Modal from "../../components/Modal/Modal";
-import QrGenerator from "../../components/QrGenerator/QrGenerator";
-import SuccessPopUp from "../../components/SuccessPopUp/SuccessPopUp";
+import Modal from "../Modal/Modal";
+import QrGenerator from "../QrGenerator/QrGenerator";
+import SuccessPopUp from "../SuccessPopUp/SuccessPopUp";
 import useHttp from "../../hooks/use-http";
 import useSuccesPopUp from "../../hooks/use-successPopUp";
+import ConfirmPopUp from "../ConfirmPopUp/ConfirmPopUp";
 
 
 const Repo = ({ repoName, repoId, userId, onRemoveRepo }) => {
@@ -52,19 +53,11 @@ const Repo = ({ repoName, repoId, userId, onRemoveRepo }) => {
                 <SuccessPopUp message={`Succesfuly removed ${repoName} from inventory`} />
             </Modal>}
             {modalIsOpen && !requestIsFinished && <Modal onClose={() => setModalIsOpen(false)} >
-                <div className="confirm-action">
-                    <div className="confirm-action-message">
-                        <h3>Are you shure you want to delete {repoName}</h3>
-                    </div>
-                    <div className="confirm-action-btns">
-                        <div className="confirm-action-btns-card">
-                            <button className="confirm-action-btns-cancel" onClick={() => setModalIsOpen(false)} >Cancel</button>
-                        </div>
-                        <div className="confirm-action-btns-card">
-                            <button className="confirm-action-btns-yes" onClick={requestDeleteRrepo.bind(null, repoId)} >YES</button>
-                        </div>
-                    </div>
-                </div>
+                <ConfirmPopUp
+                    name={repoName}
+                    onCancelHandler={() => setModalIsOpen(false)}
+                    onCinfirmHandler={requestDeleteRrepo.bind(null, repoId)}
+                />
             </Modal>}
             <div className="repo-card">
                 <div className="repo-name" >

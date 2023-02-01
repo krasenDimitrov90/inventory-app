@@ -11,7 +11,7 @@ import HomePage from './pages/HomePage/HomePage';
 import ImportRepo from './pages/ImportRepo/ImportRepo';
 import ExpiringItemsPage from './pages/ExpiringItems/ExpiringItems';
 import InventoryPage from './pages/Inventory/InventoryPage';
-import RepositoriesPage from './pages/Inventory/Repositories';
+import RepositoriesPage from './pages/Repositories/RepositoriesPage';
 import LoginPage from './pages/Login/LoginPage';
 import RegisterPage from './pages/Register/RegisterPage';
 

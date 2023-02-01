@@ -105,7 +105,7 @@ const ExpiringItemsPage = () => {
     const NoItemsTemplate = () => {
         return (
             <div className="expiring-items-empty">
-                <h2>You have enough items for work!</h2>
+                <h2>You have enough items in this inventory!</h2>
             </div>
         );
     };
