@@ -39,7 +39,7 @@ const Navigation = (props) => {
 
             <li><NavLink to={'repositories'} >Repositories</NavLink></li>
             <li><NavLink to={'import-repo'} >Import Repo</NavLink></li>
-            <li><Link onClick={loggoutHandler} >Loggout</Link></li>
+            <li><Link to={'login'} onClick={loggoutHandler} >Loggout</Link></li>
         </>
     );
 

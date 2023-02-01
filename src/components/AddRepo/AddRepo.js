@@ -53,7 +53,7 @@ const AddRepo = () => {
 
         const requestConfig = {
             action: 'postNewRepo',
-            data: {},
+            data: {"ownerId": userId},
         };
 
         const dataHandler = (data) => {

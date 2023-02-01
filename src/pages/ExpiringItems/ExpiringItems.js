@@ -51,11 +51,13 @@ const ExpiringItemsPage = () => {
     const filterItems = (items) => {
         const filteredItems = Object.keys(items).reduce((acc, item) => {
 
-            const quantity = Number(items[item].qty);
-            const minQuantity = Number(items[item]['min-qty']);
-
-            if (quantity < minQuantity) {
-                acc[item] = items[item];
+            if (item !== 'ownerId') {
+                const quantity = Number(items[item].qty);
+                const minQuantity = Number(items[item]['min-qty']);
+    
+                if (quantity < minQuantity) {
+                    acc[item] = items[item];
+                }
             }
             return acc;
         }, {});
@@ -116,7 +118,7 @@ const ExpiringItemsPage = () => {
             </Modal>}
 
             <h1 className="expiring-items-title">{repoName} - items that expiring soon</h1>
-            {!isLoading && expiringItems !== null && Object.keys(expiringItems).length > 0 &&
+            {!modalIsOpen && !isLoading && expiringItems !== null && Object.keys(expiringItems).length > 0 &&
                 <ItemsTableWrapper
                     sendData={sendUpdatedItems.bind(null, expiringItems)}
                 >

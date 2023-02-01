@@ -30,10 +30,21 @@ const InventoryPage = () => {
 
     const prepareItems = () => {
         const dataHandler = (data) => {
-            if (data === null) {
-                data = {};
+
+            let filteredData = {};
+            if (data !== null) {
+
+                filteredData = Object.keys(data).reduce((acc, item) => {
+                    if (item !== 'ownerId') {
+                        acc[item] = data[item];
+                    }
+                    return acc;
+                }, {});
+                setItems(filteredData);
+
+                return;
             }
-            setItems(data);
+            setItems({});
         };
 
         const requestConfig = { action: "getRepo", path: params.repoId };
@@ -121,11 +132,11 @@ const InventoryPage = () => {
                         <Link className="inventory-links-btns add-item-btn" to={'add-item'}  >Add Item</Link>
                     </div>
                     <div className="add-item">
-                        <Link className="inventory-links-btns expiring-items-btn" to={`/expiring-items/${params.repoId}`} state={{repoName: repoName}} >Expiring Items</Link>
+                        <Link className="inventory-links-btns expiring-items-btn" to={`/expiring-items/${params.repoId}`} state={{ repoName: repoName }} >Expiring Items</Link>
                     </div>
                 </section>
 
-                {!isLoading && items !== null && Object.entries(items).length > 0 && <ItemsTableWrapper
+                {!modalIsOpen && !isLoading && items !== null && Object.entries(items).length > 0 && <ItemsTableWrapper
                     sendData={sendData.bind(null, items)}
                 >
 

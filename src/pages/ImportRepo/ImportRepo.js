@@ -61,7 +61,7 @@ const ImportRepo = () => {
         valueIsValid: repoNameIsValid,
         onChangeHandler: repoNameOnChangeHandler,
         onBlurHandler: repoNameOnBlurHandler,
-    } = useInput(value => value.trim().length > 0 );
+    } = useInput(value => value.trim().length > 0);
 
     let formIsInvalid = false;
 
