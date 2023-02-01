@@ -9,6 +9,7 @@ const QrGenerator = ({ value, link }) => {
     const linkRef = React.useRef('');
     const [message, setMessage] = React.useState('Click to copy');
     const [isHovering, setIsHovering] = React.useState(false);
+    const [buttonHasHovered, setbuttonHasHovered] = React.useState(false);
 
     React.useEffect(() => {
         if (message === 'Copied') {
@@ -21,6 +22,9 @@ const QrGenerator = ({ value, link }) => {
     },[message]);
 
     const handleMouseOver = () => {
+        if (!buttonHasHovered) {
+            setbuttonHasHovered(true);
+        }
         setIsHovering(true);
     };
 
@@ -34,6 +38,7 @@ const QrGenerator = ({ value, link }) => {
         setMessage('Copied');
     };
 
+    console.log(buttonHasHovered);
 
     return (
         <div className="qr-code-wrapper">
@@ -43,13 +48,13 @@ const QrGenerator = ({ value, link }) => {
                 logoImage={favicon}
             />
             <h3 className='qr-title-copy'>Or copy this text</h3>
-            <div className={`box arrow-bottom ${isHovering ? 'meassege-active' : 'meassege-hide'}`} >
+            <div className={`box ${buttonHasHovered ? isHovering  ? 'meassege-active' : 'meassege-hide' : ''}`} >
                 <p>{message}</p>
             </div>
             <div className='link-wrapper'>
                 <div ref={linkRef} className='qr-link'>{link}</div>
                 <div onClick={onCopyHandler} className='qr-link-copy-btn' >
-                    <i class="fa-regular fa-copy"
+                    <i className="fa-regular fa-copy"
                         onMouseOver={handleMouseOver}
                         onMouseOut={handleMouseOut}>
                     </i>

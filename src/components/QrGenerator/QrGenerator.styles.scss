@@ -18,7 +18,10 @@
 
     .box {
 
-        display: none;
+        // display: none;
+        display: flex;
+        justify-content: center;
+        opacity: 0;
         font-family: "Montserrat", sans-serif;
         border-radius: 7px;
         background-color: #1e272e;
@@ -37,15 +40,15 @@
         }
     }
 
-    .box.arrow-bottom.meassege-hide {
-        display: flex;
-        justify-content: center;
+    .box.meassege-hide {
+        // display: flex;
+        // justify-content: center;
         animation: animationHide 0.5s forwards;
     }
 
-    .box.arrow-bottom.meassege-active {
-        display: flex;
-        justify-content: center;
+    .box.meassege-active {
+        // display: flex;
+        // justify-content: center;
         animation: animationShow 0.5s forwards;
     }
 
