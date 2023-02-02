@@ -16,7 +16,6 @@ const AddItem = () => {
     const [repoId, prepareItems] = useOutletContext();
     const location = useLocation();
     const { repoName } = location.state || '';
-    console.log(repoName);
 
     const navigate = useNavigate();
     const { isLoading, sendRequest } = useHttp();

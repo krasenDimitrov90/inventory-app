@@ -5,7 +5,7 @@ import useInput from "../../hooks/use-input";
 import useHttp from "../../hooks/use-http";
 
 import './AddRepo.styles.scss';
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
 import Modal from "../Modal/Modal";
 import SuccessPopUp from "../SuccessPopUp/SuccessPopUp";
 import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
@@ -14,6 +14,8 @@ import AuthContext from "../../context/auth-context";
 
 const AddRepo = () => {
 
+    const [prepareRepos] = useOutletContext();
+
     const navigate = useNavigate();
     const { isLoading, sendRequest } = useHttp();
     const { sendRequest: requestUpdateUserRepos } = useHttp();
@@ -21,7 +23,10 @@ const AddRepo = () => {
 
     const { userId } = getUserCredentials();
 
-    const navigateToInventory = () => navigate(`/repositories`);
+    const navigateToInventory = () => {
+        navigate(`/repositories`);
+        prepareRepos();
+    };
 
     const {
         modalIsOpen,

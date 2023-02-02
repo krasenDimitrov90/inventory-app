@@ -35,7 +35,7 @@ const RepositoriesPage = () => {
 
     React.useEffect(() => {
         prepareRepos();
-    }, [navigate, prepareRepos]);
+    }, [prepareRepos]);
 
     if (!isLoggedIn) {
         navigate('/login');
