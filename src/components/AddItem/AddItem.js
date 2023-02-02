@@ -5,7 +5,7 @@ import useInput from "../../hooks/use-input";
 import useHttp from "../../hooks/use-http";
 
 import './AddItem.styles.scss';
-import { useNavigate, useOutletContext } from "react-router-dom";
+import { useLocation, useNavigate, useOutletContext } from "react-router-dom";
 import Modal from "../Modal/Modal";
 import SuccessPopUp from "../SuccessPopUp/SuccessPopUp";
 import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
@@ -13,12 +13,18 @@ import usePopUp from "../../hooks/use-popUp";
 
 const AddItem = () => {
 
-    const [repoId] = useOutletContext();
+    const [repoId, prepareItems] = useOutletContext();
+    const location = useLocation();
+    const { repoName } = location.state || '';
+    console.log(repoName);
+
     const navigate = useNavigate();
     const { isLoading, sendRequest } = useHttp();
-    console.log(repoId);
 
-    const navigateToInventory = () => navigate(`/inventory/${repoId}`);
+    const navigateToInventory = () => {
+        navigate(`/inventory/${repoId}`, {state: { repoName: repoName }});
+        prepareItems();
+    };
 
     const {
         modalIsOpen,

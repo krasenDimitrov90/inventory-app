@@ -59,7 +59,7 @@ const ItemsPage = () => {
 
     React.useEffect(() => {
         prepareItems();
-    }, [navigate, prepareItems]);
+    }, [prepareItems]);
 
     if (!isLoggedIn) {
         navigate('/login');
@@ -113,13 +113,12 @@ const ItemsPage = () => {
         );
     };
 
-
     return (
         <>
-            <Outlet context={[repoId]} />
+            <Outlet context={[repoId, prepareItems]} />
             {addItemModalIsOpen && <AddItem
                 onCloseHandler={addItemOnCloseHandler}
-                repoId={params.repoId}
+                repoId={repoId}
             />}
             {modalIsOpen && requestIsFinished && <Modal>
                 <SuccessPopUp message={'Succesfuly saved'} />
@@ -129,10 +128,15 @@ const ItemsPage = () => {
             <article className="inventory">
                 <section className="inventory-links" >
                     <div className="add-item">
-                        <Link className="inventory-links-btns add-item-btn" to={'add-item'}  >Add Item</Link>
+                        <Link className="inventory-links-btns add-item-btn"
+                            to={`add-item`}
+                            state={{ repoName: repoName }}
+                        >
+                            Add Item
+                        </Link>
                     </div>
                     <div className="add-item">
-                        <Link className="inventory-links-btns expiring-items-btn" to={`/expiring-items/${params.repoId}`} state={{ repoName: repoName }} >Expiring Items</Link>
+                        <Link className="inventory-links-btns expiring-items-btn" to={`/expiring-items/${repoId}`} state={{ repoName: repoName }} >Expiring Items</Link>
                     </div>
                 </section>
 
