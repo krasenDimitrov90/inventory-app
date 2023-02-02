@@ -17,7 +17,7 @@ const ExpiringItemsPage = () => {
 
     const navigate = useNavigate();
     const [expiringItems, setExpiringItems] = React.useState(null);
-    const [itemsCount, setItemsCount] = React.useState(0);
+    const [itemsCount, setItemsCount] = React.useState(null);
     const authCtx = React.useContext(AuthContext);
     const { isLoggedIn } = authCtx;
     const { isLoading, sendRequest, } = useHttp();
@@ -107,9 +107,9 @@ const ExpiringItemsPage = () => {
         sendRequest(requestConfig, dataHandler);
     };
 
+
     const NoItemsTemplate = () => {
-        console.log(itemsCount);
-        const message = itemsCount > 0 
+        const message = itemsCount > 1 
             ? 'You have enough items in this repositorie!'
             : `You don't have any items in this repositorie!`
         return (
@@ -142,6 +142,7 @@ const ExpiringItemsPage = () => {
                                 qty={itemProps.qty}
                                 btnHandler={updateItemsQty}
                                 updateItems={prepareExpiringItems}
+                                classes={'expiring-items'}
                             />
                         );
                     })}

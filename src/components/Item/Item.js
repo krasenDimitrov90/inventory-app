@@ -12,7 +12,7 @@ import ConfirmPopUp from "../ConfirmPopUp/ConfirmPopUp";
 
 
 
-const Item = ({ items, item, qty, btnHandler, expiring, updateItems }) => {
+const Item = ({ items, item, qty, btnHandler, expiring, updateItems, classes }) => {
 
     const prams = useParams();
     const { repoId } = prams;
@@ -107,7 +107,7 @@ const Item = ({ items, item, qty, btnHandler, expiring, updateItems }) => {
                     onCinfirmHandler={requestDeleteItem}
                 />
             </Modal>}
-            <div className="item-wrapper" style={backGroundColor}>
+            <div className={`item-wrapper ${classes}`} style={backGroundColor}>
                 <div className="item-wrapper-card" onClick={itemOnClickHandler} >
                     <p >{item}</p>
                     <p className={qtyElementClasses} >{qty}</p>

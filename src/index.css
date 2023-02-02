@@ -7,14 +7,19 @@
 }
 
 h1 {
-  color: #130f40;
+  color: white;
 }
 
 body {
   margin: 0;
   padding: 0;
   width: 100vw;
-  background: linear-gradient(to right, #0984e3, #55efc4);
+  background-image: url('WallpaperDog-17226855.jpg');
+  object-fit: cover;
+  /* background-repeat: no-repeat;  
+  background-attachment: scroll;  
+  background-size: contain; */
+  /* background: linear-gradient(to right, #0984e3, #55efc4); */
   /* font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;

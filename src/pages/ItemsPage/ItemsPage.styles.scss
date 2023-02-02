@@ -6,7 +6,8 @@
     text-align: center;
 
     span {
-        color: #3c40c6;
+        // color: #3c40c6;
+        color: #00b894;
     }
 }
 
@@ -30,6 +31,7 @@
                 border: none;
                 cursor: pointer;
                 font-family: "Montserrat", sans-serif;
+                transition: 0.3s;
             }
 
             .inventory-links-btns:hover {
@@ -42,6 +44,7 @@
         display: flex;
         justify-content: center;
         padding: 20px 0;
+        color: white;
     }
 
     .inventory-items-empty {

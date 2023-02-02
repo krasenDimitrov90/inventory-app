@@ -7,6 +7,10 @@
     .table-header  {
         background-color: transparent;
         display: flex;
+
+        p {
+            color: white;
+        }
     }
     
     
@@ -31,6 +35,7 @@
             border-radius: 17px;
             cursor: pointer;
             font-family: 'Montserrat', sans-serif;
+            transition: 0.4s;
         
         }
         

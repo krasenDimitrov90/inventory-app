@@ -154,6 +154,7 @@ const ItemsPage = () => {
                                     qty={items[item].qty}
                                     btnHandler={updateItemsQty}
                                     updateItems={prepareItems}
+                                    classes={'all-items'}
                                 />
                             );
                         })}
