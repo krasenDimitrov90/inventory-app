@@ -48,7 +48,7 @@ const Navigation = (props) => {
             <nav ref={navRef} className="navigation">
 
                 <ul className="navigation-list">
-                    <li className={'home-btn-link'}><NavLink to={'/'} >Home</NavLink></li>
+                    {/* <li className={'home-btn-link'}><NavLink to={'/'} >Home</NavLink></li> */}
                     {isLoggedIn && userTemplate}
                     {!isLoggedIn && guestTemplate}
                 </ul>
@@ -61,7 +61,7 @@ const Navigation = (props) => {
             <header className="small-screen-navigation-header">
                 <nav className="navigation-small-screen">
                     <ul className="navigation-list">
-                        <li className={'home-btn-link'}><NavLink to={'/'} >Home</NavLink></li>
+                        {/* <li className={'home-btn-link'}><NavLink to={'/'} >Home</NavLink></li> */}
                         {isLoggedIn && userTemplate}
                         {!isLoggedIn && guestTemplate}
                     </ul>

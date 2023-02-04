@@ -50,6 +50,7 @@ function App() {
   return (
     <AuthContextProvider>
       <RouterProvider router={router} />
+      
     </AuthContextProvider>
   );
 }

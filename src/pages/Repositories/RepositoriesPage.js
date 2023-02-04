@@ -19,19 +19,18 @@ const RepositoriesPage = () => {
     const { isLoading, sendRequest } = useHttp();
 
 
+    const dataHandler = React.useCallback((data) => {
+        if (data === null || data === '') {
+            data = {};
+        }
+
+        setRepos(data);
+    }, []);
+
     const prepareRepos = React.useCallback(() => {
-        const dataHandler = (data) => {
-            if (data === null || data === '') {
-                data = {};
-            }
-
-            setRepos(data);
-        };
-
-
         const requestConfig = { action: "getAllUserRepos", path: `${userId}/repos` };
         sendRequest(requestConfig, dataHandler);
-    },[sendRequest, userId]);
+    }, [sendRequest, userId, dataHandler]);
 
     React.useEffect(() => {
         prepareRepos();
@@ -48,7 +47,7 @@ const RepositoriesPage = () => {
                 <h2>You don't have any repository!</h2>
             </div>
         );
-    }; 
+    };
 
 
     return (
