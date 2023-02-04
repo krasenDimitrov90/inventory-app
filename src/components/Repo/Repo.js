@@ -64,7 +64,7 @@ const Repo = ({ repoName, repoId, userId, onRemoveRepo }) => {
                 </Modal>}
             <div className="repo-card">
                 <div className="repo-name" >
-                    <Link to={`/inventory/${repoId}`} state={{ repoName: repoName }}>{repoName}</Link>
+                    <Link to={`/repo/${repoId}/items`} state={{ repoName: repoName }}>{repoName}</Link>
                 </div>
                 <section className="repo-btns" >
                     <div className="repo-btn-share" >

@@ -21,7 +21,7 @@ const AddItem = () => {
     const { isLoading, sendRequest } = useHttp();
 
     const navigateToInventory = () => {
-        navigate(`/inventory/${repoId}`, {state: { repoName: repoName }});
+        navigate(`/repo/${repoId}/items`, {state: { repoName: repoName }});
         prepareItems();
     };
 

@@ -34,13 +34,13 @@ const router = createBrowserRouter([
         ]
       },
       {
-        path: '/inventory/:repoId',
+        path: '/repo/:repoId/items',
         element: <ItemsPage />,
         children: [
           { path: 'add-item', element: <AddItem /> },
         ]
       },
-      { path: '/expiring-items/:repoId', element: <ExpiringItemsPage /> },
+      { path: '/repo/:repoId/expiring-items', element: <ExpiringItemsPage /> },
     ]
   }
 ]);

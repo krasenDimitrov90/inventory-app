@@ -93,7 +93,7 @@ const ItemsPage = () => {
     };
 
 
-    const sendData = (data) => {
+    const requestUpdateItems = React.useCallback((data) => {
 
         const dataHandler = () => {
             setModalIsOpen(true);
@@ -103,7 +103,7 @@ const ItemsPage = () => {
         const requestConfig = { action: "updateItems", path: params.repoId, data };
         sendRequest(requestConfig, dataHandler);
 
-    };
+    },[setModalIsOpen, setRequestIsFinished, params.repoId, sendRequest]);
 
     const NoItemsTemplate = () => {
         return (
@@ -136,13 +136,13 @@ const ItemsPage = () => {
                         </Link>
                     </div>
                     <div className="add-item">
-                        <Link className="inventory-links-btns expiring-items-btn" to={`/expiring-items/${repoId}`} state={{ repoName: repoName }} >Expiring Items</Link>
+                        <Link className="inventory-links-btns expiring-items-btn" to={`/repo/${repoId}/expiring-items`} state={{ repoName: repoName }} >Expiring Items</Link>
                     </div>
                 </section>
 
                 {!modalIsOpen && !isLoading && items !== null && Object.entries(items).length > 0 &&
                     <ItemsTableWrapper
-                        sendData={sendData.bind(null, items)}
+                        sendData={requestUpdateItems.bind(null, items)}
                     >
 
                         {Object.entries(items).map(([item, properties]) => {
