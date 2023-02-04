@@ -111,7 +111,7 @@ const ImportRepo = () => {
                             onChange={repoLinkOnChangeHandler}
                             onBlur={repoLinkOnBlurHandler}
                             inputIsInvalid={repoLinkHasError}
-                            invalidMessage={`There's no such repo!`}
+                            invalidMessage={`${repoLinkValue.trim().length === 0 ? 'Must enter a repo link' : `There's no such repo!`}`}
                         />
 
                         <InputField
