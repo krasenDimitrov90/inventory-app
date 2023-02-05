@@ -32,7 +32,7 @@ const ItemOptions = ({ item, updateQtyHandler, removeBtnHandler }) => {
                 <div className="quantity-btns-wrapper">
 
                     <div className="add-qty-btn-card">
-                        <button className="item-options-add-qty-btn" onClick={updateQtyHandler.bind(null, enteredQuantity)} >Update quantity</button>
+                        <button className="item-options-add-qty-btn" onClick={updateQtyHandler.bind(null, enteredQuantity, quantityInputIsInvalid)} >Update quantity</button>
                     </div>
                     <div className="remove-btn-card">
                         <div>

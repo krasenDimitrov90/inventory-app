@@ -68,8 +68,8 @@ const Item = ({ items, item, qty, btnHandler, expiring, updateItems, classes }) 
         btnHandler(item, 'subtract');
     };
 
-    const updateItemQtyHandler = (qty) => {
-        if (qty < 0) {
+    const updateItemQtyHandler = (qty, qtyIsInvalid) => {
+        if (qty < 0 || qtyIsInvalid) {
             return;
         }
         setItemOptionsIsShown(oldState => !oldState);

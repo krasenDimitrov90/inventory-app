@@ -11,9 +11,9 @@ import HomePage from './pages/HomePage/HomePage';
 import ImportRepo from './pages/ImportRepo/ImportRepo';
 import ExpiringItemsPage from './pages/ExpiringItems/ExpiringItems';
 import ItemsPage from './pages/ItemsPage/ItemsPage';
-import RepositoriesPage from './pages/Repositories/RepositoriesPage';
-import LoginPage from './pages/Login/LoginPage';
-import RegisterPage from './pages/Register/RegisterPage';
+import RepositoriesPage from './pages/RepositoriesPage/RepositoriesPage';
+import LoginPage from './pages/LoginPage/LoginPage';
+import RegisterPage from './pages/RegisterPage/RegisterPage';
 import ErrorPage from './pages/ErrorPage/ErrorPage';
 
 const router = createBrowserRouter([

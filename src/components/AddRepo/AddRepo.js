@@ -104,7 +104,7 @@ const AddRepo = () => {
                         onChange={repoInputChangeHandler}
                         onBlur={repoInputOnBlurHandler}
                         inputIsInvalid={repoInputIsInvalid}
-                        invalidMessage='Must enter an valid Item!'
+                        invalidMessage='Must enter a name!'
                     />
 
                 </FormCard>
