@@ -61,10 +61,11 @@
         font-family: "Montserrat", sans-serif;
 
         display: flex;
-        margin: 5px;
+        // margin: 5px;
         color: white;
         border-bottom: 1px solid white;
-        padding-bottom: 5px;
+        // padding-bottom: 5px;
+        padding: 5px;
 
         .repo-name {
             flex: 1;
