@@ -48,6 +48,8 @@ const AddRepo = () => {
         onBlurHandler: repoInputOnBlurHandler,
     } = useInput(value => value.trim().length > 0);
 
+    let formIsInvalid = repoInputIsInvalid || !enteredRepo
+
     const submitHandler = (e) => {
         e.preventDefault();
 
@@ -93,6 +95,7 @@ const AddRepo = () => {
                     submitHandler={submitHandler}
                     formTitle='ADD REPO'
                     btnName='ADD'
+                    formIsInvalid={formIsInvalid}
                 >
                     <InputField
                         icon={<i className="fa-sharp fa-solid fa-cube"></i>}

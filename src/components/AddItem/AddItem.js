@@ -52,6 +52,8 @@ const AddItem = () => {
         onBlurHandler: minQuantityInputOnBlurHandler,
     } = useInput(value => !isNaN(value) && value !== '');
 
+    let formIsInvalid = itemInputIsInvalid || minQuantityInputIsInvalid || !enteredItem || !enteredMinQuantity;
+
     const submitHandler = (e) => {
         e.preventDefault();
 
@@ -92,6 +94,7 @@ const AddItem = () => {
                     submitHandler={submitHandler}
                     formTitle='ADD ITEM'
                     btnName='ADD'
+                    formIsInvalid={formIsInvalid}
                 >
                     <InputField
                         icon={<i className="fa-sharp fa-solid fa-cube"></i>}
