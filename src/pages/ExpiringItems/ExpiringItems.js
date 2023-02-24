@@ -1,5 +1,5 @@
 import React from "react";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import Modal from "../../components/Modal/Modal";
 import Item from "../../components/Item/Item";
 import ItemsTableWrapper from "../../components/ItemsTableWrapper/ItemsTableWrapper";
@@ -34,7 +34,7 @@ const ExpiringItemsPage = () => {
             if (item !== 'ownerId') {
                 const quantity = Number(items[item].qty);
                 const minQuantity = Number(items[item]['min-qty']);
-    
+
                 if (quantity < minQuantity) {
                     acc[item] = items[item];
                 }
@@ -44,7 +44,7 @@ const ExpiringItemsPage = () => {
 
         setItemsCount(Object.keys(items).length);
         setExpiringItems(filteredItems);
-    },[]);
+    }, []);
 
 
     const prepareExpiringItems = React.useCallback(() => {
@@ -55,7 +55,7 @@ const ExpiringItemsPage = () => {
 
         const requestConfig = { action: "getRepo", path: params.repoId };
         sendRequest(requestConfig, dataHandler);
-    },[filterItems, sendRequest, params.repoId]);
+    }, [filterItems, sendRequest, params.repoId]);
 
     React.useEffect(() => {
         prepareExpiringItems();
@@ -68,7 +68,7 @@ const ExpiringItemsPage = () => {
         setRequestIsFinished } = usePopUp(prepareExpiringItems);
 
 
-    
+
 
     const updateItemsQty = (item, action, quantity = null) => {
 
@@ -109,7 +109,7 @@ const ExpiringItemsPage = () => {
 
 
     const NoItemsTemplate = () => {
-        const message = itemsCount > 1 
+        const message = itemsCount > 1
             ? 'You have enough items in this repositorie!'
             : `You don't have any items in this repositorie!`
         return (
@@ -127,28 +127,41 @@ const ExpiringItemsPage = () => {
             </Modal>}
 
             <h1 className="expiring-items-title"><span>{repoName}</span> - items that expiring soon</h1>
-            {!modalIsOpen && !isLoading && expiringItems !== null && Object.keys(expiringItems).length > 0 &&
-                <ItemsTableWrapper
-                    sendData={sendUpdatedItems.bind(null, expiringItems)}
-                >
-                    {Object.entries(expiringItems).map(([item, itemProps]) => {
-                        return (
+            <article className="inventory">
+                <section className="inventory-links" >
+                    <div className="add-item">
+                        <Link className="inventory-links-btns add-item-btn"
+                            // to={`add-item`}
+                            onClick={() => navigate(-1)}
+                            state={{ repoName: repoName }}
+                        >
+                            Back to all items
+                        </Link>
+                    </div>
+                </section>
+                {!modalIsOpen && !isLoading && expiringItems !== null && Object.keys(expiringItems).length > 0 &&
+                    <ItemsTableWrapper
+                        sendData={sendUpdatedItems.bind(null, expiringItems)}
+                    >
+                        {Object.entries(expiringItems).map(([item, itemProps]) => {
+                            return (
 
-                            <Item
-                                expiring={true}
-                                key={item}
-                                item={item}
-                                items={expiringItems}
-                                qty={itemProps.qty}
-                                btnHandler={updateItemsQty}
-                                updateItems={prepareExpiringItems}
-                                classes={'expiring-items'}
-                            />
-                        );
-                    })}
-                </ItemsTableWrapper>
-            }
-            {!isLoading && expiringItems !== null && Object.keys(expiringItems).length === 0 && <NoItemsTemplate />}
+                                <Item
+                                    expiring={true}
+                                    key={item}
+                                    item={item}
+                                    items={expiringItems}
+                                    qty={itemProps.qty}
+                                    btnHandler={updateItemsQty}
+                                    updateItems={prepareExpiringItems}
+                                    classes={'expiring-items'}
+                                />
+                            );
+                        })}
+                    </ItemsTableWrapper>
+                }
+                {!isLoading && expiringItems !== null && Object.keys(expiringItems).length === 0 && <NoItemsTemplate />}
+            </article>
         </>
     );
 };
