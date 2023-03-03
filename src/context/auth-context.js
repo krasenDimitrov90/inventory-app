@@ -18,7 +18,6 @@ export const AuthContextProvider = (props) => {
         if (userToken) {
             setIsLoggedIn(true);
         }
-        console.log(isLoggedIn);
     }, [isLoggedIn, userToken]);
 
     const getUserCredentials = () => {

@@ -1,4 +1,5 @@
 import { render, screen, fireEvent } from '@testing-library/react';
+import { act } from 'react-dom/test-utils';
 import { MemoryRouter } from 'react-router-dom';
 import { AuthContextProvider } from '../../../context/auth-context';
 import RepositoriesPage from '../RepositoriesPage';
@@ -67,7 +68,10 @@ describe('RepositoriesPage Component', () => {
             ok: true
         });
 
-        render(<MockItemsPage />);
+        act(() => {
+            render(<MockItemsPage />);
+        });
+
 
         const divEls = await screen.findAllByTestId('repo-wrapper', {}, 5000);
         expect(divEls).toHaveLength(2);

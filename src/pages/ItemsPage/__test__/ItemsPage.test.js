@@ -2,6 +2,9 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import ItemsPage from '../ItemsPage';
 import { MemoryRouter } from 'react-router-dom';
 import { AuthContextProvider } from '../../../context/auth-context';
+import { act } from 'react-dom/test-utils';
+
+import ReactDOM from 'react-dom/client';
 
 
 
@@ -56,7 +59,39 @@ describe('ItemsPage Component', () => {
         window.localStorage.setItem('userEmail', 'try@free.com');
     });
 
-    it('Should show the item\'s name', async () => {
+    let container;
+
+    beforeEach(() => {
+        container = document.createElement('div');
+        container.id = 'root';
+        document.body.appendChild(container);
+    });
+
+    afterEach(() => {
+        document.body.removeChild(container);
+        container = null;
+    });
+
+    it('Should show the all item\'s', async () => {
+
+        window.fetch = jest.fn();
+        window.fetch.mockResolvedValueOnce({
+            json: async () => mockData,
+            ok: true
+        });
+        act(() => {
+            ReactDOM.createRoot(container).render(<MockItemsPage />);
+        });
+
+        // act(() => {
+        //     render(<MockItemsPage />);
+        // });
+
+        const divEls = await screen.findAllByTestId('item-card', {}, 5000);
+        expect(divEls).toHaveLength(2);
+    });
+
+    it('Should show the right quantity', async () => {
 
         window.fetch = jest.fn();
         window.fetch.mockResolvedValueOnce({
@@ -64,9 +99,148 @@ describe('ItemsPage Component', () => {
             ok: true
         });
 
-        render(<MockItemsPage />);
+        act(() => {
+            ReactDOM.createRoot(container).render(<MockItemsPage />);
+        });
+        // act(() => {
+        //     render(<MockItemsPage />);
+        // });
+
 
         const divEls = await screen.findAllByTestId('item-card', {}, 5000);
-        expect(divEls).toHaveLength(2);
+        divEls.map((itemCard, index) => {
+            const [item, qty] = itemCard.querySelectorAll('p');
+            expect(mockData[item.textContent].qty).toBe(Number(qty.textContent));
+        });
     });
+
+    it('Should increase item\'s qty if plus btn is clecked', async () => {
+
+        window.fetch = jest.fn();
+        window.fetch.mockResolvedValueOnce({
+            json: async () => mockData,
+            ok: true
+        });
+
+        act(() => {
+            ReactDOM.createRoot(container).render(<MockItemsPage />);
+        });
+
+        // act(() => {
+        //     render(<MockItemsPage />);
+        // });
+
+
+        const divEls = await screen.findAllByTestId('item-card', {}, 5000);
+        divEls.map((itemCard, index) => {
+            const [item, qty] = itemCard.querySelectorAll('p');
+            const plusBtnEl = itemCard.querySelectorAll('button')[0];
+            const currMockQty = mockData[item.textContent].qty
+            act(() => {
+                fireEvent.click(plusBtnEl);
+            });
+            expect(Number(qty.textContent)).toBe(currMockQty + 1);
+        });
+    });
+
+    it('Should decrease item\'s qty if minus btn is clecked', async () => {
+
+        window.fetch = jest.fn();
+        window.fetch.mockResolvedValueOnce({
+            json: async () => mockData,
+            ok: true
+        });
+
+        act(() => {
+            ReactDOM.createRoot(container).render(<MockItemsPage />);
+        });
+
+        // act(() => {
+        //     render(<MockItemsPage />);
+        // });
+
+        const divEls = await screen.findAllByTestId('item-card', {}, 5000);
+        divEls.map((itemCard, index) => {
+            const [item, qty] = itemCard.querySelectorAll('p');
+            const minusBtnEl = itemCard.querySelectorAll('button')[1];
+            const currMockQty = mockData[item.textContent].qty
+            act(() => {
+                fireEvent.click(minusBtnEl);
+            });
+            act(() => {
+                fireEvent.click(minusBtnEl);
+            });
+            expect(Number(qty.textContent)).toBe(currMockQty - 2);
+        });
+    });
+
+    it('Should NOT decrease item\'s qty if minus btn is clecked and qty gets negative', async () => {
+
+        window.fetch = jest.fn();
+        window.fetch.mockResolvedValueOnce({
+            json: async () => mockData,
+            ok: true
+        });
+
+        act(() => {
+            ReactDOM.createRoot(container).render(<MockItemsPage />);
+        });
+
+        // act(() => {
+        //     render(<MockItemsPage />);
+        // });
+
+        const divEls = await screen.findAllByTestId('item-card', {}, 5000);
+        divEls.map((itemCard, index) => {
+            const [item, qty] = itemCard.querySelectorAll('p');
+            const minusBtnEl = itemCard.querySelectorAll('button')[1];
+            const currMockQty = mockData[item.textContent].qty
+            const currQtyInTheDocument = Number(qty.textContent);
+
+            for (let i = 1; i <= currQtyInTheDocument + 5; i++) {
+                act(() => {
+                    fireEvent.click(minusBtnEl);
+                });
+            }
+            expect(Number(qty.textContent)).toBe(0);
+        });
+    });
+
+    it('Should NOT decrease item\'s qty if minus btn is clecked and qty gets negative', async () => {
+
+        window.fetch = jest.fn();
+        window.fetch.mockResolvedValueOnce({
+            json: async () => mockData,
+            ok: true
+        });
+
+        await act(() => {
+            ReactDOM.createRoot(container).render(<MockItemsPage />);
+        });
+
+        const divEls = await screen.findByTestId('add-item-btn');
+        
+        expect(divEls).toBeInTheDocument();
+    });
+
+    // it('Should show the ADD item form', async () => {
+
+    //     window.fetch = jest.fn();
+    //     window.fetch.mockResolvedValueOnce({
+    //         json: async () => mockData,
+    //         ok: true
+    //     });
+
+    //     act(() => {
+    //         ReactDOM.createRoot(container).render(<MockItemsPage />);
+    //     });
+
+    //     // act(() => {
+    //     //     render(<MockItemsPage />);
+    //     // });
+
+
+    //     const addItemBtnEls = await screen.findByText('Add Item', {}, 5000);
+    //     expect(addItemBtnEls).toBeInTheDocument();
+    // });
 });

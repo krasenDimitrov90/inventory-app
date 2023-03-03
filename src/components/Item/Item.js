@@ -107,8 +107,8 @@ const Item = ({ items, item, qty, btnHandler, expiring, updateItems, classes }) 
                     onCinfirmHandler={requestDeleteItem}
                 />
             </Modal>}
-            <div data-testid="item-card" className={`item-wrapper ${classes}`} style={backGroundColor}>
-                <div className="item-wrapper-card" onClick={itemOnClickHandler}  >
+            <div className={`item-wrapper ${classes}`} style={backGroundColor}>
+                <div data-testid="item-card" className="item-wrapper-card" onClick={itemOnClickHandler}  >
                     <p data-testid="item-card-paragraph">{item}</p>
                     <p data-testid="item-card-qty" className={qtyElementClasses} >{qty}</p>
                     <section className="btns-wrapper">

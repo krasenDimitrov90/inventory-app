@@ -23,7 +23,6 @@ const RepositoriesPage = () => {
         if (data === null || data === '') {
             data = {};
         }
-        console.log(data);
         setRepos(data);
     }, []);
 

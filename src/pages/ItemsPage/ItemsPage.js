@@ -15,7 +15,6 @@ import AddItem from "../../components/AddItem/AddItem";
 const ItemsPage = () => {
 
     const params = useParams();
-    console.log(params);
 
     const { repoId } = params;
     const location = useLocation();
@@ -32,8 +31,6 @@ const ItemsPage = () => {
 
     const prepareItems = React.useCallback(() => {
         const dataHandler = (data) => {
-
-            console.log(data);
 
             let filteredData = {};
             if (data !== null) {
@@ -135,6 +132,7 @@ const ItemsPage = () => {
                         <Link className="inventory-links-btns add-item-btn"
                             to={`add-item`}
                             state={{ repoName: repoName }}
+                            data-testid="add-item-btn"
                         >
                             Add Item
                         </Link>
