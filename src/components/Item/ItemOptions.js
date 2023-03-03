@@ -16,7 +16,7 @@ const ItemOptions = ({ item, updateQtyHandler, removeBtnHandler }) => {
     return (
         <>
 
-            <div className="item-options" >
+            <div className="item-options" data-testid="item-options" >
                 <InputField
                     icon={<i className="fa-solid fa-scale-unbalanced-flip"></i>}
                     placeholder={'Enter new quantity'}

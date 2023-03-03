@@ -15,7 +15,7 @@ const FormCard = ({
             <h1 className="form-card-title" >{formTitle}</h1>
             {children}
             <div className="form-btn-wrapper">
-                <button className="form-btn" disabled={formIsInvalid} >{btnName}</button>
+                <button data-testid='form-btn' className="form-btn" disabled={formIsInvalid} >{btnName}</button>
             </div>
         </form>
     );

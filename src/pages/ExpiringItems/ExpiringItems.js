@@ -131,9 +131,7 @@ const ExpiringItemsPage = () => {
                 <section className="inventory-links" >
                     <div className="add-item">
                         <Link className="inventory-links-btns add-item-btn"
-                            // to={`add-item`}
                             onClick={() => navigate(-1)}
-                            state={{ repoName: repoName }}
                         >
                             Back to all items
                         </Link>

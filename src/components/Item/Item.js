@@ -63,7 +63,7 @@ const Item = ({ items, item, qty, btnHandler, expiring, updateItems, classes }) 
 
         const qty = items[item].qty;
         if (qty === 0) {
-            return
+            return;
         }
         btnHandler(item, 'subtract');
     };
@@ -107,10 +107,10 @@ const Item = ({ items, item, qty, btnHandler, expiring, updateItems, classes }) 
                     onCinfirmHandler={requestDeleteItem}
                 />
             </Modal>}
-            <div className={`item-wrapper ${classes}`} style={backGroundColor}>
-                <div className="item-wrapper-card" onClick={itemOnClickHandler} >
-                    <p >{item}</p>
-                    <p className={qtyElementClasses} >{qty}</p>
+            <div data-testid="item-card" className={`item-wrapper ${classes}`} style={backGroundColor}>
+                <div className="item-wrapper-card" onClick={itemOnClickHandler}  >
+                    <p data-testid="item-card-paragraph">{item}</p>
+                    <p data-testid="item-card-qty" className={qtyElementClasses} >{qty}</p>
                     <section className="btns-wrapper">
                         <button className="btn-plus" onClick={plusBtnClickHandler} ><i className="fa-solid fa-circle-plus"></i></button>
                         <button className="btn-minus" onClick={minusBtnClickHandler} ><i className="fa-solid fa-circle-minus"></i></button>

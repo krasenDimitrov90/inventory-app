@@ -62,7 +62,7 @@ const Repo = ({ repoName, repoId, userId, onRemoveRepo }) => {
                         onCinfirmHandler={requestDeleteRrepo.bind(null, repoId)}
                     />
                 </Modal>}
-            <div className="repo-card">
+            <div data-testid="repo-wrapper"  className="repo-card">
                 <div className="repo-name" >
                     <Link to={`/repo/${repoId}/items`} state={{ repoName: repoName }}>{repoName}</Link>
                 </div>

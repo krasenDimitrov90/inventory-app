@@ -15,6 +15,8 @@ import AddItem from "../../components/AddItem/AddItem";
 const ItemsPage = () => {
 
     const params = useParams();
+    console.log(params);
+
     const { repoId } = params;
     const location = useLocation();
     const { repoName } = location.state || '';
@@ -30,6 +32,8 @@ const ItemsPage = () => {
 
     const prepareItems = React.useCallback(() => {
         const dataHandler = (data) => {
+
+            console.log(data);
 
             let filteredData = {};
             if (data !== null) {
@@ -103,7 +107,7 @@ const ItemsPage = () => {
         const requestConfig = { action: "updateItems", path: params.repoId, data };
         sendRequest(requestConfig, dataHandler);
 
-    },[setModalIsOpen, setRequestIsFinished, params.repoId, sendRequest]);
+    }, [setModalIsOpen, setRequestIsFinished, params.repoId, sendRequest]);
 
     const NoItemsTemplate = () => {
         return (
