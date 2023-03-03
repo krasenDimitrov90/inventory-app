@@ -55,32 +55,4 @@ function App() {
   );
 }
 
-// function App() {
-//   return (
-//     <AuthContextProvider>
-//       <BrowserRouter>
-//         <Layout>
-//           <Routes>
-//             <Route path='/' element={<HomePage />} />
-//             <Route path='login' element={<LoginPage />} />
-//             <Route path='register' element={<RegisterPage />} />
-//             <Route path='import-repo' element={<ImportRepo />} />
-
-//             <Route path='repositories' element={<RepositoriesPage />} >
-//               <Route path='add-repo' element={<AddRepo />} />
-//             </Route>
-
-//             <Route path='inventory/:repoId' element={<ItemsPage />} >
-//               <Route path='add-item' element={<AddItem />} />
-//             </Route>
-
-//             <Route path='expiring-items/:repoId' element={<ExpiringItemsPage />} />
-//           </Routes>
-//         </Layout>
-//       </BrowserRouter>
-//     </AuthContextProvider>
-
-//   );
-// }
-
 export default App;
