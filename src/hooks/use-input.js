@@ -7,6 +7,12 @@ const useInput = (validateValue) => {
 
     const hasError = valueInputIsTouched && !valueIsValid;
 
+    const autoFillInput = React.useCallback((value) => {
+        setValue(value);
+        setValueIsValid(true);
+        setValueInputIsTouched(true);
+    }, []);
+
     const onChangeHandler = (e) => {
         setValue(e.target.value);
         if (!validateValue(e.target.value)) {
@@ -31,6 +37,7 @@ const useInput = (validateValue) => {
         onChangeHandler,
         onBlurHandler,
         resetInput,
+        autoFillInput,
     };
 };
 

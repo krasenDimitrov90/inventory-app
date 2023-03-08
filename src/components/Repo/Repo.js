@@ -6,6 +6,8 @@ import SuccessPopUp from "../SuccessPopUp/SuccessPopUp";
 import useHttp from "../../hooks/use-http";
 import usePopUp from "../../hooks/use-popUp";
 import ConfirmPopUp from "../ConfirmPopUp/ConfirmPopUp";
+import svg from "../../SVG";
+import './Repo.styles.scss';
 
 
 const Repo = ({ repoName, repoId, userId, onRemoveRepo }) => {
@@ -62,19 +64,29 @@ const Repo = ({ repoName, repoId, userId, onRemoveRepo }) => {
                         onCinfirmHandler={requestDeleteRrepo.bind(null, repoId)}
                     />
                 </Modal>}
-            <div data-testid="repo-wrapper"  className="repo-card">
-                <div className="repo-name" >
-                    <Link to={`/repo/${repoId}/items`} state={{ repoName: repoName }}>{repoName}</Link>
-                </div>
-                <section className="repo-btns" >
-                    <div className="repo-btn-share" >
-                        <button onClick={() => setShareModalIsOpen(true)} >Share Repo</button>
+            <ul className="main-repo-list">
+                <li className="flex-1">
+
+                    <Link to={`/repo/${repoId}/items`} state={{ repoName: repoName }} className="actions-links edit ">
+                        {repoName}
+                    </Link>
+                    
+                </li>
+                <li className="flex-1">
+                    <div className="actions-icons-wrapper">
+                        <Link to={`edit-repo/${repoId}`} className="actions-links edit">
+                            <svg.Pen />
+                        </Link>
+                        <button onClick={() => setModalIsOpen(true)} className="actions-links delete">
+                            <svg.Delete />
+                        </button>
+                        <button onClick={() => setShareModalIsOpen(true)} className="actions-links share">
+                            <svg.Share />
+                        </button>
+
                     </div>
-                    <div className="repo-btn-delete" >
-                        <button onClick={() => setModalIsOpen(true)} >DELETE</button>
-                    </div>
-                </section>
-            </div>
+                </li>
+            </ul>
         </>
     );
 };

@@ -1,90 +1,91 @@
 import React from "react";
-import { NavLink, Link, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import AuthContext from "../../context/auth-context";
 import { Fade } from 'hamburger-react';
 import './Navigation.scss';
+import svg from "../../SVG";
+import SmallScreenNav from "./SmallScreenNav";
 
 const Navigation = (props) => {
 
     const navigate = useNavigate();
-
-    const [isOpen, setOpen] = React.useState(false);
-
+    const [isOpen, setIsOpen] = React.useState(false);
     const authCtx = React.useContext(AuthContext);
-
-    const { isLoggedIn, loggout, getUserCredentials } = authCtx;
-    const navRef = React.useRef();
-
+    const { loggout, getUserCredentials } = authCtx;
     const { userEmail } = getUserCredentials();
 
     React.useEffect(() => {
-        setOpen(false);
+        setIsOpen(false);
     }, [navigate])
 
 
     const loggoutHandler = () => {
         loggout();
+        navigate('/login');
     };
 
 
-    const guestTemplate = (
-        <>
-            <li><NavLink to={'login'} >Login</NavLink></li>
-            <li><NavLink to={'register'} >Register</NavLink></li>
-        </>
-    );
+    const [loggoutIsOpen, setLoggoutIsOpen] = React.useState(false);
 
-    const userTemplate = (
-        <>
+    const onProfileClickHandler = React.useCallback(() => {
+        setLoggoutIsOpen((prev) => !prev);
+    }, []);
 
-            <li><NavLink to={'repositories'} >Repositories</NavLink></li>
-            <li><NavLink to={'import-repo'} >Import Repo</NavLink></li>
-            <li><Link to={'login'} onClick={loggoutHandler} >Loggout</Link></li>
-        </>
-    );
-
-    const Nav = () => {
-        return (
-            <nav ref={navRef} className="navigation">
-
-                <ul className="navigation-list">
-                    {/* <li className={'home-btn-link'}><NavLink to={'/'} >Home</NavLink></li> */}
-                    {isLoggedIn && userTemplate}
-                    {!isLoggedIn && guestTemplate}
-                </ul>
-            </nav>
-        );
-    };
-
-    const SmallScreenNav = () => {
-        return (
-            <header className="small-screen-navigation-header">
-                <nav className="navigation-small-screen">
-                    <ul className="navigation-list">
-                        {/* <li className={'home-btn-link'}><NavLink to={'/'} >Home</NavLink></li> */}
-                        {isLoggedIn && userTemplate}
-                        {!isLoggedIn && guestTemplate}
-                    </ul>
-                </nav>
-            </header>
-        );
-    };
+    const loggoutBtnClasses = `${!loggoutIsOpen ? 'logout-btn' : 'logout-btn shown'}`;
 
 
     return (
         <>
-            <header className="navigation-header">
-                {isLoggedIn &&
-                    <div className="navigation-user-name">
-                        <p>Welcome {userEmail}</p>
-                    </div>
-                }
-                <div className="menu-btn" >
-                    <Fade toggled={isOpen} toggle={setOpen} />
-                </div>
-                <Nav />
-            </header>
             {isOpen && <SmallScreenNav />}
+            <div className="menu-btn">
+                <Fade toggled={isOpen} toggle={setIsOpen} />
+            </div>
+            <aside className="big-screen-nav flex flex-col pb-[50px]">
+
+                <div className="p-[30px] border-b-[#152235] border-b-[1px]" >
+                    <h2 className="opacity-0">Left Side</h2>
+                </div>
+
+                <div className="user-profile ">
+                    <div className=" flex relative z-[101] px-[20px] py-[20px] bg-[#131720]">
+                        <div className="slidebar-user-img mr-[10px]">
+                            <img className="rounded-[10px]" src="http://flixtv.volkovdesign.com/admin/img/user.svg" alt="" />
+                        </div>
+                        <div className="flex flex-col justify-end ">
+                            <div className="user-name flex ">
+                                <h2 className="text-[16px]">{userEmail}</h2>
+                                <div onClick={onProfileClickHandler} className="cursor-pointer">
+                                    <svg.ArrowDown />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div className={loggoutBtnClasses}>
+                    <button onClick={loggoutHandler} className="sidebar-user-btn">
+                        <svg.ArrowRight />
+                    </button>
+                    <p className="ml-[10px] text-[12px]">Loggout</p>
+                </div>
+
+                <div className="flex flex-col flex-1 h-[200px]">
+                    <ul className="sidebar-nav scroll-content px-[30px] py-[20px] flex flex-1 flex-col w-[100%]">
+                        <li>
+                            <NavLink to="/repositories" className="sidebar__nav-link">
+                                <svg.Folder />
+                                <span>Repos</span>
+                            </NavLink>
+                        </li>
+                        <li>
+                            <NavLink to="/import-repo" className="sidebar__nav-link">
+                                <svg.Cloud />
+                                <span>Import repo</span>
+                            </NavLink>
+                        </li>
+                    </ul>
+                </div>
+            </aside>
         </>
     );
 };

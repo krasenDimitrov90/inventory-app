@@ -2,7 +2,6 @@ import React from "react";
 import { Outlet, Link, useNavigate, useParams, useLocation } from "react-router-dom";
 import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
 import Item from "../../components/Item/Item";
-import ItemsTableWrapper from "../../components/ItemsTableWrapper/ItemsTableWrapper";
 import useHttp from "../../hooks/use-http";
 
 import "./ItemsPage.styles.scss";
@@ -10,42 +9,51 @@ import AuthContext from "../../context/auth-context";
 import Modal from "../../components/Modal/Modal";
 import SuccessPopUp from "../../components/SuccessPopUp/SuccessPopUp";
 import usePopUp from "../../hooks/use-popUp";
-import AddItem from "../../components/AddItem/AddItem";
 
 const ItemsPage = () => {
 
     const params = useParams();
 
     const { repoId } = params;
-    const location = useLocation();
-    const { repoName } = location.state || '';
 
     const navigate = useNavigate();
     const authCtx = React.useContext(AuthContext);
     const { isLoggedIn } = authCtx;
     const [items, setItems] = React.useState(null);
+    const [filteredItems, setFilteredItems] = React.useState(null);
     const { isLoading, sendRequest } = useHttp();
-    const [addItemModalIsOpen, setAddItemModalIsOpen] = React.useState(false);
+    const [itemsToShow, setItemsToShow] = React.useState('All Itmes');
+    const [isOpen, setIsOpen] = React.useState(false);
 
-    const addItemOnCloseHandler = () => setAddItemModalIsOpen(false);
+
+    const classes = isOpen ? 'filter-btn-close' : 'filter-btn-open';
+
+    const hadleOpen = () => setIsOpen((prev) => !prev);
+
+    const setItemsToShowHandler = React.useCallback((e) => {
+        setItemsToShow(e.target.textContent);
+        setIsOpen(false);
+    }, []);
 
     const prepareItems = React.useCallback(() => {
         const dataHandler = (data) => {
 
             let filteredData = {};
             if (data !== null) {
-
                 filteredData = Object.keys(data).reduce((acc, item) => {
                     if (item !== 'ownerId') {
                         acc[item] = data[item];
                     }
                     return acc;
                 }, {});
+                filteredData.expiring = false;
                 setItems(filteredData);
+                setFilteredItems(filteredData);
 
                 return;
             }
             setItems({});
+            setFilteredItems({});
         };
 
         const requestConfig = { action: "getRepo", path: params.repoId };
@@ -54,13 +62,36 @@ const ItemsPage = () => {
 
     const {
         modalIsOpen,
-        setModalIsOpen,
         requestIsFinished,
-        setRequestIsFinished } = usePopUp(prepareItems);
+    } = usePopUp(prepareItems);
+
+    React.useEffect(() => {
+        let filteredData = {};
+        if (items !== null) {
+            if (itemsToShow === 'All Items') {
+                filteredData = { ...items };
+
+            } else if (itemsToShow === 'Expiring Items') {
+                filteredData = Object.keys(items).reduce((acc, item) => {
+                    if (item !== 'ownerId') {
+                        const quantity = Number(items[item].qty);
+                        const minQuantity = Number(items[item]['min-qty']);
+
+                        if (quantity < minQuantity) {
+                            acc[item] = items[item];
+                        }
+                    }
+                    return acc;
+                }, {});
+                filteredData.expiring = true;
+            }
+            setFilteredItems(filteredData);
+        }
+    }, [itemsToShow])
 
     React.useEffect(() => {
         prepareItems();
-    }, [prepareItems]);
+    }, []);
 
     if (!isLoggedIn) {
         navigate('/login');
@@ -93,19 +124,6 @@ const ItemsPage = () => {
 
     };
 
-
-    const requestUpdateItems = React.useCallback((data) => {
-
-        const dataHandler = () => {
-            setModalIsOpen(true);
-            setRequestIsFinished(true);
-        };
-
-        const requestConfig = { action: "updateItems", path: params.repoId, data };
-        sendRequest(requestConfig, dataHandler);
-
-    }, [setModalIsOpen, setRequestIsFinished, params.repoId, sendRequest]);
-
     const NoItemsTemplate = () => {
         return (
             <div className="inventory-items-empty">
@@ -114,55 +132,73 @@ const ItemsPage = () => {
         );
     };
 
+
+    console.log(items);
     return (
         <>
-            <Outlet context={[repoId, prepareItems]} />
-            {addItemModalIsOpen && <AddItem
-                onCloseHandler={addItemOnCloseHandler}
-                repoId={repoId}
-            />}
+            <Outlet context={[repoId, prepareItems, items]} />
+
             {modalIsOpen && requestIsFinished && <Modal>
                 <SuccessPopUp message={'Succesfuly saved'} />
             </Modal>}
             {isLoading && <LoadingSpinner />}
-            <h1 className="inventory-items-title">Items in   <span>{repoName}</span></h1>
-            <article className="inventory">
-                <section className="inventory-links" >
-                    <div className="add-item">
-                        <Link className="inventory-links-btns add-item-btn"
-                            to={`add-item`}
-                            state={{ repoName: repoName }}
-                            data-testid="add-item-btn"
-                        >
-                            Add Item
-                        </Link>
+            <main className="main">
+                <div className="px-[20px] " >
+                    <div className="flex justify-between items-center border-b-[#152235] border-b-[1px]">
+                        <div className="py-[21px] ">
+                            <p className="text-[12px]" >Filter</p>
+                            <div className="flex">
+                                <p className="mr-[10px]">{itemsToShow}</p>
+                                <span onClick={hadleOpen} className={classes}></span>
+                            </div>
+                            <ul className={isOpen ? 'filter-list' : 'filter-list filter-list-closed'}>
+                                <li><button onClick={setItemsToShowHandler} >All Items</button></li>
+                                <li className="mt-[10px]"><button onClick={setItemsToShowHandler} >Expiring Items</button></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <Link to="add-item" className="transition duration-500 bg-[#2f80ed] py-[7px] px-[30px] rounded-[12px] hover:bg-[white] hover:text-[black]">ADD ITEM</Link >
+                        </div>
                     </div>
-                    <div className="add-item">
-                        <Link className="inventory-links-btns expiring-items-btn" to={`/repo/${repoId}/expiring-items`} state={{ repoName: repoName }} >Expiring Items</Link>
+
+                </div>
+                <div className="flex flex-col p-[20px]">
+                    <div>
+                        <ul className="main-list">
+                            <li className="table-header-items">TITLE</li>
+
+                            <li className="big-screen-qty">Quantity</li>
+                            <li className="big-screen-min-qty">Min Quantity</li>
+
+                            <li className="small-screen-qty">Qty</li>
+                            <li className="small-screen-min-qty" >Min Qty</li>
+
+                            <li className="table-header-items">ACTIONS</li>
+                        </ul>
+                        {!modalIsOpen && !isLoading && filteredItems !== null && Object.entries(filteredItems).length > 0 &&
+                            <>
+                                {Object.entries(filteredItems).map(([item, properties]) => {
+                                    if (item === 'expiring') return;
+                                    return (
+                                        <Item
+                                            key={item}
+                                            itemId={item}
+                                            name={filteredItems[item].name}
+                                            items={items}
+                                            qty={filteredItems[item].qty}
+                                            minQty={filteredItems[item]['min-qty']}
+                                            unit={filteredItems[item].unit}
+                                            btnHandler={updateItemsQty}
+                                            updateItems={prepareItems}
+                                            classes={filteredItems.expiring ? "expiring-items" : ""}
+                                        />
+                                    );
+                                })}
+                            </>}
+                        {!isLoading && filteredItems !== null && Object.entries(filteredItems).length === 0 && <NoItemsTemplate />}
                     </div>
-                </section>
-
-                {!modalIsOpen && !isLoading && items !== null && Object.entries(items).length > 0 &&
-                    <ItemsTableWrapper
-                        sendData={requestUpdateItems.bind(null, items)}
-                    >
-
-                        {Object.entries(items).map(([item, properties]) => {
-                            return (
-                                <Item
-                                    key={item}
-                                    item={item}
-                                    items={items}
-                                    qty={items[item].qty}
-                                    btnHandler={updateItemsQty}
-                                    updateItems={prepareItems}
-                                    classes={'all-items'}
-                                />
-                            );
-                        })}
-                    </ItemsTableWrapper>}
-                {!isLoading && items !== null && Object.entries(items).length === 0 && <NoItemsTemplate />}
-            </article>
+                </div>
+            </main>
         </>
     );
 };

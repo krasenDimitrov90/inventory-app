@@ -1,6 +1,7 @@
 import React from 'react';
 import { QRCode } from 'react-qrcode-logo';
 import favicon from './favicon.ico';
+import svg from '../../SVG';
 
 import './QrGenerator.styles.scss';
 
@@ -19,7 +20,7 @@ const QrGenerator = ({ value, link }) => {
 
             return () => clearTimeout(timeOut);
         }
-    },[message]);
+    }, [message]);
 
     const handleMouseOver = () => {
         if (!buttonHasHovered) {
@@ -46,16 +47,18 @@ const QrGenerator = ({ value, link }) => {
                 logoImage={favicon}
             />
             <h3 className='qr-title-copy'>Or copy this text</h3>
-            <div className={`box ${buttonHasHovered ? isHovering  ? 'meassege-active' : 'meassege-hide' : ''}`} >
+            <div className={`box ${buttonHasHovered ? isHovering ? 'meassege-active' : 'meassege-hide' : ''}`} >
                 <p>{message}</p>
             </div>
             <div className='link-wrapper'>
                 <div ref={linkRef} className='qr-link'>{link}</div>
                 <div onClick={onCopyHandler} className='qr-link-copy-btn' >
-                    <i className="fa-regular fa-copy"
+                    <div className='w-[18px]'
                         onMouseOver={handleMouseOver}
-                        onMouseOut={handleMouseOut}>
-                    </i>
+                        onMouseOut={handleMouseOut}
+                    >
+                        <svg.Copy />
+                    </div>
                 </div>
             </div>
 

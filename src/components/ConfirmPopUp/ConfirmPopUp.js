@@ -14,7 +14,7 @@ const ConfirmPopUp = ({ name, onCancelHandler, onCinfirmHandler }) => {
                     <button className="confirm-action-btns-cancel" onClick={onCancelHandler} >Cancel</button>
                 </div>
                 <div className="confirm-action-btns-card">
-                    <button className="confirm-action-btns-yes" onClick={onCinfirmHandler} >YES</button>
+                    <button className="confirm-action-btns-delete" onClick={onCinfirmHandler} >Delete</button>
                 </div>
             </div>
         </div>

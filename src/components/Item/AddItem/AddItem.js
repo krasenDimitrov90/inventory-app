@@ -1,15 +1,16 @@
 import React from "react";
-import FormCard from "../FormCard/FormCard";
-import InputField from "../InputField/InputField";
-import useInput from "../../hooks/use-input";
-import useHttp from "../../hooks/use-http";
+import FormCard from "../../FormCard/FormCard";
+import InputField from "../../InputField/InputField";
+import useInput from "../../../hooks/use-input";
+import useHttp from "../../../hooks/use-http";
 
 import './AddItem.styles.scss';
 import { useLocation, useNavigate, useOutletContext } from "react-router-dom";
-import Modal from "../Modal/Modal";
-import SuccessPopUp from "../SuccessPopUp/SuccessPopUp";
-import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
-import usePopUp from "../../hooks/use-popUp";
+import Modal from "../../Modal/Modal";
+import SuccessPopUp from "../../SuccessPopUp/SuccessPopUp";
+import LoadingSpinner from "../../LoadingSpinner/LoadingSpinner";
+import usePopUp from "../../../hooks/use-popUp";
+import svg from "../../../SVG";
 
 const AddItem = () => {
 
@@ -21,7 +22,7 @@ const AddItem = () => {
     const { isLoading, sendRequest } = useHttp();
 
     const navigateToInventory = () => {
-        navigate(`/repo/${repoId}/items`, {state: { repoName: repoName }});
+        navigate(`/repo/${repoId}/items`, { state: { repoName: repoName } });
         prepareItems();
     };
 
@@ -32,7 +33,7 @@ const AddItem = () => {
         setRequestIsFinished } = usePopUp(navigateToInventory);
 
     const formWrapperOnClickHandler = (e) => {
-        if (e.target.className !== 'add-item-wrapper') {
+        if (e.target.className !== 'actions-item-wrapper') {
             return;
         }
         navigate(-1);
@@ -52,19 +53,27 @@ const AddItem = () => {
         onBlurHandler: minQuantityInputOnBlurHandler,
     } = useInput(value => !isNaN(value) && value !== '');
 
-    let formIsInvalid = itemInputIsInvalid || minQuantityInputIsInvalid || !enteredItem || !enteredMinQuantity;
+    const {
+        value: enteredUnit,
+        hasError: unitInputIsInvalid,
+        onChangeHandler: unitInputChangeHandler,
+        onBlurHandler: unitInputOnBlurHandler,
+    } = useInput(value => 2 >= value.trim().length > 0);
+
+    let formIsInvalid = itemInputIsInvalid || minQuantityInputIsInvalid || unitInputIsInvalid || !enteredItem || !enteredMinQuantity || !enteredUnit;
 
     const submitHandler = (e) => {
         e.preventDefault();
 
-        if (itemInputIsInvalid || minQuantityInputIsInvalid || !enteredItem || !enteredMinQuantity) {
+        if (itemInputIsInvalid || minQuantityInputIsInvalid || unitInputIsInvalid || !enteredItem || !enteredMinQuantity || !enteredUnit) {
             return;
         }
 
-        const data = {};
-        data[enteredItem] = {
+        const data = {
             qty: 0,
-            'min-qty': Number(enteredMinQuantity)
+            'min-qty': Number(enteredMinQuantity),
+            unit: enteredUnit,
+            name: enteredItem,
         };
 
 
@@ -89,15 +98,19 @@ const AddItem = () => {
                 <SuccessPopUp message={`Succesfuly added ${enteredItem} to the inventory`} />
             </Modal>}
 
-            <div className="add-item-wrapper" onClick={formWrapperOnClickHandler}>
+            <div className="actions-item-wrapper" onClick={formWrapperOnClickHandler}>
                 <FormCard
                     submitHandler={submitHandler}
                     formTitle='ADD ITEM'
                     btnName='ADD'
                     formIsInvalid={formIsInvalid}
                 >
+                    <div className="actions-item-svg-wrapper">
+                        <div>
+                            <svg.Packge />
+                        </div>
+                    </div>
                     <InputField
-                        icon={<i className="fa-sharp fa-solid fa-cube"></i>}
                         type="text"
                         id='item'
                         name='item'
@@ -110,7 +123,6 @@ const AddItem = () => {
                     />
 
                     <InputField
-                        icon={<i className="fa-solid fa-scale-unbalanced-flip"></i>}
                         type="number"
                         id='quantity'
                         name='quantity'
@@ -120,8 +132,22 @@ const AddItem = () => {
                         onBlur={minQuantityInputOnBlurHandler}
                         inputIsInvalid={minQuantityInputIsInvalid}
                         invalidMessage='Must enter an valid number!'
+
                     />
 
+                    <InputField
+                        type="text"
+                        id='unit'
+                        name='unit'
+                        placeholder="Enter unit"
+                        value={enteredUnit}
+                        onChange={unitInputChangeHandler}
+                        onBlur={unitInputOnBlurHandler}
+                        inputIsInvalid={unitInputIsInvalid}
+                        invalidMessage='Must enter an valid unit!'
+                        maxlength={2}
+                    />
+                    <button disabled={formIsInvalid} className="disabled:opacity-30" >ADD</button>
                 </FormCard>
             </div>
         </>

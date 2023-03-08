@@ -1,7 +1,7 @@
 import React from "react";
 import AuthContext from "../../context/auth-context";
-import { useNavigate } from "react-router-dom";
-import './LoginPage.css';
+import { Link, useNavigate } from "react-router-dom";
+import './LoginPage.scss';
 import useInput from "../../hooks/use-input";
 import useHttp from "../../hooks/use-http";
 import usePopUp from "../../hooks/use-popUp";
@@ -64,7 +64,7 @@ const LoginPage = () => {
         } else {
             setFormIsInvalid(false);
         }
-    },[enteredEmailIsValid, enteredPasswordIsValid]);
+    }, [enteredEmailIsValid, enteredPasswordIsValid]);
 
 
     const loginHandler = (userData) => {
@@ -112,38 +112,43 @@ const LoginPage = () => {
                     {requestError !== null && <ErrorPopUp message={requestError} />}
                     {requestError === null && <SuccessPopUp message={'Succesfuly logged in'} />}
                 </Modal>}
-            <section className="login-form-wrapper">
-                {isLoading && <LoadingSpinner />}
-                <FormCard submitHandler={submitHandler} formTitle={'LOG IN'} btnName={"Login"} formIsInvalid={formIsInvalid}>
-
-                    <InputField
-                        icon={<i className="fa-solid fa-user"></i>}
-                        type="text"
-                        id='email'
-                        name='email'
-                        placeholder="Email"
-                        value={enteredEmail}
-                        onBlur={emailInputOnBlurHandler}
-                        onChange={emailInputChangeHandler}
-                        inputIsInvalid={emailInputIsInvalid}
-                        invalidMessage='Invalid Email!'
-                    />
-
-                    <InputField
-                        icon={<i className="fa-solid fa-lock"></i>}
-                        type="password"
-                        id='password'
-                        name='password'
-                        placeholder="Password"
-                        value={enteredPassword}
-                        onBlur={passwordInputOnBlurHandler}
-                        onChange={passwordInputOnChangeHandler}
-                        inputIsInvalid={passwordInputIsInvalid}
-                        invalidMessage='Incorect password!'
-                    />
-
-                </FormCard>
-            </section>
+            <div className="login w-[100vw] h-[100vh] flex justify-center items-center">
+                <img src="https://digitalworkforce.com/wp-content/uploads/2017/11/repository-1.jpg" alt="" />
+                <div className="flex ">
+                    {isLoading && <LoadingSpinner />}
+                    <FormCard submitHandler={submitHandler} >
+                        <InputField
+                            type="text"
+                            id='email'
+                            name='email'
+                            placeholder="Email"
+                            value={enteredEmail}
+                            onBlur={emailInputOnBlurHandler}
+                            onChange={emailInputChangeHandler}
+                            inputIsInvalid={emailInputIsInvalid}
+                            invalidMessage='Invalid Email!'
+                        />
+                        <InputField
+                            type="password"
+                            id='password'
+                            name='password'
+                            placeholder="Password"
+                            value={enteredPassword}
+                            onBlur={passwordInputOnBlurHandler}
+                            onChange={passwordInputOnChangeHandler}
+                            inputIsInvalid={passwordInputIsInvalid}
+                            invalidMessage='Incorect password!'
+                        />
+                        <button disabled={formIsInvalid} className="disabled:opacity-30" >SIGN IN</button>
+                        <span className="mb-[18px]">
+                            <p>Don't have an account?
+                                <Link className=" text-[#2f72b9]" to="/register"> Sign up!</Link>
+                            </p>
+                        </span>
+                        {/* <span className="mb-[30px] text-[#2f72b9]"><Link to="/">Forgot password?</Link></span> */}
+                    </FormCard>
+                </div>
+            </div>
         </>
     );
 };

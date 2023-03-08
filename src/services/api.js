@@ -26,7 +26,7 @@ const request = (method, url, requestConfig = {}) => {
         url += `?auth=${token}`;
     }
 
-
+console.log(url);
     return fetch(url, options)
         .then(res => {
             if (!res.ok) {
