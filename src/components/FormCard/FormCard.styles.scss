@@ -1,11 +1,11 @@
-@media screen and (max-width: 480px ) {
-    .form-card {
-        input,
-        button {
-            max-width: 270px;
-        }
-    }
-}
+// @media screen and (max-width: 480px ) {
+//     .form-card {
+//         input,
+//         button {
+//             max-width: 270px;
+//         }
+//     }
+// }
 
 .form-card {
 
@@ -14,21 +14,6 @@
     flex-direction: column;
     position: relative;
 
-    // input {
-    //     border: 1px solid #151f30;
-    //     background-color: #151f30;
-    //     padding: 0 20px;
-    //     height: 44px;
-    //     font-size: 14px;
-    //     border-radius: 16px;
-    //     width: 300px;
-    //     outline: none;
-    //     transition: 0.5s;
-    // }
-
-    // input:focus {
-    //     border: 1px solid #2f80ed;
-    // }
 
     button {
         width: 300px;

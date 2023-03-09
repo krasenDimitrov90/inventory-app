@@ -1,0 +1,39 @@
+.options-container {
+    overflow: hidden;
+    position: relative;
+    top: -6px;
+    div {
+        transition: 0.5s all 0s;
+        margin-top: -23%;
+    }
+}
+
+.options-container.expanded {
+    div {
+        margin-top: 2%;
+    }
+}
+
+.arrow-down-in-edit-page {
+
+    display: flex;
+    justify-content: center;
+
+    div {
+        fill: #2f80ed;
+        width: 50px;
+        height: 30px;
+
+        svg {
+            transition: 0.5s;
+            cursor: pointer;
+        }
+    }
+
+    div.rotate {
+        svg {
+            transform: rotate(180deg);
+            transition: 0.5s;
+        }
+    }
+}

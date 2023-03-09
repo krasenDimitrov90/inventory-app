@@ -1,3 +1,5 @@
+
+
 .expiring-items {
     border: 1px solid #eb5757;
 }
@@ -33,12 +35,15 @@
 
         .actions-links.edit {
             background-color: rgba(47, 128, 237, 0.1);
+
             svg {
                 fill: #2f80ed;
             }
         }
+
         .actions-links.delete {
             background-color: rgba(235, 87, 87, 0.1);
+
             svg {
                 fill: #eb5757;
             }
@@ -47,6 +52,7 @@
         .actions-links.edit:hover {
             background-color: #193255;
         }
+
         .actions-links.delete:hover {
             background-color: #3f2937;
         }
@@ -57,6 +63,7 @@
             margin-right: 8px;
             border-radius: 8px;
             padding: 6px;
+
             svg {
                 width: 20px;
                 height: auto;

@@ -9,6 +9,7 @@ import useInput from "../../../hooks/use-input";
 import { useLocation, useNavigate, useOutletContext, useParams } from "react-router-dom";
 import useHttp from "../../../hooks/use-http";
 import usePopUp from "../../../hooks/use-popUp";
+import './EditItem.styles.scss';
 
 const EditItem = () => {
 
@@ -20,11 +21,14 @@ const EditItem = () => {
     const [allOptionsAreShown, setAllOptionsAreShown] = React.useState(false);
     const [showOptionsBtnName, setShowOptionsBtnName] = React.useState('Show options');
 
+    let optionsClasses = allOptionsAreShown ? 'options-container expanded' : 'options-container';
+    let svgClasses = allOptionsAreShown ? 'rotate' : '';
+
     const handleOptionsBtn = React.useCallback((e) => {
-        e.preventDefault();
-        setShowOptionsBtnName(prev => prev === 'Show options' ? 'Hide options' : 'Show options');
+        // e.preventDefault();
+        // setShowOptionsBtnName(prev => prev === 'Show options' ? 'Hide options' : 'Show options');
         setAllOptionsAreShown(prev => !prev);
-    },[]);
+    }, []);
 
     console.log(items[itemId]);
 
@@ -89,7 +93,7 @@ const EditItem = () => {
         autoFillMinQuantityInput(items[itemId]['min-qty']);
         autoFillQuantityInput(items[itemId].qty);
         autoFillUnitInput(items[itemId].unit);
-    },[]);
+    }, []);
 
 
     let formIsInvalid = itemInputIsInvalid || minQuantityInputIsInvalid || unitInputIsInvalid || !enteredItem || !enteredMinQuantity || !enteredUnit;
@@ -130,7 +134,6 @@ const EditItem = () => {
             {modalIsOpen && requestIsFinished && <Modal>
                 <SuccessPopUp message={`Succesfuly added ${enteredItem} to the inventory`} />
             </Modal>}
-
             <div className="actions-item-wrapper" onClick={formWrapperOnClickHandler}>
                 <FormCard
                     submitHandler={submitHandler}
@@ -143,7 +146,7 @@ const EditItem = () => {
                             <svg.Update />
                         </div>
                     </div>
-                    <button onClick={handleOptionsBtn}>{showOptionsBtnName}</button>
+                    {/* <button onClick={handleOptionsBtn}>{showOptionsBtnName}</button> */}
 
                     <InputField
                         type="number"
@@ -157,8 +160,9 @@ const EditItem = () => {
                         invalidMessage='Must enter an valid number!'
                     />
 
-                    {allOptionsAreShown &&
-                        <>
+                    {/* {allOptionsAreShown && */}
+                    <div className={optionsClasses}>
+                        <div>
                             <InputField
                                 type="text"
                                 id='item'
@@ -196,7 +200,14 @@ const EditItem = () => {
                                 invalidMessage='Must enter an valid unit!'
                                 maxlength={2}
                             />
-                        </>}
+                        </div>
+                    </div>
+
+                    <div className="arrow-down-in-edit-page">
+                        <div className={svgClasses} onClick={handleOptionsBtn}>
+                            <svg.ArrowDown />
+                        </div>
+                    </div>
                     <button disabled={formIsInvalid} className="disabled:opacity-30" >EDIT</button>
                 </FormCard>
             </div>
