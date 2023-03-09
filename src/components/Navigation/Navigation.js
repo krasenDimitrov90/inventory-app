@@ -31,7 +31,7 @@ const Navigation = (props) => {
         setLoggoutIsOpen((prev) => !prev);
     }, []);
 
-    const loggoutBtnClasses = `${!loggoutIsOpen ? 'logout-btn' : 'logout-btn shown'}`;
+    const loggoutBtnClasses = `${!loggoutIsOpen ? 'logout-btn' : 'logout-btn shown-2'}`;
 
 
     return (
@@ -60,14 +60,21 @@ const Navigation = (props) => {
                             </div>
                         </div>
                     </div>
-
+                    <div className={loggoutBtnClasses}>
+                        <div>
+                            <button onClick={loggoutHandler} className="sidebar-user-btn">
+                                <svg.ArrowRight />
+                            </button>
+                            <p className="ml-[10px] text-[12px]">Loggout</p>
+                        </div>
+                    </div>
                 </div>
-                <div className={loggoutBtnClasses}>
+                {/* <div className={loggoutBtnClasses}>
                     <button onClick={loggoutHandler} className="sidebar-user-btn">
                         <svg.ArrowRight />
                     </button>
                     <p className="ml-[10px] text-[12px]">Loggout</p>
-                </div>
+                </div> */}
 
                 <div className="flex flex-col flex-1 h-[200px]">
                     <ul className="sidebar-nav scroll-content px-[30px] py-[20px] flex flex-1 flex-col w-[100%]">

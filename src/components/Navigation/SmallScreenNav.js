@@ -20,12 +20,13 @@ const SmallScreenNav = () => {
         navigate('/login');
     };
 
-    const loggoutBtnClasses = `${!loggoutIsOpen ? 'logout-btn-small-screen' : 'logout-btn-small-screen shown'}`;
+    const loggoutBtnClasses = `${!loggoutIsOpen ? 'logout-btn' : 'logout-btn  shown-2'}`;
+    // const loggoutBtnClasses = `${!loggoutIsOpen ? 'logout-btn-small-screen' : 'logout-btn-small-screen shown'}`;
 
     return (
         <aside className="small-screen-nav flex flex-col pb-[50px]">
 
-            <div className="relative t-[50px]">
+            <div className="user-profile relative t-[50px]">
                 <div className=" flex relative z-[101] px-[20px] py-[20px] bg-[#131720]">
                     <div className="slidebar-user-img mr-[10px]">
                         <img className="rounded-[10px]" src="http://flixtv.volkovdesign.com/admin/img/user.svg" alt="" />
@@ -41,10 +42,12 @@ const SmallScreenNav = () => {
 
                 </div>
                 <div className={loggoutBtnClasses}>
-                    <button onClick={loggoutHandler} className="sidebar-user-btn">
-                        <svg.ArrowRight />
-                    </button>
-                    <p className="ml-[10px] text-[12px]">Loggout</p>
+                    <div>
+                        <button onClick={loggoutHandler} className="sidebar-user-btn">
+                            <svg.ArrowRight />
+                        </button>
+                        <p className="ml-[10px] text-[12px]">Loggout</p>
+                    </div>
                 </div>
 
             </div>
