@@ -36,7 +36,7 @@ const Navigation = (props) => {
 
     return (
         <>
-            {isOpen && <SmallScreenNav />}
+            {isOpen && <SmallScreenNav userEmail={userEmail} />}
             <div className="menu-btn">
                 <Fade toggled={isOpen} toggle={setIsOpen} />
             </div>

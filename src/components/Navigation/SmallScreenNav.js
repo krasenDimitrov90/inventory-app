@@ -3,7 +3,7 @@ import AuthContext from "../../context/auth-context";
 import svg from "../../SVG";
 import { NavLink, useNavigate } from "react-router-dom";
 
-const SmallScreenNav = () => {
+const SmallScreenNav = ({ userEmail }) => {
 
     const navigate = useNavigate();
 
@@ -33,7 +33,7 @@ const SmallScreenNav = () => {
                     </div>
                     <div className="flex flex-col justify-end ">
                         <div className="user-name flex ">
-                            <h2 className="text-[16px]">Kraskata</h2>
+                            <h2 className="text-[16px]">{userEmail}</h2>
                             <div onClick={onProfileClickHandler} className="cursor-pointer">
                                 <svg.ArrowDown />
                             </div>
