@@ -30,8 +30,6 @@ const EditItem = () => {
         setAllOptionsAreShown(prev => !prev);
     }, []);
 
-    console.log(items[itemId]);
-
     const navigate = useNavigate();
     const { isLoading, sendRequest } = useHttp();
 

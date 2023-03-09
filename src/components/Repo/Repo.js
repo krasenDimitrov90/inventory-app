@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Modal from "../Modal/Modal";
 import QrGenerator from "../QrGenerator/QrGenerator";
 import SuccessPopUp from "../SuccessPopUp/SuccessPopUp";
@@ -12,6 +12,7 @@ import './Repo.styles.scss';
 
 const Repo = ({ repoName, repoId, userId, onRemoveRepo }) => {
 
+    const navigate = useNavigate();
     const { sendRequest } = useHttp();
     const [shareModalIsOpen, setShareModalIsOpen] = React.useState(false);
 
@@ -46,6 +47,12 @@ const Repo = ({ repoName, repoId, userId, onRemoveRepo }) => {
         );
     };
 
+    const repoClickHandler = (e) => {
+        if (typeof e.target.className === 'string') {
+            navigate(`/repo/${repoId}/items`);
+        }
+    };
+
     return (
         <>
             {shareModalIsOpen &&
@@ -64,12 +71,15 @@ const Repo = ({ repoName, repoId, userId, onRemoveRepo }) => {
                         onCinfirmHandler={requestDeleteRrepo.bind(null, repoId)}
                     />
                 </Modal>}
-            <ul className="main-repo-list">
+            <ul onClick={repoClickHandler} className="main-repo-list">
                 <li className="flex-1">
 
-                    <Link to={`/repo/${repoId}/items`} state={{ repoName: repoName }} className="actions-links edit ">
+                    {/* <Link to={`/repo/${repoId}/items`} state={{ repoName: repoName }} className="actions-links edit ">
                         {repoName}
-                    </Link>
+                    </Link> */}
+                    <div className="actions-links edit ">
+                        {repoName}
+                    </div>
                     
                 </li>
                 <li className="flex-1">

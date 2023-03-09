@@ -77,7 +77,7 @@ const ImportRepo = () => {
             return;
         }
 
-        const data = { [repoLinkValue]: repoNameValue }
+        const data = { [repoLinkValue]: {name: repoNameValue} }
 
         const requestConfig = {
             action: 'importNewRepo',

@@ -1,5 +1,5 @@
 import React from "react";
-import { Outlet, Link, useNavigate, useParams, useLocation } from "react-router-dom";
+import { Outlet, Link, useNavigate, useParams } from "react-router-dom";
 import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
 import Item from "../../components/Item/Item";
 import useHttp from "../../hooks/use-http";
@@ -133,7 +133,6 @@ const ItemsPage = () => {
     };
 
 
-    console.log(items);
     return (
         <>
             <Outlet context={[repoId, prepareItems, items]} />
