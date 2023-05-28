@@ -83,10 +83,6 @@ describe('ItemsPage Component', () => {
             ReactDOM.createRoot(container).render(<MockItemsPage />);
         });
 
-        // act(() => {
-        //     render(<MockItemsPage />);
-        // });
-
         const divEls = await screen.findAllByTestId('item-card', {}, 5000);
         expect(divEls).toHaveLength(2);
     });
@@ -102,10 +98,6 @@ describe('ItemsPage Component', () => {
         act(() => {
             ReactDOM.createRoot(container).render(<MockItemsPage />);
         });
-        // act(() => {
-        //     render(<MockItemsPage />);
-        // });
-
 
         const divEls = await screen.findAllByTestId('item-card', {}, 5000);
         divEls.map((itemCard, index) => {
@@ -125,11 +117,6 @@ describe('ItemsPage Component', () => {
         act(() => {
             ReactDOM.createRoot(container).render(<MockItemsPage />);
         });
-
-        // act(() => {
-        //     render(<MockItemsPage />);
-        // });
-
 
         const divEls = await screen.findAllByTestId('item-card', {}, 5000);
         divEls.map((itemCard, index) => {
@@ -154,10 +141,6 @@ describe('ItemsPage Component', () => {
         act(() => {
             ReactDOM.createRoot(container).render(<MockItemsPage />);
         });
-
-        // act(() => {
-        //     render(<MockItemsPage />);
-        // });
 
         const divEls = await screen.findAllByTestId('item-card', {}, 5000);
         divEls.map((itemCard, index) => {
@@ -185,10 +168,6 @@ describe('ItemsPage Component', () => {
         act(() => {
             ReactDOM.createRoot(container).render(<MockItemsPage />);
         });
-
-        // act(() => {
-        //     render(<MockItemsPage />);
-        // });
 
         const divEls = await screen.findAllByTestId('item-card', {}, 5000);
         divEls.map((itemCard, index) => {
@@ -222,25 +201,4 @@ describe('ItemsPage Component', () => {
         
         expect(divEls).toBeInTheDocument();
     });
-
-    // it('Should show the ADD item form', async () => {
-
-    //     window.fetch = jest.fn();
-    //     window.fetch.mockResolvedValueOnce({
-    //         json: async () => mockData,
-    //         ok: true
-    //     });
-
-    //     act(() => {
-    //         ReactDOM.createRoot(container).render(<MockItemsPage />);
-    //     });
-
-    //     // act(() => {
-    //     //     render(<MockItemsPage />);
-    //     // });
-
-
-    //     const addItemBtnEls = await screen.findByText('Add Item', {}, 5000);
-    //     expect(addItemBtnEls).toBeInTheDocument();
-    // });
 });

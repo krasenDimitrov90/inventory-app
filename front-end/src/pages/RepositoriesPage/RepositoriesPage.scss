@@ -1,128 +1,54 @@
-.repositories-items-title {
+.repositories-header {
     display: flex;
-    justify-content: center;
-    padding: 20px 0;
-    font-family: "Montserrat", sans-serif;
+    justify-content: space-between;
+    padding: 23px 0;
+    border-bottom: 1px solid #152235;
+
+    .add-repo-btn:hover {
+        background-color: white;
+        color: #131720;
+    }
+
+    .add-repo-btn {
+        transition: 0.5s;
+    }
 }
 
-.repositories {
-    font-family: "Montserrat", sans-serif;
+@media screen and (max-width: 480px) {
+    .repositories-header {
+        flex-direction: column;
 
-    .repositorie-items-empty {
-        display: flex;
-        justify-content: center;
-        padding: 20px 0;
-    }
-
-    .inventory-items-empty {
-        h2 {
-            text-align: center;
-        }
-    }
-
-    .add-repositorie {
-
-        margin: 15px;
-
-        .add-repositorie-btn {
-            text-decoration: none;
-            color: black;
-            background-color: #00b894;
-            padding: 9px 46px;
-            border-radius: 17px;
-            cursor: pointer;
-            font-family: "Montserrat", sans-serif;
-            transition: 0.3s;
+        .add-repo-form  {
+            margin-top: 12px;
         }
 
-        .add-repositorie-btn:hover {
-            background-color: #55efc4;
+        .add-repo-btn {
+            font-size: 12px;
         }
     }
 }
 
-.repositories-wrapper {
-
-    animation: growDown 300ms ease-in-out forwards;
-
+main {
+    background-color: #131720;
+    flex: 1;
+    padding-left: 290px;
     display: flex;
     flex-direction: column;
-    margin: 15px;
-    box-shadow: 0px 0px 20px 0px #2d3436;
-    padding: 10px;
-    border-radius: 7px;
-    background-color: #00b894;
+    flex-basis: auto;
 
-    .repo-card:hover {
-        background-color: #00c9a1;
-    }
-
-    .repo-card {
-        font-family: "Montserrat", sans-serif;
-
+    .main-list {
         display: flex;
-        // margin: 5px;
-        color: white;
-        border-bottom: 1px solid white;
-        // padding-bottom: 5px;
-        padding: 5px;
+        justify-content: space-between;
+        margin-bottom: 20px;
+        padding: 0 20px;
 
-        .repo-name {
+        .table-header-items {
+            display: flex;
+            justify-content: flex-start;
             flex: 1;
+            font-size: 12px;
             margin-right: 10px;
-            cursor: pointer;
-            display: flex;
-
-            a {
-                flex: 1;
-                text-decoration: none;
-                color: white;
-                display: flex;
-                flex-direction: column;
-                justify-content: flex-end;
-            }
         }
 
-
-
-        .repo-btns {
-            display: flex;
-            justify-content: flex-end;
-
-            button {
-                font-family: "Montserrat", sans-serif;
-                background-color: transparent;
-                border: none;
-                margin: 0;
-                padding: 0;
-                cursor: pointer;
-                background-color: #fd79a8;
-                border-radius: 7px;
-                padding: 5px;
-            }
-
-
-            .repo-btn-share {
-                margin-right: 10px;
-            }
-
-            .repo-btn-delete {
-                button {
-                    background-color: #e60000;
-                }
-            }
-        }
-    }
-}
-
-@keyframes growDown {
-    0% {
-        opacity: 0;
-        transform: translateY(-60px);
-    }
-
-    100% {
-        opacity: 1;
-        transform: translateY(0);
     }
 }

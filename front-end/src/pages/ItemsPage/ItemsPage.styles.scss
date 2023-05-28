@@ -1,74 +1,148 @@
-.inventory-items-title {
-    // display: flex;
-    // justify-content: center;
-    padding: 20px 0;
-    font-family: "Montserrat", sans-serif;
-    text-align: center;
+.filter-btn-open,
+.filter-btn-close {
+    position: relative;
+    width: 16px;
+    height: 16px;
+    display: block;
+    margin-top: 3px;
+    cursor: pointer;
+    transition: 0.5s;
+}
 
-    span {
-        // color: #3c40c6;
-        color: #00b894;
+
+.filter-btn-open::before,
+.filter-btn-open:after {
+    content: '';
+    position: absolute;
+    display: block;
+    width: 16px;
+    height: 2px;
+    background-color: #e0e0e0;
+    left: 0;
+    top: 50%;
+    transition: 0.5s;
+    margin-top: -5px;
+    border-radius: 2px;
+}
+
+.filter-btn-open:after {
+    margin-top: 2px;
+    width: 10px;
+}
+
+.filter-btn-open:hover::after,
+.filter-btn-open:hover::before {
+    background-color: #2f80ed;
+}
+
+
+.filter-btn-close::before,
+.filter-btn-close::after {
+    content: '';
+    position: absolute;
+    display: block;
+    width: 16px;
+    height: 2px;
+    background-color: #e0e0e0;
+    left: 0;
+    top: 50%;
+    transition: 0.5s;
+    margin-top: -5px;
+    border-radius: 2px;
+}
+
+.filter-btn-close::before {
+    transform: rotate(45deg);
+    margin-top: -2px;
+    background-color: #2f80ed;
+}
+
+.filter-btn-close::after {
+    margin-top: -2px;
+    width: 16px;
+    transform: rotate(-45deg);
+    background-color: #2f80ed;
+}
+
+.filter-list {
+    background-color: #151f30;
+    width: 200px;
+    padding: 20px;
+    padding-bottom: 50px;
+    border-radius: 16px;
+    position: absolute;
+    margin-top: 10px;
+    transition: 0.5s;
+
+    li {
+        cursor: pointer;
+        transition: 0.5s;
+    }
+
+    li:hover {
+        color: #2f80ed;
     }
 }
 
-.inventory {
-    font-family: "Montserrat", sans-serif;
-
-    .inventory-links {
-        display: flex;
-        justify-content: space-between;
-
-        .add-item {
-
-            margin: 15px;
-
-            .inventory-links-btns {
-                text-decoration: none;
-                color: black;
-                background-color: #00b894;
-                padding: 9px 46px;
-                border-radius: 17px;
-                border: none;
-                cursor: pointer;
-                font-family: "Montserrat", sans-serif;
-                transition: 0.3s;
-            }
-
-            .inventory-links-btns:hover {
-                background-color: #55efc4;
-            }
-        }
-    }
-
-    .inventory-items-empty {
-        display: flex;
-        justify-content: center;
-        padding: 20px 0;
-        color: white;
-    }
-
-    .inventory-items-empty {
-        h2 {
-            text-align: center;
-        }
-    }
-
-
+.filter-list.filter-list-closed {
+    opacity: 0;
 }
 
 @media screen and (max-width: 480px) {
 
-    .inventory {
-
-        .inventory-links {
-
-            .add-item {
-
-                .inventory-links-btns {
-                    padding: 9px 20px;
-                }
-            }
-        }
+    .big-screen-qty,
+    .big-screen-min-qty {
+        display: none;
     }
 
+    .small-screen-qty,
+    .small-screen-min-qty {
+        display: flex;
+        justify-content: flex-start;
+        flex: 1;
+        font-size: 12px;
+        margin-right: 10px;
+    }
 }
+
+@media screen and (min-width: 481px) {
+
+    .big-screen-qty,
+    .big-screen-min-qty {
+        display: flex;
+        justify-content: flex-start;
+        flex: 1;
+        font-size: 12px;
+        margin-right: 10px;
+    }
+
+    .small-screen-qty,
+    .small-screen-min-qty {
+        display: none;
+    }
+}
+
+main {
+    background-color: #131720;
+    flex: 1;
+    padding-left: 290px;
+    display: flex;
+    flex-direction: column;
+    flex-basis: auto;
+
+    .main-list {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 20px;
+        padding: 0 20px;
+
+        .table-header-items {
+            display: flex;
+            justify-content: flex-start;
+            flex: 1;
+            font-size: 12px;
+            margin-right: 10px;
+        }
+    }
+}
+

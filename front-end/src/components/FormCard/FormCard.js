@@ -1,22 +1,15 @@
 import React from "react";
 
-import './FormCard.styles.css';
+import './FormCard.styles.scss';
 
 const FormCard = ({
     submitHandler,
-    formTitle,
     children,
-    btnName,
-    formIsInvalid,
 }) => {
 
     return (
-        <form onSubmit={submitHandler} className='form-card' >
-            <h1 className="form-card-title" >{formTitle}</h1>
+        <form onSubmit={submitHandler} className="form-card border-[#151f30] border-[1px] rounded-[16px] bg-[#131720]">
             {children}
-            <div className="form-btn-wrapper">
-                <button data-testid='form-btn' className="form-btn" disabled={formIsInvalid} >{btnName}</button>
-            </div>
         </form>
     );
 };

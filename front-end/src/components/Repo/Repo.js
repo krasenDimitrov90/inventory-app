@@ -1,15 +1,18 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Modal from "../Modal/Modal";
 import QrGenerator from "../QrGenerator/QrGenerator";
 import SuccessPopUp from "../SuccessPopUp/SuccessPopUp";
 import useHttp from "../../hooks/use-http";
 import usePopUp from "../../hooks/use-popUp";
 import ConfirmPopUp from "../ConfirmPopUp/ConfirmPopUp";
+import svg from "../../SVG";
+import './Repo.styles.scss';
 
 
 const Repo = ({ repoName, repoId, userId, onRemoveRepo }) => {
 
+    const navigate = useNavigate();
     const { sendRequest } = useHttp();
     const [shareModalIsOpen, setShareModalIsOpen] = React.useState(false);
 
@@ -44,6 +47,12 @@ const Repo = ({ repoName, repoId, userId, onRemoveRepo }) => {
         );
     };
 
+    const repoClickHandler = (e) => {
+        if (typeof e.target.className === 'string') {
+            navigate(`/repo/${repoId}/items`);
+        }
+    };
+
     return (
         <>
             {shareModalIsOpen &&
@@ -62,19 +71,32 @@ const Repo = ({ repoName, repoId, userId, onRemoveRepo }) => {
                         onCinfirmHandler={requestDeleteRrepo.bind(null, repoId)}
                     />
                 </Modal>}
-            <div data-testid="repo-wrapper"  className="repo-card">
-                <div className="repo-name" >
-                    <Link to={`/repo/${repoId}/items`} state={{ repoName: repoName }}>{repoName}</Link>
-                </div>
-                <section className="repo-btns" >
-                    <div className="repo-btn-share" >
-                        <button onClick={() => setShareModalIsOpen(true)} >Share Repo</button>
+            <ul onClick={repoClickHandler} className="main-repo-list">
+                <li className="flex-1">
+
+                    {/* <Link to={`/repo/${repoId}/items`} state={{ repoName: repoName }} className="actions-links edit ">
+                        {repoName}
+                    </Link> */}
+                    <div className="actions-links edit ">
+                        {repoName}
                     </div>
-                    <div className="repo-btn-delete" >
-                        <button onClick={() => setModalIsOpen(true)} >DELETE</button>
+                    
+                </li>
+                <li className="flex-1">
+                    <div className="actions-icons-wrapper">
+                        <Link to={`edit-repo/${repoId}`} className="actions-links edit">
+                            <svg.Pen />
+                        </Link>
+                        <button onClick={() => setModalIsOpen(true)} className="actions-links delete">
+                            <svg.Delete />
+                        </button>
+                        <button onClick={() => setShareModalIsOpen(true)} className="actions-links share">
+                            <svg.Share />
+                        </button>
+
                     </div>
-                </section>
-            </div>
+                </li>
+            </ul>
         </>
     );
 };

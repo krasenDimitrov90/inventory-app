@@ -21,7 +21,7 @@
         justify-content: flex-end;
 
         .confirm-action-btns-cancel,
-        .confirm-action-btns-yes {
+        .confirm-action-btns-delete {
             font-size: 16px;
             border: none;
             margin: 0 16px;
@@ -29,12 +29,20 @@
             padding: 6px;
             border-radius: 17px;
             cursor: pointer;
-            box-shadow: 0px 1px 6px 0px;
+            background-color: #2f80ed;
+        }
+        
+        .confirm-action-btns-delete {
+            background-color: #eb5757;
+            margin-right: 0;
         }
 
-        .confirm-action-btns-yes {
-            margin-right: 0;
-            background-color: #55EFC4;
+        .confirm-action-btns-cancel:hover {
+            box-shadow: 0px 1px 6px 0px #2f80ed;
+        }
+
+        .confirm-action-btns-delete:hover {
+            box-shadow: 0px 1px 6px 0px #eb5757;
         }
     }
 }

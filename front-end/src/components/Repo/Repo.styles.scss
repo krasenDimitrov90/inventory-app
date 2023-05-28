@@ -1,11 +1,11 @@
+.main-repo-list:hover {
+    scale: 1.01;
 
-
-.expiring-items {
-    border: 1px solid #eb5757;
 }
 
-.main-items-list {
-
+.main-repo-list {
+    cursor: pointer;
+    border: 1px solid #151f30 ;
     display: flex;
     align-items: center;
     height: 70px;
@@ -13,11 +13,12 @@
     background-color: #151f30;
     padding: 0px 20px;
     border-radius: 10px;
+    transition: 0.3s;
+
 
     li {
         display: flex;
         justify-content: flex-start;
-        flex: 1;
         font-size: 12px;
         margin-right: 10px;
     }
@@ -25,7 +26,6 @@
     .actions-icons-wrapper {
 
         display: flex;
-        flex: 1;
         justify-content: flex-start;
 
         .actions-links {
@@ -33,26 +33,25 @@
             transition-property: color, background-color, border-color;
         }
 
-        .actions-links.edit {
+        .actions-links.edit,
+        .actions-links.share {
             background-color: rgba(47, 128, 237, 0.1);
-
             svg {
                 fill: #2f80ed;
             }
         }
-
         .actions-links.delete {
             background-color: rgba(235, 87, 87, 0.1);
-
             svg {
                 fill: #eb5757;
             }
         }
 
-        .actions-links.edit:hover {
+
+        .actions-links.edit:hover,
+        .actions-links.share:hover {
             background-color: #193255;
         }
-
         .actions-links.delete:hover {
             background-color: #3f2937;
         }
@@ -63,7 +62,6 @@
             margin-right: 8px;
             border-radius: 8px;
             padding: 6px;
-
             svg {
                 width: 20px;
                 height: auto;

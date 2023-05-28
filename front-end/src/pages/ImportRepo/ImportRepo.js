@@ -9,6 +9,7 @@ import AuthContext from "../../context/auth-context";
 import useHttp from "../../hooks/use-http";
 import useInput from "../../hooks/use-input";
 import usePopUp from "../../hooks/use-popUp";
+import svg from "../../SVG";
 
 import './ImportRepo.styles.scss';
 
@@ -76,7 +77,7 @@ const ImportRepo = () => {
             return;
         }
 
-        const data = { [repoLinkValue]: repoNameValue }
+        const data = { [repoLinkValue]: {name: repoNameValue} }
 
         const requestConfig = {
             action: 'importNewRepo',
@@ -100,7 +101,12 @@ const ImportRepo = () => {
             </Modal>}
             {<div className="import-repo">
                 <section className="import-repo-input-wraper">
-                    <FormCard submitHandler={onSubmitHandler} formTitle={'IMPORT REPO'} btnName={"Import repo"} formIsInvalid={formIsInvalid}>
+                    <FormCard submitHandler={onSubmitHandler} formIsInvalid={formIsInvalid}>
+                        <div className="actions-item-svg-wrapper">
+                            <div>
+                                <svg.Cloud />
+                            </div>
+                        </div>
                         <InputField
                             icon={<i className="fa-sharp fa-solid fa-link"></i>}
                             placeholder={'Paste repo link'}
@@ -126,6 +132,7 @@ const ImportRepo = () => {
                             inputIsInvalid={repoNameHasError}
                             invalidMessage='Must give a name for the repo!'
                         />
+                        <button disabled={formIsInvalid} className="disabled:opacity-30" >Import</button>
                     </FormCard>
                 </section>
             </div>}

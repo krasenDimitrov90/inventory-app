@@ -31,7 +31,9 @@ export const postNewRepo = (requestConfig) => api.post(`${host}/inventar.json`, 
 
 export const updateItems = (requestConfig) => api.patch(`${host}/inventar`, requestConfig);
 
-export const putNewItem = (requestConfig) => api.patch(`${host}/inventar`, requestConfig);
+export const putNewItem = (requestConfig) => api.post(`${host}/inventar`, requestConfig);
+export const editItem = (requestConfig) => api.patch(`${host}/inventar`, requestConfig);
+export const editRepo = (requestConfig) => api.patch(`${host}`, requestConfig);
 
 export const deleteItem = (requestConfig) => api.del(`${host}/inventar/`, requestConfig);
 
