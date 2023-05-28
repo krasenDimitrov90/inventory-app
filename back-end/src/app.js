@@ -4,11 +4,11 @@ const mongodb = require('mongodb');
 const bodyparser = require('body-parser');
 const cors = require('cors');
 
+const routes = require('./routes/routes');
+
 require('dotenv').config();
 const MONGO_CREDENTIALS = process.env.MONGO_CREDENTIALS;
-console.log(MONGO_CREDENTIALS); 
 
-const routes = require('./routes/routes');
 
 const app = express();
 
