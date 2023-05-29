@@ -7,16 +7,15 @@ module.exports.addRepo = (req, res, next) => {
             'min-qty': req.body['min-qty'],
             qty: req.body.qty,
             unit: req.body.unit
-        }]
+        }],
+        ownerId: '647430f940f6e8f5acc795c4'
     });
 
     repo.save()
         .then(result => {
-            console.log(result);
             res.json(result)
         })
         .catch(err => {
-            console.log(err);
             res.json(err)
         });
 };
