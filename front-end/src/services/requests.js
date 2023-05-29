@@ -10,7 +10,7 @@ import * as api from './api';
 const host = 'http://localhost:3000';
 
 
-export const login = (requestConfig) => api.post(`${host}/users/signup`, requestConfig);
+export const login = (requestConfig) => api.post(`${host}/users/signin`, requestConfig);
 
 export const register = (requestConfig) => api.post(`${host}/users/signup`, requestConfig);
 
