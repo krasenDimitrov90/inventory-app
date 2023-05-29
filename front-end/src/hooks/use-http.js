@@ -15,15 +15,17 @@ const useHttp = () => {
         setIsloading(true);
         return request[action](requestConfig, dataHandler)
             .then(data => {
+                console.log(data);
                 dataHandler(data);
                 setIsloading(false);
             })
             .catch(err => {
                 err.then(error => {
-                    const errorMessage = error.error.message || error.error;
+                    console.log(error);
+                    // const errorMessage = error.error.message || error.error;
                     setIsloading(false);
                     errorHandler();
-                    setError(errorMessage);
+                    // setError(errorMessage);
                 })
             });
     },[])

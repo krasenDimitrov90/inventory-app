@@ -20,7 +20,6 @@ const RegisterPage = () => {
     const navigate = useNavigate();
     const [formIsInvalid, setFormIsInvalid] = React.useState(false);
     const { isLoading, sendRequest: requestRegister, error: requestError } = useHttp();
-    const { sendRequest: requestPutNewUser } = useHttp();
 
 
     const afterRequestFinished = () => {
@@ -77,20 +76,6 @@ const RegisterPage = () => {
 
 
     const registerHandler = (userData) => {
-        const { localId, email } = userData;
-        const data = {
-            [localId]: {
-                "email": email,
-                "repos": ""
-            }
-        };
-
-        const requestConfig = {
-            action: 'putNewUser',
-            data: data,
-        };
-
-        requestPutNewUser(requestConfig, () => console.log('Success'));
         setRequestIsFinished(true);
         setModalIsOpen(true);
     };

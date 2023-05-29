@@ -28,6 +28,7 @@ const request = (method, url, requestConfig = {}) => {
 
     return fetch(url, options)
         .then(res => {
+            console.log(res);
             if (!res.ok) {
                 throw res.json();
             }

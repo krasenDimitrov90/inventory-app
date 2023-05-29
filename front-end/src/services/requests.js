@@ -1,17 +1,18 @@
 import * as api from './api';
 
 // const host = 'https://testing-12da0-default-rtdb.europe-west1.firebasedatabase.app';
-const host = 'https://inventory-app-3f096-default-rtdb.europe-west1.firebasedatabase.app';
+// const host = 'https://inventory-app-3f096-default-rtdb.europe-west1.firebasedatabase.app';
 
-const registerURL = 'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyB0dqaMV0xMmpNH3wM-nAhgVjeD5R0xjU8';
+// const registerURL = 'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyB0dqaMV0xMmpNH3wM-nAhgVjeD5R0xjU8';
 
-const loginURL = 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyB0dqaMV0xMmpNH3wM-nAhgVjeD5R0xjU8';
+// const loginURL = 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyB0dqaMV0xMmpNH3wM-nAhgVjeD5R0xjU8';
+
+const host = 'http://localhost:3000';
 
 
+export const login = (requestConfig) => api.post(`${host}/users/signup`, requestConfig);
 
-export const login = (requestConfig) => api.post(loginURL, requestConfig);
-
-export const register = (requestConfig) => api.post(registerURL, requestConfig);
+export const register = (requestConfig) => api.post(`${host}/users/signup`, requestConfig);
 
 export const putNewUser = (requestConfig) => api.patch(`${host}/users.json`, requestConfig);
 
