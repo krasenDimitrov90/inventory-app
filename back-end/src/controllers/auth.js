@@ -1,5 +1,6 @@
 const User = require('../models/users');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
 module.exports.signUp = (req, res, next) => {
     const {
@@ -29,7 +30,6 @@ module.exports.signUp = (req, res, next) => {
             res.json({ message: 'Successfuly signed up!' });
         })
         .catch(err => {
-            console.log(err.message);
             res.status(401).json({ message: err.message });
         });
 };
@@ -40,6 +40,8 @@ module.exports.signIn = (req, res, next) => {
         password
     } = req.body;
 
+    let loadedUser = null;
+
     User.findOne({ email: email })
         .then(user => {
             if (!user) {
@@ -48,6 +50,7 @@ module.exports.signIn = (req, res, next) => {
                 throw error;
             }
 
+            loadedUser = user;
             return bcrypt.compare(password, user.password);
         })
         .then(isEqual => {
@@ -56,9 +59,24 @@ module.exports.signIn = (req, res, next) => {
                 error.statusCode = 401;
                 throw error;
             }
+
+            const token = jwt.sign(
+                {
+                    email: loadedUser.email,
+                    userId: loadedUser._id.toString()
+                },
+                'chikinana',
+                { expiresIn: '1h' }
+            );
+
+            console.log(token);
+
+            res.status(200)
+                .json({ token: token, userId: loadedUser._id.toString(), email: loadedUser.email })
         })
         .catch(err => {
-            res.json(err);
+            res.status(401).json({ message: err.message });
+
         })
 
 };

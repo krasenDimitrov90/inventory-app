@@ -7,7 +7,7 @@ const repoSchema = new Schema({
         {
             name: { type: String, required: true },
             'min-qty': { type: Number, required: true },
-            qty: { type: Number, required: true },
+            qty: { type: Number, required: [true, 'Must input a number for qty!'] },
             unit: { type: String, required: true }
         }
     ],

@@ -16,6 +16,7 @@ module.exports.addRepo = (req, res, next) => {
             res.json(result)
         })
         .catch(err => {
+            console.log(err.message)
             res.json(err)
         });
 };
