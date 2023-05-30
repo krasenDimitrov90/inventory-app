@@ -1,7 +1,6 @@
 const Repo = require('../models/repos');
 
 module.exports.addRepo = (req, res, next) => {
-    console.log('addRepo');
     const repo = new Repo({
         items: [{
             name: req.body.name,
@@ -9,7 +8,7 @@ module.exports.addRepo = (req, res, next) => {
             qty: req.body.qty,
             unit: req.body.unit
         }],
-        ownerId: '647430f940f6e8f5acc795c4'
+        ownerId: req.userId
     });
 
     repo.save()
@@ -17,7 +16,6 @@ module.exports.addRepo = (req, res, next) => {
             res.json(result)
         })
         .catch(err => {
-            console.log(err.message)
             next(err);
         });
 };
