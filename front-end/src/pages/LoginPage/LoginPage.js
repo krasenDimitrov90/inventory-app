@@ -68,7 +68,7 @@ const LoginPage = () => {
 
 
     const loginHandler = (userData) => {
-        authCtx.login(userData.idToken, userData.localId, userData.email);
+        authCtx.login(userData.token, userData.userId, userData.email);
         setModalIsOpen(true);
         setRequestIsFinished(true);
     };
