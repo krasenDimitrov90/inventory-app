@@ -1,6 +1,7 @@
 const Repo = require('../models/repos');
 
 module.exports.addRepo = (req, res, next) => {
+    console.log('addRepo');
     const repo = new Repo({
         items: [{
             name: req.body.name,
@@ -17,6 +18,6 @@ module.exports.addRepo = (req, res, next) => {
         })
         .catch(err => {
             console.log(err.message)
-            res.json(err)
+            next(err);
         });
 };
