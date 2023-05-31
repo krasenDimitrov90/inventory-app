@@ -3,6 +3,10 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const repoSchema = new Schema({
+    name: {
+        type: String,
+        required: true
+    },
     items: [
         {
             name: { type: String, required: true },
@@ -13,7 +17,8 @@ const repoSchema = new Schema({
     ],
     ownerId: {
         type: Schema.Types.ObjectId,
-        ref: 'User'
+        ref: 'User',
+        required: true
     }
 });
 

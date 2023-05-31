@@ -30,7 +30,10 @@ module.exports.signUp = (req, res, next) => {
             res.json({ message: 'Successfuly signed up!' });
         })
         .catch(err => {
-            res.status(401).json({ message: err.message });
+            if (!err.statusCode) {
+                err.statusCode = 401;
+            }
+            next(err);
         });
 };
 
@@ -73,8 +76,10 @@ module.exports.signIn = (req, res, next) => {
                 .json({ token: token, userId: loadedUser._id.toString(), email: loadedUser.email })
         })
         .catch(err => {
-            res.status(401).json({ message: err.message });
-
+            if (!err.statusCode) {
+                err.statusCode = 401;
+            }
+            next(err);
         })
 
 };
