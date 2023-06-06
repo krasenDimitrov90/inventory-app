@@ -5,5 +5,6 @@ const isAuth = require('../middleWares/is-auth');
 
 router.post('/repos', isAuth, reposController.addRepo);
 router.delete('/repos/:repoId', isAuth, reposController.deleteRepo);
+router.patch('/repos/:repoId', isAuth, reposController.addItem);
 
 module.exports = router;

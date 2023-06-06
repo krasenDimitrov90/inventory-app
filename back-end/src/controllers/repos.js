@@ -59,3 +59,25 @@ module.exports.deleteRepo = (req, res, next) => {
             next(err);
         })
 };
+
+module.exports.addItem = (req, res, next) => {
+    const item = {
+        name: req.body.name,
+        'min-qty': req.body['min-qty'],
+        qty: req.body.qty,
+        unit: req.body.unit,
+    };
+    
+    const repoId = req.params.repoId;
+    Repo
+        .findById(repoId)
+        .then(repo => {
+            return repo.addItem(item);
+        })
+        .then(result => {
+            res.json(result);
+        })
+        .catch(err => {
+            next(err);
+        })
+};

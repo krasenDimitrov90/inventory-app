@@ -3,10 +3,6 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const repoSchema = new Schema({
-    // name: {
-    //     type: String,
-    //     required: true
-    // },
     items: [
         {
             name: { type: String, required: true },
@@ -21,5 +17,10 @@ const repoSchema = new Schema({
         required: true
     }
 });
+
+repoSchema.methods.addItem = function (item) {
+    this.items.push(item);
+    return this.save();
+}
 
 module.exports = mongoose.model('Repo', repoSchema);
