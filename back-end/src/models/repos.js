@@ -23,4 +23,9 @@ repoSchema.methods.addItem = function (item) {
     return this.save();
 }
 
+repoSchema.methods.removeItem = function (itemId) {
+    this.items.pull({ _id: itemId });
+    return this.save();
+};
+
 module.exports = mongoose.model('Repo', repoSchema);

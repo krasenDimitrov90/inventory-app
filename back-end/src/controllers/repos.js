@@ -67,12 +67,29 @@ module.exports.addItem = (req, res, next) => {
         qty: req.body.qty,
         unit: req.body.unit,
     };
-    
+
     const repoId = req.params.repoId;
     Repo
         .findById(repoId)
         .then(repo => {
             return repo.addItem(item);
+        })
+        .then(result => {
+            res.json(result);
+        })
+        .catch(err => {
+            next(err);
+        })
+};
+
+module.exports.removeItem = (req, res, next) => {
+    const repoId = req.params.repoId;
+    const itemId = req.params.itemId;
+
+    Repo
+        .findById(repoId)
+        .then(repo => {
+           return repo.removeItem(itemId)
         })
         .then(result => {
             res.json(result);
