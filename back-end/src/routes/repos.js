@@ -7,5 +7,6 @@ router.post('/repos', isAuth, reposController.addRepo);
 router.delete('/repos/:repoId', isAuth, reposController.deleteRepo);
 router.patch('/repos/:repoId', isAuth, reposController.addItem);
 router.delete('/repos/:repoId/:itemId', isAuth, reposController.removeItem);
+router.patch('/repos/:repoId/:itemId', isAuth, reposController.updateItem);
 
 module.exports = router;

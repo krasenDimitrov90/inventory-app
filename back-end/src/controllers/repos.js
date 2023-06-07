@@ -89,7 +89,27 @@ module.exports.removeItem = (req, res, next) => {
     Repo
         .findById(repoId)
         .then(repo => {
-           return repo.removeItem(itemId)
+            return repo.removeItem(itemId)
+        })
+        .then(result => {
+            res.json(result);
+        })
+        .catch(err => {
+            next(err);
+        })
+};
+
+module.exports.updateItem = (req, res, next) => {
+    const repoId = req.params.repoId;
+    const itemId = req.params.itemId;
+
+    const updatedItem = req.body;
+
+
+    Repo
+        .findById(repoId)
+        .then(repo => {
+            return repo.updateItem(itemId, updatedItem);
         })
         .then(result => {
             res.json(result);

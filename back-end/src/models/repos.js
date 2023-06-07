@@ -28,4 +28,9 @@ repoSchema.methods.removeItem = function (itemId) {
     return this.save();
 };
 
+repoSchema.methods.updateItem = function (itemId, updatedItem) {
+    Object.entries(updatedItem).map(([k, v]) => this.items.id(itemId)[k] = v);
+    return this.save();
+}
+
 module.exports = mongoose.model('Repo', repoSchema);
