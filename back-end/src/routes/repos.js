@@ -2,11 +2,12 @@ const router = require('express').Router();
 
 const reposController = require('../controllers/repos');
 const isAuth = require('../middleWares/is-auth');
+const findRepo = require('../middleWares/find-repo');
 
 router.post('/repos', isAuth, reposController.addRepo);
-router.delete('/repos/:repoId', isAuth, reposController.deleteRepo);
-router.patch('/repos/:repoId', isAuth, reposController.addItem);
-router.delete('/repos/:repoId/:itemId', isAuth, reposController.removeItem);
-router.patch('/repos/:repoId/:itemId', isAuth, reposController.updateItem);
+router.delete('/repos/:repoId', isAuth, findRepo, reposController.deleteRepo);
+router.post('/repos/:repoId', isAuth, findRepo, reposController.addItem);
+router.delete('/repos/:repoId/:itemId', findRepo, isAuth, reposController.removeItem);
+router.patch('/repos/:repoId/:itemId', isAuth, findRepo, reposController.updateItem);
 
 module.exports = router;

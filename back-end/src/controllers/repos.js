@@ -27,26 +27,13 @@ module.exports.addRepo = (req, res, next) => {
 
 module.exports.deleteRepo = (req, res, next) => {
     const userId = req.userId;
-    const repoId = req.params.repoId;
+    const repo = req.repo;
 
     Repo
-        .findById(repoId)
-        .then(repo => {
-            if (!repo) {
-                const error = new Error('Repo not found');
-                error.statusCode = 404;
-                throw error;
-            }
-            if (repo.ownerId.toString() !== userId) {
-                const error = new Error('Not Autorized!');
-                error.statusCode = 401;
-                throw error;
-            }
-            return Repo.findByIdAndDelete(repoId);
-        })
+        .findByIdAndDelete(repo._id)
         .then(result => User.findById(userId))
         .then(user => {
-            user.repos.pull(repoId);
+            user.repos.pull(repo._id);
             return user.save();
         })
         .then(result => {
@@ -68,29 +55,25 @@ module.exports.addItem = (req, res, next) => {
         unit: req.body.unit,
     };
 
-    const repoId = req.params.repoId;
-    Repo
-        .findById(repoId)
-        .then(repo => {
-            return repo.addItem(item);
-        })
+    const repo = req.repo;
+
+    repo
+        .addItem(item)
         .then(result => {
             res.json(result);
         })
         .catch(err => {
             next(err);
-        })
+        });
 };
 
 module.exports.removeItem = (req, res, next) => {
-    const repoId = req.params.repoId;
     const itemId = req.params.itemId;
 
-    Repo
-        .findById(repoId)
-        .then(repo => {
-            return repo.removeItem(itemId)
-        })
+    const repo = req.repo;
+
+    repo
+        .removeItem(itemId)
         .then(result => {
             res.json(result);
         })
@@ -100,21 +83,17 @@ module.exports.removeItem = (req, res, next) => {
 };
 
 module.exports.updateItem = (req, res, next) => {
-    const repoId = req.params.repoId;
     const itemId = req.params.itemId;
 
     const updatedItem = req.body;
+    const repo = req.repo;
 
-
-    Repo
-        .findById(repoId)
-        .then(repo => {
-            return repo.updateItem(itemId, updatedItem);
-        })
+    repo
+        .updateItem(itemId, updatedItem)
         .then(result => {
             res.json(result);
         })
         .catch(err => {
             next(err);
-        })
+        });
 };
