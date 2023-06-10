@@ -16,13 +16,13 @@ module.exports.getRepos = (req, res, next) => {
         })
 };
 
-module.exports.getRepo = (req, res, next) => {
+module.exports.getRepoItems = (req, res, next) => {
     const userId = req.userId;
     const repoId = req.params.repoId;
 
     Repo
         .findById(repoId)
-        .then(repo => res.json(repo))
+        .then(repo => res.json(repo.items))
         .catch(err => {
             next(err);
         })
