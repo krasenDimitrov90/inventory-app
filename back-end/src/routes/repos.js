@@ -5,6 +5,7 @@ const isAuth = require('../middleWares/is-auth');
 const findRepo = require('../middleWares/find-repo');
 
 router.get('/repos', isAuth, reposController.getRepos);
+router.get('/repos/:repoId', isAuth, reposController.getRepo);
 router.post('/repos', isAuth, reposController.addRepo);
 router.delete('/repos/:repoId', isAuth, findRepo, reposController.deleteRepo);
 router.post('/repos/:repoId', isAuth, findRepo, reposController.addItem);

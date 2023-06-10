@@ -16,6 +16,18 @@ module.exports.getRepos = (req, res, next) => {
         })
 };
 
+module.exports.getRepo = (req, res, next) => {
+    const userId = req.userId;
+    const repoId = req.params.repoId;
+
+    Repo
+        .findById(repoId)
+        .then(repo => res.json(repo))
+        .catch(err => {
+            next(err);
+        })
+};
+
 module.exports.addRepo = (req, res, next) => {
 
     const userId = req.userId;
