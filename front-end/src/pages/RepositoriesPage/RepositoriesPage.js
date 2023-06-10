@@ -41,7 +41,7 @@ const RepositoriesPage = () => {
 
 
     const prepareRepos = React.useCallback(() => {
-        const requestConfig = { action: "getAllUserRepos", path: `${userId}/repos` };
+        const requestConfig = { action: "getAllUserRepos", path: `repos`, isAuth: true };
         sendRequest(requestConfig, dataHandler);
     }, [sendRequest, userId, dataHandler]);
 

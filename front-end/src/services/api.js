@@ -1,29 +1,22 @@
 
 const request = (method, url, requestConfig = {}) => {
 
-    const {data, id, token, path } = requestConfig;
+    const { data, isAuth, path } = requestConfig;
     const options = {};
 
     if (method !== 'GET') {
         options.method = method;
-        options.headers = {"Content-Type": "application/json"};
+        options.headers = { "Content-Type": "application/json" };
         options.body = JSON.stringify(data);
     }
 
     if (path) {
         url = `${url}/${path}`;
-
-        if (id) {
-            url = `${url}/${id}.json`;
-        } else {
-            url = `${url}.json`;
-        }
     }
 
-    
-
-    if (token) {
-        url += `?auth=${token}`;
+    if (isAuth) {
+        const token = localStorage.getItem('token');
+        options.headers = { 'Authorization': 'Bearer ' + token };
     }
 
     return fetch(url, options)
