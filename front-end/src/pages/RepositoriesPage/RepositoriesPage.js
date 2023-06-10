@@ -36,6 +36,7 @@ const RepositoriesPage = () => {
         if (data === null || data === '') {
             data = {};
         }
+        console.log({ data })
         setRepos(data);
     }, []);
 
@@ -80,7 +81,7 @@ const RepositoriesPage = () => {
 
         const dataHandler = (data) => {
             const newData = {
-                [data.name]:{ name: repoInputRef.current.value,}
+                [data.name]: { name: repoInputRef.current.value, }
             };
             const requestConfig = {
                 action: 'updateUserRepos',
@@ -115,8 +116,8 @@ const RepositoriesPage = () => {
                         <div className="add-repo-form rounded-[20px] flex border-[1px] border-[#2f80ed] ">
                             <form ref={formRef} onSubmit={submitHandler} className="flex justify-between w-[100%]">
                                 <input ref={repoInputRef} className="add-repo-input ml-[10px] bg-[transparent] outline-none" type="text" placeholder="Enter repo name"
-                                  
-                                 />
+
+                                />
                                 <button className="add-repo-btn text-[14px] bg-[#2f80ed] rounded-tr-[20px] rounded-br-[20px] p-[8px]">ADD REPO</button>
                             </form>
                         </div>
@@ -129,12 +130,12 @@ const RepositoriesPage = () => {
                                 <li className="table-header-items">TITLE</li>
                                 <li className="table-header-items">ACTIONS</li>
                             </ul>
-                            {Object.entries(repos).map(([id, props]) => {
+                            {repos.map(({ repoId, name }) => {
                                 return (
                                     <Repo
-                                        key={id}
-                                        repoName={props.name}
-                                        repoId={id}
+                                        key={repoId}
+                                        repoName={name}
+                                        repoId={repoId}
                                         userId={userId}
                                         onRemoveRepo={() => prepareRepos()}
                                     />
