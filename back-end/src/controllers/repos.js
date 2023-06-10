@@ -1,6 +1,21 @@
 const Repo = require('../models/repos');
 const User = require('../models/users');
 
+module.exports.getRepos = (req, res, next) => {
+    const userId = req.userId;
+    let repos = [];
+
+    User
+        .findById(userId)
+        .then(user => {
+            repos = user.repos;
+            res.json(repos);
+        })
+        .catch(err => {
+            next(err);
+        })
+};
+
 module.exports.addRepo = (req, res, next) => {
 
     const userId = req.userId;

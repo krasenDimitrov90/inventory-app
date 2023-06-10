@@ -12,6 +12,7 @@ const userSchema = new Schema({
     },
     repos: [
         {
+            type: Object,
             repoId: {
                 type: Schema.Types.ObjectId,
                 ref: 'Repo',
