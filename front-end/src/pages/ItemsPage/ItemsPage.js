@@ -22,7 +22,7 @@ const ItemsPage = () => {
     const [items, setItems] = React.useState(null);
     const [filteredItems, setFilteredItems] = React.useState(null);
     const { isLoading, sendRequest } = useHttp();
-    const [itemsToShow, setItemsToShow] = React.useState('All Itmes');
+    const [itemsToShow, setItemsToShow] = React.useState('All Items');
     const [isOpen, setIsOpen] = React.useState(false);
 
 
@@ -38,25 +38,15 @@ const ItemsPage = () => {
     const prepareItems = React.useCallback(() => {
         const dataHandler = (data) => {
 
-            let filteredData = {};
+            let items = [];
             if (data !== null) {
-                filteredData = Object.keys(data).reduce((acc, item) => {
-                    if (item !== 'ownerId') {
-                        acc[item] = data[item];
-                    }
-                    return acc;
-                }, {});
-                filteredData.expiring = false;
-                setItems(filteredData);
-                setFilteredItems(filteredData);
-
-                return;
+                items = data;
             }
-            setItems({});
-            setFilteredItems({});
+            setItems(items);
+            setFilteredItems(items);
         };
 
-        const requestConfig = { action: "getRepo", path: params.repoId };
+        const requestConfig = { action: "getRepo", path: 'repos/' + params.repoId, isAuth: true };
         sendRequest(requestConfig, dataHandler);
     }, [sendRequest, params.repoId]);
 
@@ -69,21 +59,20 @@ const ItemsPage = () => {
         let filteredData = {};
         if (items !== null) {
             if (itemsToShow === 'All Items') {
-                filteredData = { ...items };
+                filteredData = [...items];
 
             } else if (itemsToShow === 'Expiring Items') {
-                filteredData = Object.keys(items).reduce((acc, item) => {
+                filteredData = items.reduce((acc, item) => {
                     if (item !== 'ownerId') {
-                        const quantity = Number(items[item].qty);
-                        const minQuantity = Number(items[item]['min-qty']);
+                        const quantity = Number(item.qty);
+                        const minQuantity = Number(item['min-qty']);
 
                         if (quantity < minQuantity) {
-                            acc[item] = items[item];
+                            acc[item] = item;
                         }
                     }
                     return acc;
                 }, {});
-                filteredData.expiring = true;
             }
             setFilteredItems(filteredData);
         }
@@ -189,7 +178,7 @@ const ItemsPage = () => {
                                             unit={filteredItems[item].unit}
                                             btnHandler={updateItemsQty}
                                             updateItems={prepareItems}
-                                            classes={filteredItems.expiring ? "expiring-items" : ""}
+                                            classes={itemsToShow === 'All Items' ? "" : "expiring-items"}
                                         />
                                     );
                                 })}

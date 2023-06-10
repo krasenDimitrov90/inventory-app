@@ -26,7 +26,7 @@ export const getAllUserRepos = (requestConfig) => api.get(`${host}`, requestConf
 
 export const getAllRepos = (requestConfig) => api.get(`${host}/inventar.json`, requestConfig);
 
-export const getRepo = (requestConfig) => api.get(`${host}/inventar`, requestConfig);
+export const getRepo = (requestConfig) => api.get(`${host}`, requestConfig);
 
 export const postNewRepo = (requestConfig) => api.post(`${host}/inventar.json`, requestConfig);
 
