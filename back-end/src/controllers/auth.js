@@ -38,6 +38,7 @@ module.exports.signUp = (req, res, next) => {
 };
 
 module.exports.signIn = (req, res, next) => {
+
     const {
         email,
         password
