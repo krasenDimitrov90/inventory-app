@@ -16,8 +16,10 @@ const request = (method, url, requestConfig = {}) => {
 
     if (isAuth) {
         const token = localStorage.getItem('token');
-        options.headers = { 'Authorization': 'Bearer ' + token };
+        options.headers = { ...options.headers, 'Authorization': 'Bearer ' + token };
     }
+
+    console.log({ options })
 
     return fetch(url, options)
         .then(res => {
