@@ -79,6 +79,27 @@ module.exports.addRepo = (req, res, next) => {
         });
 };
 
+module.exports.updateUserRepoName = (req, res, next) => {
+    const userId = req.userId;
+    const repoId = req.params.repoId;
+    const newRepoName = req.body.name;
+
+    User
+        .updateOne(
+            {
+                _id: new mongoose.Types.ObjectId(userId),
+                "repos.repoId": new mongoose.Types.ObjectId(repoId),
+            },
+            { $set: { "repos.$.name": newRepoName } }
+        )
+        .then(result => {
+            res.json(result);
+        })
+        .catch(err => {
+            next(err);
+        })
+};
+
 module.exports.deleteRepo = (req, res, next) => {
     const userId = req.userId;
     const repo = req.repo;
