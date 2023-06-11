@@ -33,7 +33,6 @@ const ItemsPage = () => {
     const setItemsToShowHandler = React.useCallback((e) => {
         setItemsToShow(() => e.target.textContent);
         setIsOpen(false);
-
     }, []);
 
     const prepareItems = React.useCallback(() => {
