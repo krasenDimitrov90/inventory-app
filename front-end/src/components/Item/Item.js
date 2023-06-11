@@ -34,8 +34,9 @@ const Item = ({ itemId, name, qty, minQty, unit, updateItems, classes }) => {
 
         const requestConfig = {
             action: 'deleteItem',
-            path: `${repoId}/${itemId}`,
+            path: `repos/${repoId}/${itemId}`,
             data: {},
+            isAuth: true,
         };
 
 
