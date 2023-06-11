@@ -79,8 +79,9 @@ const AddItem = () => {
 
         const requestConfig = {
             action: 'putNewItem',
-            path: repoId,
+            path: `repos/${repoId}`,
             data: data,
+            isAuth: true,
         };
 
         const dataHandler = (data) => {
