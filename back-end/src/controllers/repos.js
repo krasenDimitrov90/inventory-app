@@ -1,5 +1,6 @@
 const Repo = require('../models/repos');
 const User = require('../models/users');
+const mongoose = require('mongoose');
 
 module.exports.getRepos = (req, res, next) => {
     const userId = req.userId;
@@ -26,6 +27,32 @@ module.exports.getRepoItems = (req, res, next) => {
         .catch(err => {
             next(err);
         })
+};
+
+module.exports.getRepoExpiringItems = (req, res, next) => {
+    const repoId = req.params.repoId;
+
+    Repo
+        .aggregate([
+            { $match: { _id: new mongoose.Types.ObjectId(repoId) } },
+            {
+                $project: {
+                    _id: 0,
+                    items: {
+                        $filter: {
+                            input: "$items", as: "newitems", cond: { $lt: ["$$newitems.qty", "$$newitems.min-qty"] }
+                        }
+                    }
+                }
+            }
+        ])
+        .then(result => {
+            res.json(result[0].items);
+        })
+        .catch(err => {
+            next(err);
+        })
+
 };
 
 module.exports.addRepo = (req, res, next) => {
