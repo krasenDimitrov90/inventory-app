@@ -31,8 +31,9 @@ const ItemsPage = () => {
     const hadleOpen = () => setIsOpen((prev) => !prev);
 
     const setItemsToShowHandler = React.useCallback((e) => {
-        setItemsToShow(e.target.textContent);
+        setItemsToShow(() => e.target.textContent);
         setIsOpen(false);
+
     }, []);
 
     const prepareItems = React.useCallback(() => {
@@ -46,41 +47,21 @@ const ItemsPage = () => {
             setFilteredItems(items);
         };
 
-        const requestConfig = { action: "getRepo", path: 'repos/' + params.repoId, isAuth: true };
+        const path = itemsToShow === 'All Items' ? 'repos/' + params.repoId : 'repos/expiring/' + params.repoId
+
+        const requestConfig = { action: "getRepo", path: path, isAuth: true };
         sendRequest(requestConfig, dataHandler);
-    }, [sendRequest, params.repoId]);
+    }, [sendRequest, params.repoId, itemsToShow]);
 
     const {
         modalIsOpen,
         requestIsFinished,
     } = usePopUp(prepareItems);
 
-    React.useEffect(() => {
-        let filteredData = {};
-        if (items !== null) {
-            if (itemsToShow === 'All Items') {
-                filteredData = [...items];
-
-            } else if (itemsToShow === 'Expiring Items') {
-                filteredData = items.reduce((acc, item) => {
-                    if (item !== 'ownerId') {
-                        const quantity = Number(item.qty);
-                        const minQuantity = Number(item['min-qty']);
-
-                        if (quantity < minQuantity) {
-                            acc[item] = item;
-                        }
-                    }
-                    return acc;
-                }, {});
-            }
-            setFilteredItems(filteredData);
-        }
-    }, [itemsToShow])
 
     React.useEffect(() => {
         prepareItems();
-    }, []);
+    }, [itemsToShow]);
 
     if (!isLoggedIn) {
         navigate('/login');
@@ -166,7 +147,6 @@ const ItemsPage = () => {
                         {!modalIsOpen && !isLoading && filteredItems !== null && Object.entries(filteredItems).length > 0 &&
                             <>
                                 {Object.entries(filteredItems).map(([item, properties]) => {
-                                    if (item === 'expiring') return;
                                     return (
                                         <Item
                                             key={item}
