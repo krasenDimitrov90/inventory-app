@@ -20,7 +20,6 @@ const ItemsPage = () => {
     const authCtx = React.useContext(AuthContext);
     const { isLoggedIn } = authCtx;
     const [items, setItems] = React.useState(null);
-    // const [filteredItems, setFilteredItems] = React.useState(null);
     const { isLoading, sendRequest } = useHttp();
     const [itemsToShow, setItemsToShow] = React.useState('All Items');
     const [isOpen, setIsOpen] = React.useState(false);
@@ -43,7 +42,6 @@ const ItemsPage = () => {
                 items = data;
             }
             setItems(items);
-            // setFilteredItems(items);
         };
 
         const path = itemsToShow === 'All Items' ? 'repos/' + params.repoId : 'repos/expiring/' + params.repoId

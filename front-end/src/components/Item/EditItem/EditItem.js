@@ -111,11 +111,11 @@ const EditItem = () => {
             name: enteredItem
         };
 
-console.log(`/repos/${repoId}/${itemId}`)
         const requestConfig = {
             action: 'editItem',
-            path: `/repos/${repoId}/${itemId}`,
+            path: `repos/${repoId}/${itemId}`,
             data: data,
+            isAuth: true,
         };
 
         const dataHandler = (data) => {
@@ -131,7 +131,7 @@ console.log(`/repos/${repoId}/${itemId}`)
         <>
             {isLoading && <LoadingSpinner />}
             {modalIsOpen && requestIsFinished && <Modal>
-                <SuccessPopUp message={`Succesfuly added ${enteredItem} to the inventory`} />
+                <SuccessPopUp message={`Success`} />
             </Modal>}
             <div className="actions-item-wrapper" onClick={formWrapperOnClickHandler}>
                 <FormCard
