@@ -87,10 +87,11 @@ const EditItem = () => {
     } = useInput(value => value.trim().length > 0);
 
     React.useEffect(() => {
-        autoFillItemInput(items[itemId].name);
-        autoFillMinQuantityInput(items[itemId]['min-qty']);
-        autoFillQuantityInput(items[itemId].qty);
-        autoFillUnitInput(items[itemId].unit);
+        const item = items.find(i => i._id === itemId);
+        autoFillItemInput(item.name);
+        autoFillMinQuantityInput(item['min-qty']);
+        autoFillQuantityInput(item.qty);
+        autoFillUnitInput(item.unit);
     }, []);
 
 
@@ -104,16 +105,16 @@ const EditItem = () => {
         }
 
         const data = {
-            qty: enteredQuantity,
+            qty: Number(enteredQuantity),
             'min-qty': Number(enteredMinQuantity),
             unit: enteredUnit,
             name: enteredItem
         };
 
-
+console.log(`/repos/${repoId}/${itemId}`)
         const requestConfig = {
             action: 'editItem',
-            path: `${repoId}/${itemId}`,
+            path: `/repos/${repoId}/${itemId}`,
             data: data,
         };
 

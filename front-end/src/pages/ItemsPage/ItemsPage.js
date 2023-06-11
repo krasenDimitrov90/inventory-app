@@ -20,7 +20,7 @@ const ItemsPage = () => {
     const authCtx = React.useContext(AuthContext);
     const { isLoggedIn } = authCtx;
     const [items, setItems] = React.useState(null);
-    const [filteredItems, setFilteredItems] = React.useState(null);
+    // const [filteredItems, setFilteredItems] = React.useState(null);
     const { isLoading, sendRequest } = useHttp();
     const [itemsToShow, setItemsToShow] = React.useState('All Items');
     const [isOpen, setIsOpen] = React.useState(false);
@@ -43,7 +43,7 @@ const ItemsPage = () => {
                 items = data;
             }
             setItems(items);
-            setFilteredItems(items);
+            // setFilteredItems(items);
         };
 
         const path = itemsToShow === 'All Items' ? 'repos/' + params.repoId : 'repos/expiring/' + params.repoId
@@ -143,18 +143,18 @@ const ItemsPage = () => {
 
                             <li className="table-header-items">ACTIONS</li>
                         </ul>
-                        {!modalIsOpen && !isLoading && filteredItems !== null && Object.entries(filteredItems).length > 0 &&
+                        {!modalIsOpen && !isLoading && items !== null && items.length > 0 &&
                             <>
-                                {Object.entries(filteredItems).map(([item, properties]) => {
+                                {items.map((item, i) => {
                                     return (
                                         <Item
-                                            key={item}
-                                            itemId={item}
-                                            name={filteredItems[item].name}
+                                            key={item._id}
+                                            itemId={item._id}
+                                            name={item.name}
                                             items={items}
-                                            qty={filteredItems[item].qty}
-                                            minQty={filteredItems[item]['min-qty']}
-                                            unit={filteredItems[item].unit}
+                                            qty={item.qty}
+                                            minQty={item['min-qty']}
+                                            unit={item.unit}
                                             btnHandler={updateItemsQty}
                                             updateItems={prepareItems}
                                             classes={itemsToShow === 'All Items' ? "" : "expiring-items"}
@@ -162,7 +162,7 @@ const ItemsPage = () => {
                                     );
                                 })}
                             </>}
-                        {!isLoading && filteredItems !== null && Object.entries(filteredItems).length === 0 && <NoItemsTemplate />}
+                        {!isLoading && items !== null && items.length === 0 && <NoItemsTemplate />}
                     </div>
                 </div>
             </main>
