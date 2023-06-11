@@ -67,8 +67,9 @@ const EditRepo = () => {
 
         const requestConfig = {
             action: 'editRepo',
-            path: `users/${userId}/repos/${repoId}`,
+            path: `repos/${repoId}`,
             data: data,
+            isAuth: true,
         };
 
         const dataHandler = (data) => {
