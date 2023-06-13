@@ -76,24 +76,18 @@ const RepositoriesPage = () => {
 
         const requestConfig = {
             action: 'postNewRepo',
-            data: { "ownerId": userId },
+            path: 'repos',
+            data: { repoName: repoInputRef.current.value.trim() },
+            isAuth: true,
         };
 
         const dataHandler = (data) => {
-            const newData = {
-                [data.name]: { name: repoInputRef.current.value, }
-            };
-            const requestConfig = {
-                action: 'updateUserRepos',
-                path: `${userId}/repos`,
-                data: newData,
-            };
-            requestUpdateUserRepos(requestConfig, () => prepareRepos());
 
             setModalIsOpen(true);
             setRequestIsFinished(true);
             repoInputRef.current.value = '';
             repoInputRef.current.blur();
+            prepareRepos();
         };
 
         sendRequest(requestConfig, dataHandler);
