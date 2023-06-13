@@ -32,9 +32,9 @@ const Repo = ({ repoName, repoId, userId, onRemoveRepo }) => {
         };
 
         const requestConfig = {
-            action: "deleteUserRepo",
-            path: `${userId}/repos/${repoId}`,
-            data: {},
+            action: "deleteRepo",
+            path: `repos/${repoId}`,
+            isAuth: true,
         };
 
         sendRequest(requestConfig, dataHandler);

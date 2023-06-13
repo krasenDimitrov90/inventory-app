@@ -11,8 +11,6 @@ export const putNewUser = (requestConfig) => api.patch(`${host}/users.json`, req
 
 export const updateUserRepos = (requestConfig) => api.patch(`${host}/users`, requestConfig)
 
-export const deleteUserRepo = (requestConfig) => api.del(`${host}/users`, requestConfig);
-
 export const importNewRepo = (requestConfig) => api.patch(`${host}/users`, requestConfig);
 
 export const getAllUserRepos = (requestConfig) => api.get(`${host}`, requestConfig);
