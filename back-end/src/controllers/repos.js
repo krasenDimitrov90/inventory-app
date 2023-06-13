@@ -61,7 +61,8 @@ module.exports.addRepo = (req, res, next) => {
     const repoName = req.body.repoName;
     const repo = new Repo({
         items: [],
-        ownerId: userId
+        ownerId: userId,
+        collaborators: [],
     });
 
     repo.save()
@@ -104,12 +105,13 @@ module.exports.deleteRepo = (req, res, next) => {
     const userId = req.userId;
     const repo = req.repo;
 
-    Repo
-        .findByIdAndDelete(repo._id)
-        .then(result => User.findById(userId))
-        .then(user => {
-            user.repos.pull(repo._id);
-            return user.save();
+    User
+        .updateOne(
+            { _id: new mongoose.Types.ObjectId(userId) },
+            { $pull: { repos: { repoId: new mongoose.Types.ObjectId(repo._id) } } }
+        )
+        .then(result => {
+            return Repo.findByIdAndDelete(repo._id)
         })
         .then(result => {
             res.json('Deleted repo');

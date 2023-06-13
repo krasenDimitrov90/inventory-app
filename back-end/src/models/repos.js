@@ -15,7 +15,12 @@ const repoSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'User',
         required: true
-    }
+    },
+    collaborators: [
+        {
+            collaboratorId: { type: Schema.Types.ObjectId, required: true }
+        }
+    ]
 });
 
 repoSchema.methods.addItem = function (item) {
