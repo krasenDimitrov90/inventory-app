@@ -1,7 +1,8 @@
 const Repo = require('../models/repos');
 
 module.exports = (req, res, next) => {
-    const repoId = req.params.repoId;
+    const repoId = req.params.repoId || req.body.repoId;
+    
     Repo
         .findById(repoId)
         .then(repo => {

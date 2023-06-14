@@ -124,6 +124,19 @@ module.exports.deleteRepo = (req, res, next) => {
         })
 };
 
+module.exports.importRepo = (req, res, next) => {
+    const userId = req.userId;
+    const { repoId, repoName } = req.body;
+
+    User
+        .findById(userId.toString())
+        .then(user => user.addRepo(repoId, repoName))
+        .then(result => res.json({ "message": "Succesfuly imported" }))
+        .catch(err => {
+            next(err);
+        });
+};
+
 module.exports.addItem = (req, res, next) => {
     const item = {
         name: req.body.name,
