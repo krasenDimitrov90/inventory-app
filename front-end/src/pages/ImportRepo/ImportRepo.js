@@ -20,26 +20,8 @@ const ImportRepo = () => {
     const authCtx = React.useContext(AuthContext);
     const { getUserCredentials } = authCtx;
     const { userId } = getUserCredentials();
-    const [currentReposInDataBase, setCurrentReposInDataBase] = React.useState([]);
-
 
     const { isLoading, sendRequest } = useHttp();
-
-    React.useEffect(() => {
-
-        const dataHandler = (data) => {
-            const repos = Object.keys(data);
-
-            if (repos.length > 0) {
-                setCurrentReposInDataBase(repos);
-            }
-        };
-
-        const requestConfig = { action: 'getAllRepos' };
-
-        sendRequest(requestConfig, dataHandler);
-    }, [sendRequest]);
-
 
     const {
         modalIsOpen,
@@ -53,7 +35,7 @@ const ImportRepo = () => {
         valueIsValid: repoLinkIsValid,
         onChangeHandler: repoLinkOnChangeHandler,
         onBlurHandler: repoLinkOnBlurHandler,
-    } = useInput(value => value.trim().length > 0 && currentReposInDataBase.includes(value));
+    } = useInput(value => value.trim().length > 0);
 
     const {
         value: repoNameValue,
@@ -73,16 +55,16 @@ const ImportRepo = () => {
     const onSubmitHandler = (e) => {
         e.preventDefault();
 
-        if (!currentReposInDataBase.includes(repoLinkValue)) {
-            return;
+        const data = {
+            repoId: repoLinkValue,
+            repoName: repoNameValue,
         }
-
-        const data = { [repoLinkValue]: {name: repoNameValue} }
 
         const requestConfig = {
             action: 'importNewRepo',
-            path: `${userId}/repos`,
-            data,
+            path: `repos/import-repo`,
+            data: data,
+            isAuth: true,
         };
 
         const dataHandler = () => {

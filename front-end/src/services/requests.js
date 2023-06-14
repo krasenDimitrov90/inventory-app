@@ -7,11 +7,11 @@ export const login = (requestConfig) => api.post(`${host}/users/signin`, request
 
 export const register = (requestConfig) => api.post(`${host}/users/signup`, requestConfig);
 
-export const putNewUser = (requestConfig) => api.patch(`${host}/users.json`, requestConfig);
+export const putNewUser = (requestConfig) => api.patch(`${host}`, requestConfig);
 
-export const updateUserRepos = (requestConfig) => api.patch(`${host}/users`, requestConfig)
+export const updateUserRepos = (requestConfig) => api.patch(`${host}`, requestConfig);
 
-export const importNewRepo = (requestConfig) => api.patch(`${host}/users`, requestConfig);
+export const importNewRepo = (requestConfig) => api.patch(`${host}`, requestConfig);
 
 export const getAllUserRepos = (requestConfig) => api.get(`${host}`, requestConfig);
 
