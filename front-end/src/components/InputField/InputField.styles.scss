@@ -1,0 +1,41 @@
+.input-wrapper {
+
+    border: 1px solid #151f30;
+    background-color: #151f30;
+    padding: 0 20px;
+    height: 44px;
+    font-size: 14px;
+    border-radius: 16px;
+    width: 300px;
+    transition: 0.5s;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    input {
+        width: 100%;
+        outline: none;
+
+    }
+
+    label {
+        position: absolute;
+        top: -12px;
+        left: 24px;
+        color: #2f80ed;
+        padding: 0 4px;
+
+        background: linear-gradient(to top,
+                #151f30 0%,
+                #151f30 50%,
+                #131720 50%,
+                #131720 100%);
+    }
+}
+
+.input-wrapper.focus {
+    border: 1px solid #2f80ed;
+}
+

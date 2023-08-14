@@ -1,0 +1,54 @@
+.repositories-header {
+    display: flex;
+    justify-content: space-between;
+    padding: 23px 0;
+    border-bottom: 1px solid #152235;
+
+    .add-repo-btn:hover {
+        background-color: white;
+        color: #131720;
+    }
+
+    .add-repo-btn {
+        transition: 0.5s;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .repositories-header {
+        flex-direction: column;
+
+        .add-repo-form  {
+            margin-top: 12px;
+        }
+
+        .add-repo-btn {
+            font-size: 12px;
+        }
+    }
+}
+
+main {
+    background-color: #131720;
+    flex: 1;
+    padding-left: 290px;
+    display: flex;
+    flex-direction: column;
+    flex-basis: auto;
+
+    .main-list {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 20px;
+        padding: 0 20px;
+
+        .table-header-items {
+            display: flex;
+            justify-content: flex-start;
+            flex: 1;
+            font-size: 12px;
+            margin-right: 10px;
+        }
+
+    }
+}

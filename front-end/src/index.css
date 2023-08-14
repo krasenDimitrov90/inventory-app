@@ -1,0 +1,73 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700;800;900&display=swap');
+
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+*, 
+*::after,
+*::before {
+  box-sizing: border-box;
+  color: white;
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', sans-serif;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+}
+
+body {
+  display: flex;
+  background-color: #131720;
+  overflow-x: hidden;
+  padding-right: 20px;
+}
+
+body::-webkit-scrollbar {
+  width: 16px;
+}
+
+body::-webkit-scrollbar-track {
+  background-color: #131720;
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: #2f80ed;
+}
+
+
+#root {
+  display: flex;
+  flex: 1;
+  height: 100%;
+}
+
+
+@media screen and (max-width: 480px) {
+  .main {
+    padding-left: 0;
+    margin-top: 30px;
+  }
+
+  body {
+    padding: 0;
+  }
+}
+
